@@ -1,55 +1,55 @@
-require('dotenv')();
-const express = require('express');
-const passport = require('passport');
-const session = require('express-session');
-const path = require('path');
+require("dotenv").config();
+const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
+const path = require("path");
+const prisma = require("./config/db");
 
 const app = express();
 
-// Passport config (using the updated setup)
-require('./config/auth')(passport);
+require("./config/auth")(passport);
 
-// Set view engine to EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-// Middleware
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
+app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
-
-// Home route
-app.get('/', (req, res) => {
-  console.log(req.user);
-  res.render('index', { user: req.user });
+app.get("/", (req, res) => {
+  res.render("index", { user: req.user });
 });
 
-// Google OAuth route
-app.get('/auth/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
   })
 );
 
-// Google OAuth callback route
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect('/');
+    res.redirect("/");
   }
 );
 
-// Logout route
-app.get('/logout', (req, res) => {
+app.get("/logout", (req, res) => {
   req.logout((err) => {
-    res.redirect('/');
+    res.redirect("/");
   });
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
+  prisma.$connect().then(() => {
+    console.log("Connected to the database");
+  });
   console.log(`Server running on port ${PORT}`);
+});
+
+app.on("close", () => {
+  console.log("Disconnected the server");
+  prisma.$disconnect();
 });
