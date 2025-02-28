@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friend's Pizzeria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles.css" />
+    <%- include('shared/head') %>
+  </head>
+  <body class="bg-gray-100">
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center">
+      <div class="text-lg font-bold">Logo</div>
+      <ul class="flex gap-6">
+        <li><a href="#" class="hover:text-orange-500">เมนูทั้งหมด</a></li>
+        <li><a href="#" class="hover:text-orange-500">พิซซ่าแนะนำ</a></li>
+        <li><a href="#" class="hover:text-orange-500">หลังร้าน</a></li>
+        <li><a href="#" class="hover:text-orange-500">ประวัติการสั่งซื้อ</a></li>
+      </ul>
+      <button class="bg-orange-500 text-white px-4 py-2 rounded">Login/Register</button>
+    </nav>
+
+    <main><%- body %></main>
+
+    <footer class="bg-gray-200 text-center p-6 mt-10">
+      <p>© 2025 Friend's Pizzeria | Fundamental Web Programming</p>
+    </footer>
+  </body>
+</html>

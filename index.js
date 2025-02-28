@@ -4,42 +4,36 @@ const passport = require("passport");
 const session = require("express-session");
 const path = require("path");
 const prisma = require("./config/db");
-
+const expressLayouts = require("express-ejs-layouts");
 const app = express();
+
+const authRoutes = require("./routes/auth");
+const catalogRoutes = require("./routes/catalog");
 
 require("./config/auth")(passport);
 
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(expressLayouts);
 
 app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
+  const pizzas = [
+    { name: "Pepperoni", desc: "Classic pepperoni pizza with mozzarella", price: "฿299" },
+    { name: "Hawaiian", desc: "Ham and pineapple on a crispy crust", price: "฿279" },
+    { name: "BBQ Chicken", desc: "Grilled chicken with BBQ sauce", price: "฿319" },
+    { name: "Vegetarian", desc: "Loaded with fresh veggies", price: "฿259" },
+  ];
+
+  res.render("index", { user: req.user, pizzas });
 });
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    res.redirect("/");
-  }
-);
-
-app.get("/logout", (req, res) => {
-  req.logout((err) => {
-    res.redirect("/");
-  });
-});
+app.use("/auth", authRoutes);
+app.use("/catalog", catalogRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

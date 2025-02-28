@@ -1,12 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index Page</title>
-    <%- include('shared/head'); -%>
-  </head>
-  <body>
-    <h1>Index Page</h1>
-  </body>
-</html>
+<%- contentFor('body') %>
+<section class="text-center py-12 bg-gray-300">
+  <h1 class="text-3xl font-bold">Friend's Pizzeria</h1>
+  <p class="text-gray-700 mt-2">
+    Lorem ipsum dolor sit amet consectetur. Pellentesque lorem vestibulum.
+  </p>
+</section>
+
+<section>
+  <div class="mx-auto relative overflow-hidden">
+    <div class="glide">
+      <div class="glide__track bg-black" data-glide-el="track">
+        <ul class="glide__slides">
+          <li
+            class="glide__slide h-52 bg-black text-white flex items-center justify-center"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </li>
+          <li
+            class="glide__slide h-52 bg-black text-white flex items-center justify-center"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </li>
+          <li
+            class="glide__slide h-52 bg-black text-white flex items-center justify-center"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </li>
+        </ul>
+      </div>
+      <div
+        class="glide__arrows absolute inset-0 flex items-center justify-between"
+        data-glide-el="controls"
+      >
+        <button
+          class="glide__arrow glide__arrow--left bg-white/30 h-full text-white p-3"
+          data-glide-dir="<"
+        >
+          ◀
+        </button>
+        <button
+          class="glide__arrow glide__arrow--right bg-white/30 h-full text-white p-3"
+          data-glide-dir=">"
+        >
+          ▶
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-800 py-10 text-white text-center">
+  <h2 class="text-xl font-bold">เมนูขายดี</h2>
+  <div class="flex flex-wrap justify-center gap-6 mt-4">
+    <% if (pizzas.length > 0) { %> <% pizzas.forEach(pizza => { %>
+    <div class="bg-white text-black p-4 rounded shadow-lg w-64">
+      <h3 class="font-bold"><%= pizza.name %></h3>
+      <p class="text-sm"><%= pizza.desc %></p>
+      <p class="text-lg text-orange-500 font-bold"><%= pizza.price %></p>
+      <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+        สั่งซื้อผ่านหน้าเว็บ
+      </button>
+    </div>
+    <% }); %> <% } else { %>
+    <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
+    <% } %>
+  </div>
+</section>
+
+<section class="py-10">
+  <h2 class="text-xl font-bold text-center">เมนูทั้งหมด</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
+    <% if (pizzas.length > 0) { %> <% pizzas.forEach(pizza => { %>
+    <div class="bg-white p-4 shadow-md rounded">
+      <h3 class="font-bold"><%= pizza.name %></h3>
+      <p class="text-gray-600 text-sm"><%= pizza.desc %></p>
+      <p class="text-lg font-bold text-orange-500"><%= pizza.price %></p>
+      <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+        สั่งซื้อผ่านหน้าเว็บ
+      </button>
+    </div>
+    <% }); %> <% } else { %>
+    <p class="text-center text-gray-400">ไม่มีเมนูในขณะนี้</p>
+    <% } %>
+  </div>
+</section>
+
+<section class="bg-gray-300 text-center py-10">
+  <h2 class="text-xl font-bold">ติดต่อเรา</h2>
+  <p>Tel: 099-999-9999</p>
+  <p>Facebook: Friend Pizzeria</p>
+  <p>IG: friend_pizzeria</p>
+  <p>Email: friend.pizzeria@gmail.com</p>
+  <button class="mt-4 bg-gray-600 text-white px-6 py-2 rounded">แผนที่ทางร้าน</button>
+</section>
