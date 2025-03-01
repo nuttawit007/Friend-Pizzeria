@@ -18,19 +18,21 @@ module.exports = function (passport) {
         const { id, displayName, emails, photos } = profile;
 
         try {
-          let user = await prisma.user.findUnique({ where: { id } });
-
+          let { baskets, ...user } = await prisma.user.findUnique({
+            where: { username: id },
+            include: { baskets: { include: { items: true } } },
+          });
           if (!user) {
             user = await prisma.user.create({
               data: {
-                id,
                 name: displayName,
+                username: id,
                 email: emails[0].value,
                 photoUrl: photos[0].value,
               },
             });
           }
-          return done(null, user);
+          return done(null, { ...user, baskets: baskets[0].items });
         } catch (error) {
           return done(error);
         }
@@ -44,8 +46,12 @@ module.exports = function (passport) {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await prisma.user.findUnique({ where: { id } });
-      done(null, user);
+      const { baskets, ...user } = await prisma.user.findUnique({
+        where: { id },
+        include: { baskets: { include: { items: true } } },
+      });
+
+      done(null, { ...user, baskets: baskets[0].items });
     } catch (error) {
       done(error);
     }

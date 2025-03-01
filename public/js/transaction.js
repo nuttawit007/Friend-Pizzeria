@@ -4,10 +4,11 @@ function sendOrder() {
     price: this.pizza.price,
     description: this.pizza.desc,
     quantity: this.quantity,
+    pizza: this.pizza,
   };
   console.log(orderData);
 
-  fetch("/your-backend-api-endpoint", {
+  fetch("/basket", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,6 +19,7 @@ function sendOrder() {
     .then((data) => {
       console.log("Order successfully sent:", data);
       this.modalOpen = false;
+      window.location.reload();
     })
     .catch((error) => {
       console.error("Error sending order:", error);

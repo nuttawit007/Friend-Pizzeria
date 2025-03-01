@@ -8,10 +8,14 @@ const expressLayouts = require("express-ejs-layouts");
 const app = express();
 
 const authRoutes = require("./routes/auth");
-const catalogRoutes = require("./routes/catalog");
+
+const pizzaRoutes = require("./routes/pizza");
+
+const historyRoutes = require("./routes/history");
 
 require("./config/auth")(passport);
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -22,19 +26,29 @@ app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
-  const pizzas = [
-    { name: "Pepperoni", desc: "Classic pepperoni pizza with mozzarella", price: 299 },
-    { name: "Hawaiian", desc: "Ham and pineapple on a crispy crust", price: 279 },
-    { name: "BBQ Chicken", desc: "Grilled chicken with BBQ sauce", price: 319 },
-    { name: "Vegetarian", desc: "Loaded with fresh veggies", price: 259 },
-  ];
+app.use(async (req, res, next) => {
+  if (req.user) {
+    try {
+      const { baskets, ...user } = await prisma.user.findUnique({
+        where: { id: req.user.id },
+        include: { baskets: { include: { items: true } } },
+      });
+      req.user = { ...user, baskets: baskets[0].items };
+    } catch (error) {
+      return next(error);
+    }
+  }
+  next();
+});
 
+app.get("/", async (req, res) => {
+  const pizzas = await prisma.pizza.findMany();
   res.render("index", { user: req.user, pizzas });
 });
 
 app.use("/auth", authRoutes);
-app.use("/catalog", catalogRoutes);
+app.use(pizzaRoutes);
+app.use(historyRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

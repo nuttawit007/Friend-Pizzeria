@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,7 +8,159 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  username String   @unique
+  photoUrl String?
+  name     String?
+  baskets  Basket[]
+  orders   Order[]
+}
+
+model Pizza {
+  id          Int               @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  images      PizzaImage[]
+  ingredients PizzaIngredient[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  BasketItem  BasketItem[]
+  OrderItem   OrderItem[]
+}
+
+model PizzaImage {
+  id       Int    @id @default(autoincrement())
+  pizza    Pizza  @relation(fields: [pizzaId], references: [id])
+  pizzaId  Int
+  imageUrl String
+}
+
+model Ingredient {
+  id     Int               @id @default(autoincrement())
+  name   String            @unique
+  pizzas PizzaIngredient[]
+}
+
+model PizzaIngredient {
+  id           Int        @id @default(autoincrement())
+  pizza        Pizza      @relation(fields: [pizzaId], references: [id])
+  pizzaId      Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId Int
+}
+
+model Appetizer {
+  id          Int              @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  images      AppetizerImage[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  BasketItem  BasketItem[]
+  OrderItem   OrderItem[]
+}
+
+model AppetizerImage {
+  id          Int       @id @default(autoincrement())
+  appetizer   Appetizer @relation(fields: [appetizerId], references: [id])
+  appetizerId Int
+  imageUrl    String
+}
+
+model Snack {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  images      SnackImage[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  BasketItem  BasketItem[]
+  OrderItem   OrderItem[]
+}
+
+model SnackImage {
+  id       Int    @id @default(autoincrement())
+  snack    Snack  @relation(fields: [snackId], references: [id])
+  snackId  Int
+  imageUrl String
+}
+
+model Drink {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  images      DrinkImage[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  BasketItem  BasketItem[]
+  OrderItem   OrderItem[]
+}
+
+model DrinkImage {
+  id       Int    @id @default(autoincrement())
+  drink    Drink  @relation(fields: [drinkId], references: [id])
+  drinkId  Int
+  imageUrl String
+}
+
+model Basket {
+  id        Int          @id @default(autoincrement())
+  user      User         @relation(fields: [userId], references: [id])
+  userId    Int          @unique
+  items     BasketItem[]
+  createdAt DateTime     @default(now())
+}
+
+model BasketItem {
+  id          Int        @id @default(autoincrement())
+  basket      Basket     @relation(fields: [basketId], references: [id])
+  basketId    Int
+  pizza       Pizza?     @relation(fields: [pizzaId], references: [id])
+  pizzaId     Int?
+  appetizer   Appetizer? @relation(fields: [appetizerId], references: [id])
+  appetizerId Int?
+  snack       Snack?     @relation(fields: [snackId], references: [id])
+  snackId     Int?
+  drink       Drink?     @relation(fields: [drinkId], references: [id])
+  drinkId     Int?
+  quantity    Int        @default(1)
+
+  @@unique([basketId, pizzaId])
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     Int
+  items      OrderItem[]
+  totalPrice Decimal
+  status     OrderStatus @default(PENDING)
+  createdAt  DateTime    @default(now())
+}
+
+model OrderItem {
+  id          Int        @id @default(autoincrement())
+  order       Order      @relation(fields: [orderId], references: [id])
+  orderId     Int
+  pizza       Pizza?     @relation(fields: [pizzaId], references: [id])
+  pizzaId     Int?
+  appetizer   Appetizer? @relation(fields: [appetizerId], references: [id])
+  appetizerId Int?
+  snack       Snack?     @relation(fields: [snackId], references: [id])
+  snackId     Int?
+  drink       Drink?     @relation(fields: [drinkId], references: [id])
+  drinkId     Int?
+  quantity    Int        @default(1)
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERED
+  CANCELLED
 }

@@ -1,0 +1,56 @@
+<%- contentFor('body') %>
+    <section class="flex min-h-screen h-full container px-20 mx-auto p-5">
+        <!-- Left Container -->
+        <div class="container mx-auto bg-white p-6 rounded-lg shadow-md h-20">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex space-x-4">
+                    <button id="all-tab" class="tab-active">ทั้งหมด</button>
+                    <button id="pending-tab">ระหว่างดำเนินการ</button>
+                    <button id="completed-tab">สำเร็จ</button>
+                </div>
+                <div class="text-gray-500">25 มี.ค. 68</div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-xl font-bold">หมายเลขอเมอร์ : 0001</h2>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-gray-700">จำนวนสินค้า : 10</p>
+            </div>
+
+            <div class="text-gray-500">ไม่มีอเมอร์ที่เลือก</div>
+        </div>
+
+        <!-- Right Sticky Container -->
+        <div class="sticky top-0 h-screen overflow-y-auto bg-white p-6 rounded-lg shadow-md w-2/4 z-10">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex space-x-4">
+                    <button id="all-tab" class="tab-active">ทั้งหมด</button>
+                    <button id="pending-tab">ระหว่างดำเนินการ</button>
+                    <button id="completed-tab">สำเร็จ</button>
+                </div>
+                <div class="text-gray-500">25 มี.ค. 68</div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-xl font-bold">หมายเลขอเมอร์ : 0001</h2>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-gray-700">จำนวนสินค้า : 10</p>
+            </div>
+
+            <div class="text-gray-500">ไม่มีอเมอร์ที่เลือก</div>
+        </div>
+
+        <script>
+            const tabs = document.querySelectorAll("button");
+            tabs.forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    tabs.forEach((t) => t.classList.remove("tab-active"));
+                    tab.classList.add("tab-active");
+                });
+            });
+        </script>
+    </section>
