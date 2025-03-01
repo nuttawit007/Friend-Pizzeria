@@ -1,9 +1,31 @@
-<nav class="w-full flex justify-between items-center p-5 shadow-xl z-[5]">
-  <div>logo</div>
-  <ul class="flex gap-5">
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/contact">Contact</a></li>
-  </ul>
-  <div>LOGIN</div>
+<nav class="bg-_red-500 shadow-md p-4 w-full">
+  <div class="flex justify-between items-center">
+    <img src="/img/logo/logo.svg" alt="Logo" class="h-24" />
+
+    <nav class="hidden md:flex gap-10 text-white text-2xl">
+      <a href="#" class="hover:text-orange-500 transition">เมนูทั้งหมด</a>
+      <a href="#" class="hover:text-orange-500 transition">พิซซ่าแนะนำ</a>
+      <a href="#" class="hover:text-orange-500 transition">หลังร้าน</a>
+      <a href="#" class="hover:text-orange-500 transition">ประวัติการสั่งซื้อ</a>
+    </nav>
+
+    <div class="flex gap-4 items-center">
+      <div class="relative">
+        <div
+          class="absolute flex items-center justify-center text-white text-[10px] text-center right-0 bottom-0 w-[16px] h-[16px] rounded-full bg-_yellow-300"
+        >
+          0
+        </div>
+        <i data-lucide="shopping-basket" class="text-white w-10 h-10"></i>
+      </div>
+
+      <button
+        class="hidden md:block border-2 border-white text-white text-lg px-4 py-2 rounded-full hover:bg-orange-600 transition"
+      >
+        เข้าสู่ระบบ/ลงชื่อเข้าใช้
+      </button>
+
+      <button class="md:hidden text-white text-3xl">&#9776;</button>
+    </div>
+  </div>
 </nav>

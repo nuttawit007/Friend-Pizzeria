@@ -1,3 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Bai Jamjuree", sans-serif;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+h4 {
+  font-weight: 400;
+}
+
+h5 {
+  font-weight: 300;
+}
+
+h6 {
+  font-weight: 200;
+}
+
+p {
+  font-weight: 400;
+}
+
+a {
+  font-weight: 400;
+}
+
+button {
+  font-weight: 400;
+}
+
+.glide__bullets {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.glide__bullet {
+  width: 150px;
+  height: 10px;
+  background-color: white;
+  border-radius: 30px;
+  margin: 0 5px;
+  transition: opacity 0.3s;
+}
+
+.glide__bullet:hover,
+.glide__bullet--active {
+  background-color: #c5291c;
+}
+
+.pizza-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("/img/banner/contact/contact.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.nav-link:hover {
+  color: #ffc107;
+  transition: all 0.3s ease;
+}
+
+.social-icon {
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+}
+
+.menu-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}

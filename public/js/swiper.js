@@ -32,17 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
     type: "carousel",
     startAt: 0,
     perView: 1,
-    gap: 30,
     autoplay: 3000,
     hoverpause: true,
-    breakpoints: {
-      1024: {
-        perView: 2,
-      },
-      640: {
-        perView: 1,
-      },
-    },
+    bullets: true,
   });
 
   glide.mount();

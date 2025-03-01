@@ -5,7 +5,34 @@
     theme: {
       extend: {
         colors: {
-          clifford: "#da373d",
+          _red: {
+            50: "#F6C6C2",
+            100: "#F1A09A",
+            200: "#EB7A71",
+            300: "#E55448",
+            400: "#DF2E20",
+            500: "#C5291C",
+            600: "#8E1E14",
+          },
+          _yellow: {
+            50: "#FFEBB9",
+            100: "#FFDE8B",
+            200: "#FFD15D",
+            300: "#FFC32E",
+            400: "#FFB600",
+            500: "#8E1E14",
+          },
+          _black: "#000000",
+          _white: {
+            50: "#FFFFFF",
+            100: "#F3F3F3",
+          },
+          _gray: {
+            100: "#DCDCDC",
+            200: "#AEAEAE",
+            300: "#686868",
+            400: "#3A3A3A",
+          },
         },
       },
     },
@@ -22,6 +49,17 @@
   src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.min.js"
 ></script>
 
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 <script defer src="/js/swiper.js"></script>
+<script defer src="/js/transaction.js"></script>
+<script defer src="/js/utils.js"></script>
 
 <link rel="stylesheet" href="/css/style.css" />
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    lucide.createIcons();
+  });
+</script>
