@@ -8,17 +8,19 @@
       <a href="/pizzas" class="hover:text-orange-500 transition font-medium">เมนูทั้งหมด</a>
       <a href="/pizzas/custom" class="hover:text-orange-500 transition font-medium">พิซซ่า custom</a>
       <a href="#" class="hover:text-orange-500 transition font-medium">หลังร้าน</a>
-      <a href="#" class="hover:text-orange-500 transition font-medium">ประวัติการสั่งซื้อ</a>
+      <a href="/history" class="hover:text-orange-500 transition font-medium">ประวัติการสั่งซื้อ</a>
     </nav>
 
     <div class="flex gap-4 items-center">
-      <div class="relative">
-        <div
-          class="absolute flex items-center justify-center text-white text-[10px] text-center right-0 bottom-0 w-[16px] h-[16px] rounded-full bg-_yellow-300">
-          <%= user ? user.baskets.length : 0%>
+      <a href="/orders">
+        <div class="relative">
+          <div
+            class="absolute flex items-center justify-center text-white text-[10px] text-center right-0 bottom-0 w-[16px] h-[16px] rounded-full bg-_yellow-300">
+            <%= user ? user.baskets.length : 0%>
+          </div>
+          <i data-lucide="shopping-basket" class="text-white w-10 h-10"></i>
         </div>
-        <i data-lucide="shopping-basket" class="text-white w-10 h-10"></i>
-      </div>
+      </a>
 
       <% if (user) { %>
         <span class="text-white text-lg font-medium">

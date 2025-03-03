@@ -15,6 +15,7 @@ model User {
   name     String?
   baskets  Basket[]
   orders   Order[]
+  Pizza    Pizza[]
 }
 
 model Pizza {
@@ -24,10 +25,32 @@ model Pizza {
   price       Decimal
   images      PizzaImage[]
   ingredients PizzaIngredient[]
+  type        PizzaType         @default(NORMAL)
+  size        PizzaSize         @default(SMALL)
+  pizzaDough  PizzaDough        @default(THIN)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
+  author      User?             @relation(fields: [authorId], references: [id])
+  authorId    Int?
   BasketItem  BasketItem[]
   OrderItem   OrderItem[]
+}
+
+enum PizzaSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum PizzaDough {
+  THIN
+  THICK
+  STUFFED
+}
+
+enum PizzaType {
+  NORMAL
+  CUSTOM
 }
 
 model PizzaImage {
@@ -38,16 +61,27 @@ model PizzaImage {
 }
 
 model Ingredient {
-  id     Int               @id @default(autoincrement())
-  name   String            @unique
-  pizzas PizzaIngredient[]
+  id       Int               @id @default(autoincrement())
+  name     String
+  imageUrl String?
+  key      String?
+  type     IngredientType    @default(CHEESE)
+  pizzas   PizzaIngredient[]
+}
+
+enum IngredientType {
+  CHEESE
+  MEAT
+  VEGETABLE
+  SAUCE
+  SPICE
 }
 
 model PizzaIngredient {
   id           Int        @id @default(autoincrement())
-  pizza        Pizza      @relation(fields: [pizzaId], references: [id])
+  pizza        Pizza      @relation(fields: [pizzaId], references: [id], onDelete: Cascade)
   pizzaId      Int
-  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
   ingredientId Int
 }
 

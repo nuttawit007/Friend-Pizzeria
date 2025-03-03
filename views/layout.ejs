@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Friend's Pizzeria</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/styles.css" />
-    <%- include('shared/head') %>
-  </head>
-  <body class="bg-gray-100">
-    <%- include('shared/navbar') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friend's Pizzeria</title>
+
+  <%- include('shared/head') %>
+</head>
+
+<body class="bg-gray-100 flex flex-col justify-between min-h-screen">
+  <%- include('shared/navbar') %>
     <main><%- body %></main>
 
     <footer class="bg-_red-500 text-white pt-12 pb-6">
@@ -23,22 +24,16 @@
               พิซซ่าโฮมเมดสไตล์อิตาเลียนแท้ๆ เราคัดสรรวัตถุดิบคุณภาพดีที่สุดเพื่อคุณ
             </p>
             <div class="flex space-x-4">
-              <a
-                href="#"
-                class="social-icon bg-white hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300"
-              >
+              <a href="#"
+                class="social-icon bg-white hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
                 <i class="fab fa-facebook-f"></i>
               </a>
-              <a
-                href="#"
-                class="social-icon bg-white hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300"
-              >
+              <a href="#"
+                class="social-icon bg-white hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
                 <i class="fab fa-instagram"></i>
               </a>
-              <a
-                href="#"
-                class="social-icon bg-white hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300"
-              >
+              <a href="#"
+                class="social-icon bg-white hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
                 <i class="fas fa-envelope"></i>
               </a>
             </div>
@@ -48,30 +43,16 @@
             <h3 class="text-xl font-bold mb-6">เมนูหลัก</h3>
             <ul class="space-y-3">
               <li>
-                <a href="#" class="text-white hover:text-white transition duration-300"
-                  >หน้าแรก</a
-                >
+                <a href="#" class="text-white hover:text-white transition duration-300">หน้าแรก</a>
               </li>
               <li>
-                <a
-                  href="#menu"
-                  class="text-white hover:text-white transition duration-300"
-                  >เมนู</a
-                >
+                <a href="#menu" class="text-white hover:text-white transition duration-300">เมนู</a>
               </li>
               <li>
-                <a
-                  href="#about"
-                  class="text-white hover:text-white transition duration-300"
-                  >เกี่ยวกับเรา</a
-                >
+                <a href="#about" class="text-white hover:text-white transition duration-300">เกี่ยวกับเรา</a>
               </li>
               <li>
-                <a
-                  href="#contact"
-                  class="text-white hover:text-white transition duration-300"
-                  >ติดต่อเรา</a
-                >
+                <a href="#contact" class="text-white hover:text-white transition duration-300">ติดต่อเรา</a>
               </li>
             </ul>
           </div>
@@ -102,11 +83,10 @@
       </div>
     </footer>
 
-    <a
-      href="#"
-      class="fixed bottom-6 right-6 bg-red-600 shadow-xl hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition duration-300"
-    >
+    <a href="#"
+      class="fixed bottom-6 right-6 bg-red-600 shadow-xl hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition duration-300 z-[90]">
       <i data-lucide="chevron-up"></i>
     </a>
-  </body>
+</body>
+
 </html>

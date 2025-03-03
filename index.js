@@ -42,7 +42,9 @@ app.use(async (req, res, next) => {
 });
 
 app.get("/", async (req, res) => {
-  const pizzas = await prisma.pizza.findMany();
+  const pizzas = await prisma.pizza.findMany({
+    take: 4,
+  });
   res.render("index", { user: req.user, pizzas });
 });
 
