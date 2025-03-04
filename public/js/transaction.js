@@ -80,3 +80,8 @@ function submitOrder() {
       alert("Failed to place order.");
     });
 }
+
+window.sendCustomOrder = sendCustomOrder;
+
+window.submitOrder = submitOrder;
+window.sendOrder = sendOrder;

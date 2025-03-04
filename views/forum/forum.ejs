@@ -1,0 +1,96 @@
+<section class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5">
+
+    <div class="flex border-b-[1px] border-black/10 mb-3">
+        <button class="text-red-600 font-semibold px-4 py-2">คอมมูนิตี้</button>
+        <button class="text-gray-400 font-normal px-4 py-2">คัสตอมพิซซ่าของฉัน</button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
+        <% pizzaItems.forEach((pizza, index)=> { %>
+            <div x-data="<%= JSON.stringify(pizza) %>" class="bg-white shadow rounded-lg p-4 flex flex-col gap-3">
+                <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-3">
+                        <img src="/img/logo/icon/profile.png" class="w-14 h-14 object-cover bg-gray-300 rounded-md"
+                            alt="Profile">
+                        <div>
+                            <p class="text-lg font-semibold uppercase">
+                                <%= pizza.author.name %>
+                            </p>
+                            <p class="text-sm text-black/50">
+                                <%= new Date(pizza.createdAt).toLocaleString('en-GB', { day: '2-digit' ,
+                                    month: '2-digit' , year: 'numeric' }).replace(',', '' ) %> ยอดสั่งซื้อ 1000
+                                    ครั้ง
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-5">
+                    <div class="relative w-[373px] h-[140px]">
+                        <img src="/img/assets/pizza_vector/dough.svg"
+                            class="absolute inset-0 w-full h-full object-contain z-[1]" alt="Dough">
+
+                        <% if (pizza.ingredients.some(e=> e.ingredient.type === "CHEESE")) { %>
+                            <img src="/img/assets/pizza_vector/cheese.svg"
+                                class="absolute inset-0 w-full h-full object-contain -top-[7%] scale-[80%] sm:-top-[9%] sm:scale-[83%] md:-top-[10%] md:scale-[70%] lg:-top-[7%] lg:scale-[86%] z-[2]"
+                                alt="Cheese">
+                            <% } %>
+
+                                <% if (pizza.ingredients.some(e=> e.ingredient.type === "SAUCE")) { %>
+                                    <img src="/img/assets/pizza_vector/sauce.svg"
+                                        class="absolute inset-0 w-full h-full object-contain -top-[7%] scale-[75%] sm:-top-[9%] sm:scale-[76%] md:-top-[10%] md:scale-[65%] lg:-top-[7%] lg:scale-[80%] z-[3]"
+                                        alt="Sauce">
+                                    <% } %>
+
+                                        <% if (pizza.ingredients.some(e=> e.ingredient.type === "MEAT") &&
+                                            !pizza.ingredients.some(e => e.ingredient.type === "VEGETABLE")) { %>
+                                            <img src="/img/assets/pizza_vector/fullmeat.svg"
+                                                class="absolute inset-0 w-full h-full object-contain -top-[7%] scale-[65%] sm:-top-[9%] sm:scale-[75%] md:-top-[10%] md:scale-[65%] lg:-top-[7%] lg:scale-[70%] z-[4]"
+                                                alt="Meat">
+                                            <% } %>
+
+                                                <% if (pizza.ingredients.some(e=> e.ingredient.type === "MEAT") &&
+                                                    pizza.ingredients.some(e => e.ingredient.type === "VEGETABLE")) { %>
+                                                    <img src="/img/assets/pizza_vector/meat.svg"
+                                                        class="absolute inset-0 w-full h-full object-contain -top-[7%] scale-[60%] sm:-top-[9%] sm:scale-[65%] md:-top-[10%] md:scale-[58%] lg:-top-[7%] lg:scale-[70%] z-[4]"
+                                                        alt="Meat">
+                                                    <% } %>
+
+                                                        <% if (pizza.ingredients.some(e=> e.ingredient.type ===
+                                                            "VEGETABLE")) { %>
+                                                            <img src="/img/assets/pizza_vector/veg.svg"
+                                                                class="absolute inset-0 w-full h-full object-contain -top-[7%] scale-[80%] sm:-top-[9%] sm:scale-[80%] md:-top-[10%] md:scale-[65%] lg:-top-[7%] lg:scale-[80%] z-[5]"
+                                                                alt="Vegetable">
+                                                            <% } %>
+                    </div>
+
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between">
+                                <h3 class="text-lg font-bold">
+                                    <%= pizza.name %>
+                                </h3>
+                                <span class="text-lg font-bold">
+                                    <%= pizza.price %> ฿
+                                </span>
+                            </div>
+                            <div class="bg-gray-200 rounded-sm max-w-70 h-auto p-2">
+                                <p class="text-sm text-gray-600">ไม่เห็นอร่อยเลยไอ่เหี้ย ติ๊งต๊องจัด
+                                    ควยควยควยควยควยควยควยควยควยควยควยควย</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-end gap-2 items-center mt-2">
+                                <a href="/forum/<%= pizza.id %>" class="w-full">
+                                    <button
+                                        class="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm w-full">ดูรายละเอียด</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+</section>

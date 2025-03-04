@@ -13,6 +13,8 @@ const pizzaRoutes = require("./routes/pizza");
 
 const historyRoutes = require("./routes/history");
 
+const forumRoutes = require("./routes/forum");
+
 require("./config/auth")(passport);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -51,6 +53,7 @@ app.get("/", async (req, res) => {
 app.use("/auth", authRoutes);
 app.use(pizzaRoutes);
 app.use(historyRoutes);
+app.use(forumRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
