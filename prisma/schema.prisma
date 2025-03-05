@@ -65,6 +65,8 @@ model Ingredient {
   name     String
   imageUrl String?
   key      String?
+  amount   Int               @default(0)
+  color    String?
   type     IngredientType    @default(CHEESE)
   pizzas   PizzaIngredient[]
 }

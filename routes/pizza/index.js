@@ -25,7 +25,12 @@ router.get("/pizzas/custom", async (req, res) => {
     },
     { cheese: [], meat: [], vegetable: [], sauce: [], spice: [] }
   );
-  res.render("custom/custom", { user: req.user, pizzas, groupedIngredients });
+  res.render("custom/custom", {
+    user: req.user,
+    pizzas,
+    ingredients,
+    groupedIngredients,
+  });
 });
 
 router.get("/pizzas/:id", async (req, res) => {
@@ -370,7 +375,16 @@ router.post("/ingredients", async (req, res) => {
 router.get("/ingredients", async (req, res) => {
   try {
     const ingredients = await prisma.ingredient.findMany();
-    res.status(200).json(ingredients);
+    const groupedIngredients = ingredients.reduce(
+      (acc, ingredient) => {
+        if (!acc[ingredient.type]) acc[ingredient.type] = [];
+
+        acc[ingredient.type].push(ingredient);
+        return acc;
+      },
+      { cheese: [], meat: [], vegetable: [], sauce: [], spice: [] }
+    );
+    res.status(200).json({ ingredients, groupedIngredients });
   } catch (error) {
     res.status(500).json({ msg: "Error retrieving ingredients", error });
   }

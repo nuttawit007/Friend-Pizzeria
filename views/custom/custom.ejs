@@ -1,6 +1,6 @@
 <%- contentFor('body') %>
 
-  <div class="container mx-auto px-4 py-8 max-w-6xl" x-data="pizzaApp()">
+  <div class="container mx-auto px-4 py-8 max-w-6xl" x-data="pizzaApp()" x-init="init()">
     <div class="flex flex-col lg:flex-row gap-8">
 
       <div class="lg:w-2/3">
@@ -16,7 +16,6 @@
                   <span class="text-xs text-center" x-text="base.name"></span>
                 </div>
               </a>
-
             </template>
           </div>
         </section>
@@ -81,24 +80,39 @@
           <h2 class="font-bold mb-2">ชีส <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
             <template x-for="cheese in cheeses" :key="cheese.id">
-              <div @click="toggleCheese(cheese.id)"
-                :class="{'border-amber-500 bg-amber-50': selectedCheeses.includes(cheese.id)}"
-                class="border rounded-lg p-3 flex flex-col items-center cursor-pointer hover:bg-amber-50">
-                <img :src="cheese.image" :alt="cheese.name" class="w-16 h-16 object-contain mb-2">
+              <div @click="if (cheese.amount > 0) toggleCheese(cheese.id)" :class="{
+          'border-amber-500 bg-amber-50': selectedCheeses.includes(cheese.id),
+          'opacity-50 cursor-not-allowed border-red-500 text-white bg-red-500': cheese.amount === 0,
+          'hover:bg-amber-50': cheese.amount > 0
+        }" class="relative border rounded-lg p-3 flex flex-col items-center cursor-pointer transition">
+                <div x-show="cheese.amount === 0"
+                  class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow border-white drop-shadow-md">
+                  หมด
+                </div>
+
+                <img :src="cheese.imageUrl" :alt="cheese.name" class="w-16 h-16 object-contain mb-2">
                 <span class="text-xs text-center" x-text="cheese.name"></span>
               </div>
             </template>
           </div>
         </section>
 
+
         <section class="mb-8" id="meat">
-          <h2 class="font-bold mb-2">เนื้อสัตว์ <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
+          <h2 class="font-bold mb-2">เนื้อ <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
             <template x-for="meat in meats" :key="meat.id">
-              <div @click="toggleMeat(meat.id)"
-                :class="{'border-amber-500 bg-amber-50': selectedMeats.includes(meat.id)}"
-                class="border rounded-lg p-3 flex flex-col items-center cursor-pointer hover:bg-amber-50">
-                <img :src="meat.image" :alt="meat.name" class="w-16 h-16 object-contain mb-2">
+              <div @click="if (meat.amount > 0) toggleMeat(meat.id)" :class="{
+            'border-amber-500 bg-amber-50': selectedMeats.includes(meat.id),
+            'opacity-50 cursor-not-allowed border-red-500 text-white bg-red-500': meat.amount === 0,
+            'hover:bg-amber-50': meat.amount > 0
+          }" class="relative border rounded-lg p-3 flex flex-col items-center cursor-pointer transition">
+                <div x-show="meat.amount === 0"
+                  class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow border-white drop-shadow-md">
+                  หมด
+                </div>
+
+                <img :src="meat.imageUrl" :alt="meat.name" class="w-16 h-16 object-contain mb-2">
                 <span class="text-xs text-center" x-text="meat.name"></span>
               </div>
             </template>
@@ -106,27 +120,41 @@
         </section>
 
         <section class="mb-8" id="vegetable">
-          <h2 class="font-bold mb-2">ผักและผลไม้ <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
+          <h2 class="font-bold mb-2">เนื้อ <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
-            <template x-for="veg in vegetables" :key="veg.id">
-              <div @click="toggleVegetable(veg.id)"
-                :class="{'border-amber-500 bg-amber-50': selectedVegetables.includes(veg.id)}"
-                class="border rounded-lg p-3 flex flex-col items-center cursor-pointer hover:bg-amber-50">
-                <img :src="veg.image" :alt="veg.name" class="w-16 h-16 object-contain mb-2">
-                <span class="text-xs text-center" x-text="veg.name"></span>
+            <template x-for="vegetable in vegetables" :key="vegetable.id">
+              <div @click="if (vegetable.amount > 0) toggleVegetable(vegetable.id)" :class="{
+                    'border-amber-500 bg-amber-50': selectedVegetables.includes(vegetable.id),
+                    'opacity-50 cursor-not-allowed border-red-500 text-white bg-red-500': vegetable.amount === 0,
+                    'hover:bg-amber-50': vegetable.amount > 0
+                  }" class="relative border rounded-lg p-3 flex flex-col items-center cursor-pointer transition">
+                <div x-show="vegetable.amount === 0"
+                  class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow border-white drop-shadow-md">
+                  หมด
+                </div>
+
+                <img :src="vegetable.imageUrl" :alt="vegetable.name" class="w-16 h-16 object-contain mb-2">
+                <span class="text-xs text-center" x-text="vegetable.name"></span>
               </div>
             </template>
           </div>
         </section>
 
         <section class="mb-8" id="sauce">
-          <h2 class="font-bold mb-2">ซอส <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
+          <h2 class="font-bold mb-2">เนื้อ <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
             <template x-for="sauce in sauces" :key="sauce.id">
-              <div @click="toggleSauce(sauce.id)"
-                :class="{'border-amber-500 bg-amber-50': selectedSauces.includes(sauce.id)}"
-                class="border rounded-lg p-3 flex flex-col items-center cursor-pointer hover:bg-amber-50">
-                <img :src="sauce.image" :alt="sauce.name" class="w-16 h-16 object-contain mb-2">
+              <div @click="if (sauce.amount > 0) toggleSauce(sauce.id)" :class="{
+                          'border-amber-500 bg-amber-50': selectedSauces.includes(sauce.id),
+                          'opacity-50 cursor-not-allowed border-red-500 text-white bg-red-500': sauce.amount === 0,
+                          'hover:bg-amber-50': sauce.amount > 0
+                        }" class="relative border rounded-lg p-3 flex flex-col items-center cursor-pointer transition">
+                <div x-show="sauce.amount === 0"
+                  class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow border-white drop-shadow-md">
+                  หมด
+                </div>
+
+                <img :src="sauce.imageUrl" :alt="sauce.name" class="w-16 h-16 object-contain mb-2">
                 <span class="text-xs text-center" x-text="sauce.name"></span>
               </div>
             </template>
@@ -134,18 +162,27 @@
         </section>
 
         <section class="mb-8" id="spice">
-          <h2 class="font-bold mb-2">เครื่องปรุง <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
+          <h2 class="font-bold mb-2">เนื้อ <span class="text-sm font-normal">(เลือกได้มากสุด 3 ชนิด)</span></h2>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
             <template x-for="spice in spices" :key="spice.id">
-              <div @click="toggleSpice(spice.id)"
-                :class="{'border-amber-500 bg-amber-50': selectedSpices.includes(spice.id)}"
-                class="border rounded-lg p-3 flex flex-col items-center cursor-pointer hover:bg-amber-50">
-                <img :src="spice.image" :alt="spice.name" class="w-16 h-16 object-contain mb-2">
+              <div @click="if (spice.amount > 0) toggleSpice(spice.id)" :class="{
+                                  'border-amber-500 bg-amber-50': selectedSpices.includes(spice.id),
+                                  'opacity-50 cursor-not-allowed border-red-500 text-white bg-red-500': spice.amount === 0,
+                                  'hover:bg-amber-50': spice.amount > 0
+                                }"
+                class="relative border rounded-lg p-3 flex flex-col items-center cursor-pointer transition">
+                <div x-show="spice.amount === 0"
+                  class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow border-white drop-shadow-md">
+                  หมด
+                </div>
+
+                <img :src="spice.imageUrl" :alt="spice.name" class="w-16 h-16 object-contain mb-2">
                 <span class="text-xs text-center" x-text="spice.name"></span>
               </div>
             </template>
           </div>
         </section>
+
       </div>
       <div class="lg:w-1/3">
         <div class="bg-white p-6 rounded-lg shadow-md sticky top-4">
@@ -185,7 +222,7 @@
                   <template x-for="cheeseId in selectedCheeses" :key="cheeseId">
                     <div class="flex items-center gap-2 mb-2 overflow-scroll">
                       <div class="bg-_gray-100 rounded-full">
-                        <img :src="getCheeseById(cheeseId)?.image" class="w-5 h-5 object-contain">
+                        <img :src="getCheeseById(cheeseId)?.imageUrl" class="w-5 h-5 object-contain">
                       </div>
                       <div>
                         <div x-text="getCheeseById(cheeseId)?.name"></div>
@@ -210,7 +247,7 @@
                   <template x-for="meatId in selectedMeats" :key="meatId">
                     <div class="flex items-center gap-2 mb-2 overflow-scroll">
                       <div class="bg-_gray-100 rounded-full">
-                        <img :src="getMeatById(meatId)?.image" class="w-5 h-5 object-contain">
+                        <img :src="getMeatById(meatId)?.imageUrl" class="w-5 h-5 object-contain">
                       </div>
                       <div>
                         <div x-text="getMeatById(meatId)?.name"></div>
@@ -236,7 +273,7 @@
                   <template x-for="vegetableId in selectedVegetables" :key="vegetableId">
                     <div class="flex items-center gap-2 mb-2 overflow-scroll">
                       <div class="bg-_gray-100 rounded-full">
-                        <img :src="getVegetableById(vegetableId)?.image" class="w-5 h-5 object-contain">
+                        <img :src="getVegetableById(vegetableId)?.imageUrl" class="w-5 h-5 object-contain">
                       </div>
                       <div>
                         <div x-text="getVegetableById(vegetableId)?.name"></div>
@@ -262,7 +299,7 @@
                   <template x-for="sauceId in selectedSauces" :key="sauceId">
                     <div class="flex items-center gap-2 mb-2 overflow-scroll">
                       <div class="bg-_gray-100 rounded-full">
-                        <img :src="getSauceById(sauceId)?.image" class="w-5 h-5 object-contain">
+                        <img :src="getSauceById(sauceId)?.imageUrl" class="w-5 h-5 object-contain">
                       </div>
                       <div>
                         <div x-text="getSauceById(sauceId)?.name"></div>
@@ -288,7 +325,7 @@
                   <template x-for="spiceId in selectedSpices" :key="spiceId">
                     <div class="flex items-center gap-2 mb-2 overflow-scroll">
                       <div class="bg-_gray-100 rounded-full">
-                        <img :src="getSpiceById(spiceId)?.image" class="w-5 h-5 object-contain">
+                        <img :src="getSpiceById(spiceId)?.imageUrl" class="w-5 h-5 object-contain">
                       </div>
                       <div>
                         <div x-text="getSpiceById(spiceId)?.name"></div>
@@ -360,47 +397,63 @@
           { id: 'cheese', name: 'ขอบชีส', price: 40 }
         ],
 
-        cheeses: [
-          { id: 'mozzarella', name: 'มอซซาเรลล่า', image: '/img/assets/ingredient/cheese/mozzarella.png' },
-          { id: 'parmesan', name: 'พาร์เมซาน', image: '/img/assets/ingredient/cheese/parmesan.png' },
-          { id: 'bluecheese', name: 'บลูชีส', image: '/img/assets/ingredient/cheese/bluecheese.png' },
-          { id: 'cheddar', name: 'เชดดาร์', image: '/img/assets/ingredient/cheese/cheddar.png' },
-          { id: 'feta', name: 'เฟต้า', image: '/img/assets/ingredient/cheese/feta.png' }
-        ],
+        cheeses: [],
+        // [
+        //   { id: 'mozzarella', name: 'มอซซาเรลล่า', image: '/img/assets/ingredient/cheese/mozzarella.png' },
+        //   { id: 'parmesan', name: 'พาร์เมซาน', image: '/img/assets/ingredient/cheese/parmesan.png' },
+        //   { id: 'bluecheese', name: 'บลูชีส', image: '/img/assets/ingredient/cheese/bluecheese.png' },
+        //   { id: 'cheddar', name: 'เชดดาร์', image: '/img/assets/ingredient/cheese/cheddar.png' },
+        //   { id: 'feta', name: 'เฟต้า', image: '/img/assets/ingredient/cheese/feta.png' }
+        // ],
 
-        meats: [
-          { id: 'ham', name: 'แฮม', image: '/img/assets/ingredient/meat/ham.png' },
-          { id: 'shrimp', name: 'กุ้ง', image: '/img/assets/ingredient/meat/shrimp.png' },
-          { id: 'friedchicken', name: 'ไก่บัพฟาโล', image: '/img/assets/ingredient/meat/buffalochicken.png' },
-          { id: 'pulledpork', name: 'หมูรวมควัน', image: '/img/assets/ingredient/meat/pulledpork.png' },
-          { id: 'pepperoni', name: 'เปปเปอโรนี', image: '/img/assets/ingredient/meat/pepperoni.png' },
-          { id: 'bacon', name: 'เบคอน', image: '/img/assets/ingredient/meat/bacon.png' }
-        ],
+        meats: [],
+        //  [
+        //   { id: 'ham', name: 'แฮม', image: '/img/assets/ingredient/meat/ham.png' },
+        //   { id: 'shrimp', name: 'กุ้ง', image: '/img/assets/ingredient/meat/shrimp.png' },
+        //   { id: 'friedchicken', name: 'ไก่บัพฟาโล', image: '/img/assets/ingredient/meat/buffalochicken.png' },
+        //   { id: 'pulledpork', name: 'หมูรวมควัน', image: '/img/assets/ingredient/meat/pulledpork.png' },
+        //   { id: 'pepperoni', name: 'เปปเปอโรนี', image: '/img/assets/ingredient/meat/pepperoni.png' },
+        //   { id: 'bacon', name: 'เบคอน', image: '/img/assets/ingredient/meat/bacon.png' }
+        // ],
 
-        vegetables: [
-          { id: 'mushroom', name: 'เห็ด', image: '/img/assets/ingredient/veg/mushroom.png' },
-          { id: 'jalapeno', name: 'ฮาลาพีโย่', image: '/img/assets/ingredient/veg/jalapeno.png' },
-          { id: 'redchili', name: 'พริก', image: '/img/assets/ingredient/veg/redchili.png' },
-          { id: 'bellpaper', name: 'พริกหวาน', image: '/img/assets/ingredient/veg/bellpepper.png' },
-          { id: 'onion', name: 'หอมแดง', image: '/img/assets/ingredient/veg/onion.png' },
-          { id: 'olive', name: 'มะกอก', image: '/img/assets/ingredient/veg/blackolive.png' },
-          { id: 'tomato', name: 'มะเขือเทศ', image: '/img/assets/ingredient/veg/tomato.png' },
-          { id: 'spinach', name: 'ปวยเล้ง', image: '/img/assets/ingredient/veg/spinach.png' },
-          { id: 'basil', name: 'โหระพา', image: '/img/assets/ingredient/veg/basil.png' }
-        ],
+        vegetables: [],
+        // [
+        //   { id: 'mushroom', name: 'เห็ด', image: '/img/assets/ingredient/veg/mushroom.png' },
+        //   { id: 'jalapeno', name: 'ฮาลาพีโย่', image: '/img/assets/ingredient/veg/jalapeno.png' },
+        //   { id: 'redchili', name: 'พริก', image: '/img/assets/ingredient/veg/redchili.png' },
+        //   { id: 'bellpaper', name: 'พริกหวาน', image: '/img/assets/ingredient/veg/bellpepper.png' },
+        //   { id: 'onion', name: 'หอมแดง', image: '/img/assets/ingredient/veg/onion.png' },
+        //   { id: 'olive', name: 'มะกอก', image: '/img/assets/ingredient/veg/blackolive.png' },
+        //   { id: 'tomato', name: 'มะเขือเทศ', image: '/img/assets/ingredient/veg/tomato.png' },
+        //   { id: 'spinach', name: 'ปวยเล้ง', image: '/img/assets/ingredient/veg/spinach.png' },
+        //   { id: 'basil', name: 'โหระพา', image: '/img/assets/ingredient/veg/basil.png' }
+        // ],
 
-        sauces: [
-          { id: 'saucetomato', name: 'ซอสแดง', image: '/img/assets/ingredient/sauce/saucetomato.png' },
-          { id: 'saucewhite', name: 'ซอสขาว', image: '/img/assets/ingredient/sauce/saucewhite.png' },
-          { id: 'saucebuffalo', name: 'ซอสบัฟฟาโล', image: '/img/assets/ingredient/sauce/saucebuffalo.png' },
-          { id: 'saurcebbq', name: 'ซอสบาบีคิว', image: '/img/assets/ingredient/sauce/saucebbq.png' }
-        ],
+        sauces: [],
+        //  [
+        //   { id: 'saucetomato', name: 'ซอสแดง', image: '/img/assets/ingredient/sauce/saucetomato.png' },
+        //   { id: 'saucewhite', name: 'ซอสขาว', image: '/img/assets/ingredient/sauce/saucewhite.png' },
+        //   { id: 'saucebuffalo', name: 'ซอสบัฟฟาโล', image: '/img/assets/ingredient/sauce/saucebuffalo.png' },
+        //   { id: 'saurcebbq', name: 'ซอสบาบีคิว', image: '/img/assets/ingredient/sauce/saucebbq.png' }
+        // ],
 
-        spices: [
-          { id: 'oregano', name: 'ออริกาโน่', image: '/img/assets/ingredient/spice/oregano.png' },
-          { id: 'blackpepper', name: 'พริกไทยดำ', image: '/img/assets/ingredient/spice/blackpepper.png' },
-          { id: 'salt', name: 'เกลือ', image: '/img/assets/ingredient/spice/salt.png' }
-        ],
+        spices: [],
+        // [
+        //   { id: 'oregano', name: 'ออริกาโน่', image: '/img/assets/ingredient/spice/oregano.png' },
+        //   { id: 'blackpepper', name: 'พริกไทยดำ', image: '/img/assets/ingredient/spice/blackpepper.png' },
+        //   { id: 'salt', name: 'เกลือ', image: '/img/assets/ingredient/spice/salt.png' }
+        // ],
+
+        async init() {
+          const response = await fetch('/ingredients');
+          const result = await response.json();
+          this.cheeses = result.groupedIngredients['CHEESE'];
+          this.meats = result.groupedIngredients['MEAT'];
+          this.vegetables = result.groupedIngredients['VEGETABLE'];
+          this.sauces = result.groupedIngredients['SAUCE'];
+          this.spices = result.groupedIngredients['SPICE'];
+        },
+
 
         selectBase(base) {
           this.selectedBase = base.id;

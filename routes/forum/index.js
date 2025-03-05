@@ -3,9 +3,11 @@ const { PizzaType } = require("@prisma/client");
 const prisma = require("../../config/db");
 
 router.get("/forum", async (req, res) => {
+  const query = req.query.filter == "me" ? { authorId: 1 } : {};
   const pizzaItems = await prisma.pizza.findMany({
     where: {
       type: PizzaType.CUSTOM,
+      ...query,
     },
     include: {
       author: true,
@@ -16,7 +18,7 @@ router.get("/forum", async (req, res) => {
       },
     },
   });
-  res.render("forum/forum", { user: req.user, pizzaItems });
+  res.render("forum/forum", { user: req.user, pizzaItems, query: req.query.filter });
 });
 
 router.get("/forum/:id", async (req, res) => {
