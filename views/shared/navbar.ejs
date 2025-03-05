@@ -1,12 +1,12 @@
-<nav class="bg-_red-500 shadow-md p-4 w-full">
+<nav class="bg-_red-500 shadow-md p-4 w-full fixed z-10" x-data="{ open: false, showModal: false }">
   <div class="flex justify-between items-center">
     <a href="/">
       <img src="/img/logo/logo.svg" alt="Logo" class="h-12 xl:h-20" />
     </a>
 
-    <nav class="hidden md:flex gap-10 text-white text-2xl">
+    <nav class="hidden md:flex gap-4 lg:gap-10 text-white text-md lg:text-xl">
       <a href="/pizzas" class="hover:text-orange-500 transition font-medium">เมนูทั้งหมด</a>
-      <a href="/pizzas/custom" class="hover:text-orange-500 transition font-medium">พิซซ่า custom</a>
+      <a href="/pizzas/custom" class="hover:text-orange-500 transition font-medium">คัสต้อมพิซซ่า</a>
       <a href="#" class="hover:text-orange-500 transition font-medium">หลังร้าน</a>
       <a href="/history" class="hover:text-orange-500 transition font-medium">ประวัติการสั่งซื้อ</a>
     </nav>
@@ -14,8 +14,7 @@
     <div class="flex gap-4 items-center">
       <a href="/orders">
         <div class="relative">
-          <div
-            class="absolute flex items-center justify-center text-white text-[10px] text-center right-0 bottom-0 w-[16px] h-[16px] rounded-full bg-_yellow-300">
+          <div class="absolute flex items-center justify-center text-white text-[10px] text-center right-0 bottom-0 w-[16px] h-[16px] rounded-full bg-yellow-300">
             <%= user ? user.baskets.length : 0%>
           </div>
           <i data-lucide="shopping-basket" class="text-white w-10 h-10"></i>
@@ -23,19 +22,47 @@
       </a>
 
       <% if (user) { %>
-        <span class="text-white text-lg font-medium">
+        <span class="hidden md:block text-white text-sm lg:text-lg font-medium border border-white py-2 px-4 rounded-full">
           <%= user.name %>
         </span>
-        <% } else { %>
-          <a href="/auth/google">
-            <button
-              class="hidden md:block border-2 border-white text-white text-lg px-6 py-2 rounded-full hover:bg-orange-600 transition">
-              เข้าสู่ระบบ
-            </button>
-          </a>
-          <% } %>
+      <% } else { %>
+        <a href="/auth/google">
+          <button class="hidden md:block border-2 border-white text-white text-lg px-6 py-2 rounded-full hover:bg-orange-600 transition">
+            เข้าสู่ระบบ
+          </button>
+        </a>
+      <% } %>
 
-            <button class="md:hidden text-white text-3xl">&#9776;</button>
+      <button class="md:hidden text-white text-3xl" @click="open = !open">&#9776;</button>
     </div>
   </div>
+
+  <!-- Mobile Menu -->
+  <div x-show="open" x-transition.opacity class="md:hidden absolute top-full left-0 w-full bg-_red-500 text-white flex flex-col space-y-4 shadow-xl">
+    <a href="/pizzas" class="hover:text-orange-500 transition font-medium px-4 py-2">เมนูทั้งหมด</a>
+    <a href="/pizzas/custom" class="hover:text-orange-500 transition font-medium px-4 py-2">คัสต้อมพิซซ่า</a>
+    <a href="#" class="hover:text-orange-500 transition font-medium px-4 py-2">หลังร้าน</a>
+    <a href="/history" class="hover:text-orange-500 transition font-medium px-4 py-2 ">ประวัติการสั่งซื้อ</a>
+    <% if (user) { %>
+      <a href="/orders" class="hover:text-orange-500 transition font-medium px-4 py-2">ตะกร้าสินค้า</a>
+      <div class="flex items-center justify-between px-4 py-2 bg-white text-_red-500 h-16">
+        <div class="text-base font-semibold">
+          <%= user.name %>
+        </div>
+        <div class="w-[2px] h-full bg-_gray-100"></div>
+        <a href="/auth/logout" class="inline-flex justify-center items-center gap-2 font-semibold"> 
+          <i data-lucide="log-out"></i> 
+          ออกจากระบบ 
+        </a>
+      </div>
+    <% } else { %>
+      <a href="/auth/google">
+        <button class="inline-flex justify-center items-center gap-2 bg-white w-full h-16 text-_red-500 text-lg font-semibold">
+          <i data-lucide="door-open"></i>
+          เข้าสู่ระบบ
+        </button>
+      </a>
+    <% } %>
+  </div>
 </nav>
+

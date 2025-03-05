@@ -2,14 +2,13 @@
   <section class="grid grid-cols-1 xl:grid-cols-2 h-[350px] xl:h-[600px] w-full mx-auto bg-_gray-100 overflow-hidden px-10"
     style="background-image: url('/img/hero/bg/hero-bg.svg')">
     <div class="flex max-w-3xl mx-auto items-center justify-center">
-      <div class="flex flex-col justify-center items-start gap-10">
+      <div class="flex flex-col justify-center items-center xl:items-start gap-10">
         <div class="text-5xl xl:text-[76px] flex gap-2">
           <h1 class="text-_red-500 font-bold">Friend</h1>
           <h1 class="text-_yellow-400 font-semibold">Pizzeria</h1>
         </div>
-        <!-- <img src="/img/logo/logo.svg" alt="Logo" class="h-52" /> -->
-        <p class="text-md md:text-2xl">เราจะมาสร้างสรรค์พิซซ่าที่อร่อยที่สุดให้กับคุณ </p>
-        <button class="bg-_red-500 hover:bg-_red-600 text-white font-bold py-3 px-10 rounded-full text-xl transition duration-300 transform hover:scale-105">สร้างสรรค์เมนูของคุณเอง ▶</button>
+        <p class="text-lg lg:text-2xl">เราจะมาสร้างสรรค์พิซซ่าที่อร่อยที่สุดให้กับคุณ </p>
+        <button class="bg-_red-500 hover:bg-_red-600 text-white font-bold py-4 px-12 rounded-full text-lg lg:text-2xl transition duration-300 transform hover:scale-105">สร้างสรรค์เมนูของคุณเอง ▶</button>
       </div>
     </div>
     <div class="relative hidden xl:block w-full h-full overflow-hidden">
@@ -35,7 +34,7 @@
           </ul>
 
           <div
-            class="glide__bullets absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 pointer-events-auto"
+            class="glide__bullets absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-1 pointer-events-auto"
             data-glide-el="controls[nav]">
             <button class="glide__bullet" data-glide-dir="=0"></button>
             <button class="glide__bullet" data-glide-dir="=1"></button>
@@ -140,7 +139,7 @@
       <div class="flex items-center justify-between">
         <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">พิซซ่า</p>
         <div class="inline-flex items-center justify-between">
-          <p class="text-_red-500 text-[24px]">ดูทั้งหมด ▶</p>
+          <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
@@ -156,7 +155,7 @@
 
               <div class="flex justify-between w-full mt-2">
                 <h3 class="font-bold" x-text="pizza.name"></h3>
-                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + ' บาท'"></p>
+                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + 'บาท'"></p>
               </div>
 
               <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
@@ -222,7 +221,7 @@
       <div class="flex items-center justify-between">
         <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารทานเล่น</p>
         <div class="inline-flex items-center justify-between">
-          <p class="text-_red-500 text-[24px]">ดูทั้งหมด ▶</p>
+          <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
@@ -304,7 +303,7 @@
       <div class="flex items-center justify-between">
         <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารอิตาเลียน</p>
         <div class="inline-flex items-center justify-between">
-          <p class="text-_red-500 text-[24px]">ดูทั้งหมด ▶</p>
+          <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
@@ -383,13 +382,13 @@
     </section>
   </section>
 
-  <section id="about" class="py-16 bg-gray-100">
+  <section id="about" class="py-16 bg-white">
     <div class="container mx-auto px-4">
       <div class="flex flex-col md:flex-row items-center">
-        <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
+        <div class="hidden lg:block lg:w-1/2 mb-10 md:mb-0 md:pr-10">
           <img src="/img/banner/contact/contact.png" alt="About Friend's Pizzeria" class="rounded-xl shadow-xl" />
         </div>
-        <div class="md:w-1/2">
+        <div class="w-full xl:w-1/2">
           <h2 class="text-4xl font-bold text-gray-800 mb-6">
             เกี่ยวกับ <span class="text-red-600">Friend's Pizzeria</span>
           </h2>
@@ -416,10 +415,6 @@
               <div class="text-gray-700">ลูกค้าพึงพอใจ</div>
             </div>
           </div>
-          <a href="#"
-            class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-8 rounded-full transition duration-300">
-            อ่านเพิ่มเติม
-          </a>
         </div>
       </div>
     </div>
@@ -431,14 +426,11 @@
       <p class="text-xl text-white mb-8">
         ซื้อ 1 แถม 1 ทุกวันอังคาร และวันพุธ สำหรับพิซซ่าทุกหน้า
       </p>
-      <button
-        class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-10 rounded-full text-xl transition duration-300 transform hover:scale-105">
-        รับโปรโมชั่น
-      </button>
     </div>
   </section>
 
   <section id="contact" class="py-16 bg-white">
+    <!-- title -->
     <div class="container mx-auto px-4">
       <div class="text-center mb-12"> 
         <h2 class="text-4xl font-bold text-gray-800 mb-4">ติดต่อเรา</h2>
@@ -447,14 +439,15 @@
         </p>
       </div>
 
-      <div class="mx-auto">
+      <div class="mx-auto flex flex-col md:flex-row md:gap-10">
+        <!-- ข้อมูลติดต่อ --> 
         <div class="md:w-1/2 mb-10 md:mb-0">
           <div class="bg-gray-100 rounded-xl p-8 h-full">
             <h3 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูลติดต่อ</h3>
             <div class="space-y-6">
               <div class="flex items-center">
-                <div class="bg-red-100 p-3 rounded-full mr-4">
-                  <i class="fas fa-phone text-red-600"></i>
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="phone" class="text-white"></i>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">โทรศัพท์</p>
@@ -463,8 +456,8 @@
               </div>
 
               <div class="flex items-center">
-                <div class="bg-red-100 p-3 rounded-full mr-4">
-                  <i class="fas fa-envelope text-red-600"></i>
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="mail" class="text-white"></i>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">อีเมล</p>
@@ -473,8 +466,8 @@
               </div>
 
               <div class="flex items-center">
-                <div class="bg-red-100 p-3 rounded-full mr-4">
-                  <i class="fab fa-facebook text-red-600"></i>
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="facebook" class="text-white"></i>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">เฟซบุ๊ก</p>
@@ -483,8 +476,8 @@
               </div>
 
               <div class="flex items-center">
-                <div class="bg-red-100 p-3 rounded-full mr-4">
-                  <i class="fab fa-instagram text-red-600"></i>
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="instagram" class="text-white"></i>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">อินสตาแกรม</p>
@@ -494,21 +487,10 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- map -->
-  <section class="py-10 bg-gray-100">
-    <div class="container mx-auto px-4">
-      <div class="bg-white rounded-xl overflow-hidden shadow-lg">
-        <div class="h-[600px] bg-gray-300 relative w-full">
-          <!-- <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.8110131530916!2d100.77565201184069!3d13.729888886604073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311d66308ce98ffd%3A0xcb43a76f038c38ca!2z4LiE4LiT4Liw4LmA4LiX4LiE4LmC4LiZ4LmC4Lil4Lii4Li14Liq4Liy4Lij4Liq4LiZ4LmA4LiX4LioIOC4quC4luC4suC4muC4seC4meC5gOC4l-C4hOC5guC4meC5guC4peC4ouC4teC4nuC4o-C4sOC4iOC4reC4oeC5gOC4geC4peC5ieC4suC5gOC4iOC5ieC4suC4hOC4uOC4k-C4l-C4q-C4suC4o-C4peC4suC4lOC4geC4o-C4sOC4muC4seC4hw!5e0!3m2!1sth!2sth!4v1740840951582!5m2!1sth!2sth"
-            class="w-full h-full absolute inset-0" style="border: 0" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+        <!-- ขmap -->
+        <div class="md:w-1/2 ">
+          <h1 class="block sm:hidden mb-4 text-xl font-semibold">แผนที่ร้านอาหาร</h1>
           <div class="block w-full rounded-md drop-shadow-xl" id="map"></div>
-
         </div>
       </div>
     </div>
