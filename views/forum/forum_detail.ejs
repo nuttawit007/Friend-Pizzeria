@@ -1,19 +1,15 @@
 <section class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5 mt-5">
 
-    <div class="flex items-center justify-between">
-        <a href="/forum">
-            <button class="bg-_red-500 text-white px-3 py-3 rounded-lg inline-flex items-center justify-center"><i
-                    data-lucide="chevron-left"></i>
-                กลับ</button>
-        </a>
-        <div>
-            <p>ยอดสั่งซื้อ 1000 ครั้ง</p>
-        </div>
-    </div>
-
     <div class="flex flex-col xl:flex-row justify-center gap-10">
-        <div class="flex flex-col items-center gap-5 w-full xl:w-2/5 mt-14">
-            <div class="relative w-[400px] h-[250px]">
+        <div class="relative flex flex-col gap-5 w-full xl:w-2/5 mt-14">
+            <a href="/forum">
+                <button
+                    class="bg-_red-500 text-white px-3 py-3 rounded-lg inline-flex items-center justify-self-start"><i
+                        data-lucide="chevron-left"></i>
+                    กลับ</button>
+            </a>
+            <div class="relative w-[400px] h-[250px] mx-auto">
+
                 <img src="/img/assets/pizza_vector/dough.svg"
                     class="absolute inset-0 w-full h-full object-contain z-[1]" alt="Dough">
 
@@ -80,10 +76,16 @@
         <div class="flex flex-col p-6 w-full xl:w-3/5 border-2 border-gray-200 rounded-lg">
             <div>
                 <div class="space-y-3">
-                    <h1 class="text-3xl font-bold">Pizza ชีสเบอร์เกอร์</h1>
+                    <div class="flex items-center justify-between gap-3">
+                        <h1 class="text-3xl font-bold">Pizza ชีสเบอร์เกอร์</h1>
+                        <p class="inline-flex items-center justify-center gap-1 text-black/50 font-semibold">
+                            <i color="#000000" class="opacity-50" data-lucide="badge-dollar-sign"></i>
+                            ยอดสั่งซื้อ <span class="text-emerald-500 underline">1000</span> ครั้ง
+                        </p>
+                    </div>
                     <p class="text-xl">เพิ่มเติมเกี่ยวกับเมนูนี้</p>
-                    <input disabled type="text" class="w-full p-3 border-2 border-gray-200 rounded-lg"
-                        placeholder="ไม่มีข้อมูลเพิ่มเติม">
+                    <input disabled type="text" value="<%= pizza.description %>"
+                        class="w-full p-3 border-2 border-gray-200 rounded-lg" placeholder="ไม่มีข้อมูลเพิ่มเติม">
                     <div class="grid sm:grid-cols-2 gap-2">
                         <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
                             <div class="flex h-full">
@@ -250,7 +252,11 @@
                             </div>
                         </div>
                     </div>
-
+                    <button
+                        class="w-full bg-_yellow-300 text-black/50 px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
+                        <i color="#000000" class="opacity-50" data-lucide="shopping-basket"></i>
+                        เพิ่มใส่ตะกร้า
+                    </button>
                 </div>
             </div>
         </div>
