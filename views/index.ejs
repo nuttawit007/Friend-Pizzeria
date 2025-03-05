@@ -1,18 +1,18 @@
 <%- contentFor('body') %>
-  <section class="grid grid-cols-1 md:grid-cols-2 h-[785px] w-full mx-auto bg-_gray-100 overflow-hidden px-10"
+  <section class="grid grid-cols-1 xl:grid-cols-2 h-[350px] xl:h-[600px] w-full mx-auto bg-_gray-100 overflow-hidden px-10"
     style="background-image: url('/img/hero/bg/hero-bg.svg')">
     <div class="flex max-w-3xl mx-auto items-center justify-center">
-      <div class="flex flex-col justify-center items-start">
-        <img src="/img/logo/logo.svg" alt="Logo" class="h-52" />
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur minus
-          repudiandae temporibus, nisi laudantium voluptatem dolorum, debitis, labore odio
-          ab doloribus consequatur minima magnam! Excepturi nisi aliquid similique
-          repellendus id!
-        </p>
+      <div class="flex flex-col justify-center items-start gap-10">
+        <div class="text-5xl xl:text-[76px] flex gap-2">
+          <h1 class="text-_red-500 font-bold">Friend</h1>
+          <h1 class="text-_yellow-400 font-semibold">Pizzeria</h1>
+        </div>
+        <!-- <img src="/img/logo/logo.svg" alt="Logo" class="h-52" /> -->
+        <p class="text-md md:text-2xl">เราจะมาสร้างสรรค์พิซซ่าที่อร่อยที่สุดให้กับคุณ </p>
+        <button class="bg-_red-500 hover:bg-_red-600 text-white font-bold py-3 px-10 rounded-full text-xl transition duration-300 transform hover:scale-105">สร้างสรรค์เมนูของคุณเอง ▶</button>
       </div>
     </div>
-    <div class="relative w-full h-full overflow-hidden">
+    <div class="relative hidden xl:block w-full h-full overflow-hidden">
       <img class="absolute bottom-[5%]" src="/img/hero/iconic/pizza.svg" alt="iconic" id="pizza-iconic" />
       <img class="absolute bottom-[5%]" src="/img/hero/iconic/ingredient.svg" alt="ingredient" id="ingredients" />
     </div>
@@ -54,9 +54,9 @@
       </div>
     </div>
   </section>
-
+  <!-- เมนูขายดี -->
   <section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
-    <h2 class="text-[48px] text-center font-semibold text-_red-500">เมนูขายดี</h2>
+    <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูขายดี</h2>
     <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
       <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
           <div x-data="{ 
@@ -132,15 +132,15 @@
               <% } %>
     </div>
   </section>
-
+  <!-- เมนุทั้งหมด -->
   <section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
-    <h2 class="text-[48px] text-center font-semibold text-_red-500">เมนูทั้งหมด</h2>
+    <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูทั้งหมด</h2>
 
     <section>
       <div class="flex items-center justify-between">
-        <p class="text-[30px] text-_red-500">ehh</p>
+        <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">พิซซ่า</p>
         <div class="inline-flex items-center justify-between">
-          <p class="text-_red-500 text-[30px]">ดูทั้งหมด ▶</p>
+          <p class="text-_red-500 text-[24px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
@@ -220,9 +220,9 @@
 
     <section>
       <div class="flex items-center justify-between">
-        <p class="text-[30px] text-_red-500">ehh</p>
+        <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารทานเล่น</p>
         <div class="inline-flex items-center justify-between">
-          <p class="text-_red-500 text-[30px]">ดูทั้งหมด ▶</p>
+          <p class="text-_red-500 text-[24px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
@@ -302,9 +302,9 @@
 
     <section>
       <div class="flex items-center justify-between">
-        <p class="text-[30px] text-_red-500">ehh</p>
+        <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารอิตาเลียน</p>
         <div class="inline-flex items-center justify-between">
-          <p class="text-_red-500 text-[30px]">ดูทั้งหมด ▶</p>
+          <p class="text-_red-500 text-[24px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
@@ -440,14 +440,14 @@
 
   <section id="contact" class="py-16 bg-white">
     <div class="container mx-auto px-4">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12"> 
         <h2 class="text-4xl font-bold text-gray-800 mb-4">ติดต่อเรา</h2>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto">
           มีคำถามหรือข้อเสนอแนะ? ติดต่อเราได้ตามช่องทางด้านล่าง
         </p>
       </div>
 
-      <div class="flex flex-col md:flex-row">
+      <div class="mx-auto">
         <div class="md:w-1/2 mb-10 md:mb-0">
           <div class="bg-gray-100 rounded-xl p-8 h-full">
             <h3 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูลติดต่อ</h3>
@@ -491,51 +491,14 @@
                   <p class="text-lg font-medium">friend_pizzeria</p>
                 </div>
               </div>
-
-              <button
-                class="bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg w-full flex justify-center items-center transition duration-300 mt-4">
-                <i class="fas fa-map-marker-alt mr-2"></i> แผนที่ทางร้าน
-              </button>
             </div>
           </div>
-        </div>
-
-        <div class="md:w-1/2 md:pl-8">
-          <form class="space-y-6">
-            <div>
-              <label for="name" class="block text-gray-700 text-sm font-medium mb-2">ชื่อ-นามสกุล</label>
-              <input type="text" id="name"
-                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" />
-            </div>
-
-            <div>
-              <label for="email" class="block text-gray-700 text-sm font-medium mb-2">อีเมล</label>
-              <input type="email" id="email"
-                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" />
-            </div>
-
-            <div>
-              <label for="phone" class="block text-gray-700 text-sm font-medium mb-2">เบอร์โทรศัพท์</label>
-              <input type="tel" id="phone"
-                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" />
-            </div>
-
-            <div>
-              <label for="message" class="block text-gray-700 text-sm font-medium mb-2">ข้อความ</label>
-              <textarea id="message" rows="4"
-                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"></textarea>
-            </div>
-
-            <button type="submit"
-              class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300">
-              ส่งข้อความ
-            </button>
-          </form>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- map -->
   <section class="py-10 bg-gray-100">
     <div class="container mx-auto px-4">
       <div class="bg-white rounded-xl overflow-hidden shadow-lg">
