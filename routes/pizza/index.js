@@ -456,73 +456,96 @@ router.get("/basket", async (req, res) => {
 
 router.post("/basket", async (req, res) => {
   const userId = 1;
-  const {
-    pizza,
-    quantity,
-    type,
-    pizzaName,
-    base,
-    size,
-    crust,
-    dough,
-    price,
-    cheeses,
-    meats,
-    vegetables,
-    sauces,
-    spices,
-    specialInstructions,
-  } = req.body;
   let basket = await prisma.basket.findUnique({
     where: { userId },
   });
+  if (req.body.type !== "forum") {
+    const {
+      pizza,
+      quantity,
+      type,
+      pizzaName,
+      base,
+      size,
+      crust,
+      dough,
+      price,
+      cheeses,
+      meats,
+      vegetables,
+      sauces,
+      spices,
+      specialInstructions,
+    } = req.body;
 
-  if (!basket) {
-    basket = await prisma.basket.create({ data: { userId } });
-  }
-  const pizzaDough = {
-    บางกรอบ: PizzaDough.THIN,
-    หนาหนุ่ม: PizzaDough.THICK,
-    ขอบชีส: PizzaDough.STUFFED,
-  };
+    if (!basket) {
+      basket = await prisma.basket.create({ data: { userId } });
+    }
+    const pizzaDough = {
+      บางกรอบ: PizzaDough.THIN,
+      หนาหนุ่ม: PizzaDough.THICK,
+      ขอบชีส: PizzaDough.STUFFED,
+    };
 
-  const pizzaSize = {
-    "4 นิ้ว": PizzaSize.SMALL,
-    "6 นิ้ว": PizzaSize.MEDIUM,
-    "8 นิ้ว": PizzaSize.LARGE,
-  };
+    const pizzaSize = {
+      "4 นิ้ว": PizzaSize.SMALL,
+      "6 นิ้ว": PizzaSize.MEDIUM,
+      "8 นิ้ว": PizzaSize.LARGE,
+    };
 
-  if (type === "normal") {
-    await prisma.basketItem.upsert({
-      where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(pizza.id) } },
-      update: { quantity: { increment: quantity } },
-      create: { basketId: basket.id, pizzaId: Number(pizza.id), quantity },
-    });
+    if (type === "normal") {
+      await prisma.basketItem.upsert({
+        where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(pizza.id) } },
+        update: { quantity: { increment: quantity } },
+        create: { basketId: basket.id, pizzaId: Number(pizza.id), quantity },
+      });
+    } else {
+      const ingredientPayload = [
+        ...cheeses,
+        ...meats,
+        ...vegetables,
+        ...sauces,
+        ...spices,
+      ];
+      const ingredient = await prisma.ingredient.findMany();
+      const ingredientId = ingredientPayload.map((e) => {
+        return ingredient.find((i) => i.name === e).id;
+      });
+      const pz = await prisma.pizza.create({
+        data: {
+          name: pizzaName,
+          description: specialInstructions,
+          price: +price.toFixed(2),
+          size: pizzaSize[size],
+          pizzaDough: pizzaDough[dough],
+          ingredients: { create: ingredientId.map((id) => ({ ingredientId: id })) },
+          author: { connect: { id: userId } },
+          type: PizzaType.CUSTOM,
+        },
+      });
+      await prisma.basketItem.upsert({
+        where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(pz.id) } },
+        update: { quantity: { increment: 1 } },
+        create: { basketId: basket.id, pizzaId: Number(pz.id), quantity: 1 },
+      });
+    }
+    res.json({ message: "Pizza added to basket" });
   } else {
-    const ingredientPayload = [...cheeses, ...meats, ...vegetables, ...sauces, ...spices];
-    const ingredient = await prisma.ingredient.findMany();
-    const ingredientId = ingredientPayload.map((e) => {
-      return ingredient.find((i) => i.name === e).id;
-    });
-    const pz = await prisma.pizza.create({
-      data: {
-        name: pizzaName,
-        description: specialInstructions,
-        price: +price.toFixed(2),
-        size: pizzaSize[size],
-        pizzaDough: pizzaDough[dough],
-        ingredients: { create: ingredientId.map((id) => ({ ingredientId: id })) },
-        author: { connect: { id: userId } },
-        type: PizzaType.CUSTOM,
-      },
-    });
-    await prisma.basketItem.upsert({
-      where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(pz.id) } },
-      update: { quantity: { increment: 1 } },
-      create: { basketId: basket.id, pizzaId: Number(pz.id), quantity: 1 },
-    });
+    const { id, type } = req.body;
+    if (id) {
+      const info = await prisma.pizza.findUnique({
+        where: { id: Number(id) },
+        include: { ingredients: { include: { ingredient: true } } },
+      });
+      if (!info) return res.status(404).json({ error: "Pizza not found" });
+      await prisma.basketItem.upsert({
+        where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(info.id) } },
+        update: { quantity: { increment: 1 } },
+        create: { basketId: 1, pizzaId: Number(info.id), quantity: 1 },
+      });
+      res.json({ message: "Pizza added to basket" });
+    }
   }
-  res.json({ message: "Pizza added to basket" });
 });
 
 router.delete("/basket/:pizzaId", async (req, res) => {

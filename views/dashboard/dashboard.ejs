@@ -1,0 +1,167 @@
+<section class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5 max-w-7xl">
+    <div class="container mx-auto p-4 mt-5">
+        <h1 class="mb-3 text-xl font-semibold">รายงานผลข้อมูล</h1>
+        <div>
+            <div
+                class="grid grid-cols-1 grid-rows-1 md:grid-cols-1 md:grid-rows-1 lg:grid-cols-2 lg:grid-rows-2 gap-2 h-fit w-full">
+                <div class="bg-green-200 w-70 h-24 flex flex-col p-4">
+                    <h2 class="text-green-500">ออเดอร์ทั้งหมด</h2>
+                    <div class="flex gap-5 items-end">
+                        <h1 class="font-extrabold text-3xl">34</h1>
+                        <p class="text-lg">ออเดอร์</p>
+                    </div>
+                </div>
+                <div class="bg-purple-200 w-70 h-24 flex flex-col p-4">
+                    <h2 class="text-purple-500">รายได้</h2>
+                    <div class="flex gap-5 items-end">
+                        <h1 class="font-extrabold text-3xl">20,000</h1>
+                        <p class="tetx-lg">บาท</p>
+                    </div>
+                </div>
+                <div class="bg-yellow-200 w-70 h-24 flex flex-col p-4">
+                    <h2 class="text-yellow-500">ผู้เข้าใช้งานระบบ</h2>
+                    <div class="flex gap-5 items-end">
+                        <h1 class="font-extrabold text-3xl">120</h1>
+                        <p class="tetx-lg">คน</p>
+                    </div>
+                </div>
+                <div class="bg-pink-200 w-70 h-24 flex flex-col p-4">
+                    <h2 class="text-pink-500">กำไร</h2>
+                    <div class="flex gap-5 items-end">
+                        <h1 class="font-extrabold text-3xl">3,000</h1>
+                        <p class="tetx-lg">บาท</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-5 mt-5 min-h-80">
+                <div class="bg-white flex flex-col justify-around w-1/3 p-10">
+                    <h1 class="text-6xl font-bold text-center">4.5</h1>
+                    <p class="text-center flex items-center justify-center">
+                        <i fill="#FFD15D" data-lucide="star"></i>
+                        <i fill="#FFD15D" data-lucide="star"></i>
+                        <i fill="#FFD15D" data-lucide="star"></i>
+                        <i fill="#FFD15D" data-lucide="star"></i>
+                        <i fill="#FFD15D" data-lucide="star"></i>
+                    </p>
+                    <div class="space-y-1">
+                        <div class="bg-[#60C557] flex justify-between gap-10 rounded-sm px-1.5 text-white rounded-md">
+                            <p>อาหารอร่อย</p>
+                            <p>14</p>
+                        </div>
+                        <div class="bg-[#60C557] flex justify-between gap-10 rounded-sm px-1.5 text-white rounded-md">
+                            <p>ความสะอาด</p>
+                            <p>8</p>
+                        </div>
+                        <div class="bg-[#60C557] flex justify-between gap-10 rounded-sm px-1.5 text-white rounded-md">
+                            <p>ราคาเหมาะสม</p>
+                            <p>6</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="w-full border-2 border-gray-200 p-2"><canvas id="chart"></canvas></div>
+            </div>
+        </div>
+    </div>
+    <div class="container mx-auto p-4 mt-5 space-y-2">
+        <h2 class="text-xl font-semibold">การจัดการสำคัญ</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 h-fit
+        w-full">
+            <a href="/dashboard/transaction">
+                <div class="flex items-center justify-center gap-2 w-full h-full text-black/60 min-h-20 bg-white">
+                    <p class="font-semibold">ประวัติการสั่งซื้อ</p>
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+            <a href="/dashboard/funding">
+                <div class="flex items-center justify-center gap-2 w-full h-full text-black/60 min-h-20 bg-white">
+                    <p class="font-semibold">ธุรกรรมการเงิน</p>
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+            <a href="/dashboard/member">
+                <div class="flex items-center justify-center gap-2 w-full h-full text-black/60 min-h-20 bg-white">
+                    <p class="font-semibold">ผู้ใช้งานทั้งหมด</p>
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="container mx-auto p-4 mt-5 space-y-2">
+        <h2 class="text-xl font-semibold">การจัดการวัตถุดิบและลูกค้า</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 h-fit
+            w-full">
+            <a href="/dashboard/menu">
+                <div class="flex items-center justify-center gap-2 w-full h-full text-black/60 min-h-20 bg-white">
+                    <p class="font-semibold">เมนูทั้งหมด</p>
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+            <a href="/dashboard/ingredient">
+                <div class="flex items-center justify-center gap-2 w-full h-full text-black/60 min-h-20 bg-white">
+                    <p class="font-semibold">วัตถุดิบทั้งหมด</p>
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+            <a href="/dashboard/forum">
+                <div class="flex items-center justify-center gap-2 w-full h-full text-black/60 min-h-20 bg-white">
+                    <p class="font-semibold">ฟอรั่ม</p>
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'ยอดขายรายเดือน',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const ctx = document.getElementById('chart');
+        if (ctx) {
+            new Chart(ctx, config);
+        } else {
+            console.error("Canvas element with id 'chart' not found.");
+        }
+    });
+</script>

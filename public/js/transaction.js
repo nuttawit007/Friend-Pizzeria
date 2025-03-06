@@ -62,6 +62,31 @@ function sendCustomOrder() {
     });
 }
 
+function sendCustomOrderForum() {
+  const order = {
+    id: this.id,
+    type: "forum",
+  };
+  console.log(order);
+  fetch("/basket", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert("Order placed successfully!");
+      console.log("Order Response:", data);
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error("Error placing order:", error);
+      alert("Failed to place order.");
+    });
+}
+
 function submitOrder() {
   fetch("/order", {
     method: "POST",

@@ -173,6 +173,7 @@ model Order {
   id         Int         @id @default(autoincrement())
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
+  address    String      @default("")
   items      OrderItem[]
   totalPrice Decimal
   status     OrderStatus @default(PENDING)
