@@ -7,14 +7,8 @@ router.get("/", async (req, res) => {
   });
 });
 
-router.get("/funding", async (req, res) => {
-  const funding = await prisma.order.findMany({
-    where: {
-      OR: [
-        { user: { name: { contains: req.query.filter } } },
-        { user: { email: { contains: req.query.filter } } },
-      ],
-    },
+router.get("/transaction", async (req, res) => {
+  const transaction = await prisma.order.findMany({
     include: {
       user: true,
       items: {
@@ -28,61 +22,105 @@ router.get("/funding", async (req, res) => {
     },
   });
 
-  res.render("dashboard/history/funding", {
+  res.render("dashboard/history/transaction", {
     user: req.user,
-    funding,
+    transaction,
     filter: req.query.filter || "",
   });
 });
 
-router.get("/transaction", async (req, res) => {
-  const transaction = await prisma.orderItem.findMany({
+router.get("/transaction/:id", async (req, res) => {
+  const transaction = await prisma.order.findFirst({
+    where: {
+      id: parseInt(req.params.id),
+    },
     include: {
-      order: true,
-      drink: true,
-      appetizer: true,
-      snack: true,
-      pizza: true,
+      user: true,
+      items: {
+        include: {
+          drink: true,
+          appetizer: true,
+          snack: true,
+          pizza: {
+            include: {
+              ingredients: {
+                include: {
+                  ingredient: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
-  const formattedOrders = transaction.map((order) => {
+
+  const formattedItems = transaction.items.map((item) => {
     let itemName = "";
     let itemType = "";
+    let itemPrice = 0;
+    let properties = {};
+    let ingredients = null;
 
-    if (order.pizza) {
-      itemName = order.pizza.name;
-      itemType = "Pizza";
-    } else if (order.drink) {
-      itemName = order.drink.name;
+    if (item.pizza) {
+      itemName = item.pizza.name;
+      itemType = item.pizza.type;
+      itemPrice = item.pizza.price;
+      ingredients = item.pizza.ingredients;
+      Object.assign(properties, {
+        size: item.pizza.size,
+        dought: item.pizza.pizzaDough,
+        paymentType: transaction.paymentType,
+      });
+    } else if (item.drink) {
+      itemName = item.drink.name;
       itemType = "Drink";
-    } else if (order.appetizer) {
-      itemName = order.appetizer.name;
+      itemPrice = item.drink.price;
+      Object.assign(properties, {
+        paymentType: transaction.paymentType,
+      });
+    } else if (item.appetizer) {
+      itemName = item.appetizer.name;
       itemType = "Appetizer";
-    } else if (order.snack) {
-      itemName = order.snack.name;
+      itemPrice = item.appetizer.price;
+      Object.assign(properties, {
+        paymentType: transaction.paymentType,
+      });
+    } else if (item.snack) {
+      itemName = item.snack.name;
       itemType = "Snack";
+      itemPrice = item.snack.price;
+      Object.assign(properties, {
+        paymentType: transaction.paymentType,
+      });
     }
 
     return {
-      id: order.id,
+      id: item.id,
       type: itemType,
       name: itemName,
-      quantity: order.quantity,
-      totalPrice: order.order.totalPrice,
-      status: order.order.status,
-      createdAt: order.order.createdAt,
+      quantity: item.quantity,
+      price: itemPrice,
+      ingredients,
+      ...properties,
+      totalPrice: item.quantity * itemPrice,
     };
   });
-  console.log(formattedOrders);
-  res.render("dashboard/history/transaction", {
+  res.render("dashboard/history/transaction_detail", {
     user: req.user,
-    transaction: formattedOrders,
+    info: transaction,
+    transaction: formattedItems,
+    total: transaction.totalPrice,
     filter: req.query.filter || "",
   });
 });
 
 router.get("/member", async (req, res) => {
-  const member = await prisma.user.findMany();
+  const member = await prisma.user.findMany({
+    include: {
+      orders: true,
+    },
+  });
   res.render("dashboard/config/member", {
     user: req.user,
     member,
@@ -91,14 +129,51 @@ router.get("/member", async (req, res) => {
 });
 
 router.get("/menu", async (req, res) => {
+  const menu = await prisma.pizza.findMany({
+    include: {
+      author: true,
+      ingredients: {
+        include: {
+          ingredient: true,
+        },
+      },
+    },
+  });
+  const appetizer = await prisma.appetizer.findMany();
+  const snack = await prisma.snack.findMany();
+  const drink = await prisma.drink.findMany();
   res.render("dashboard/config/menu", {
     user: req.user,
+    menu: [
+      ...menu,
+      ...appetizer.map((e) => {
+        e.type = "APPETIZER";
+        e.public = true;
+        e.author = null;
+        return e;
+      }),
+      ...snack.map((e) => {
+        e.type = "SNACK";
+        e.public = true;
+        e.author = null;
+        return e;
+      }),
+      ...drink.map((e) => {
+        e.type = "DRINK";
+        e.public = true;
+        e.author = null;
+        return e;
+      }),
+    ],
+    filter: req.query.filter || "",
   });
 });
 
 router.get("/ingredient", async (req, res) => {
+  const ingredients = await prisma.ingredient.findMany();
   res.render("dashboard/config/ingredient", {
     user: req.user,
+    ingredients,
   });
 });
 

@@ -1,43 +1,117 @@
-<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5">
-    <!-- back button -->
+<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
     <a href="/dashboard">
         <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
-        <i data-lucide="chevron-left"></i>
-        กลับ </button>
+            <i data-lucide="chevron-left"></i>
+            กลับ
+        </button>
     </a>
 
-    <!-- table section -->
     <div class="flex flex-col w-full mt-4">
-        <!-- title table -->
         <div class="flex justify-between items-center">
             <h1 class="text-xl text-center">เมนูทั้งหมด</h1>
-            <button class="bg-_yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2"> 
-                <i data-lucide="plus"></i>เพิ่มเมนูใหม่</button>
+            <button class="bg-_yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2">
+                <i data-lucide="plus"></i>เพิ่มเมนูใหม่
+            </button>
         </div>
-        <!-- table -->
-         <div class="w-full">
-             <div class="overflow-x-auto">
+        <div class="w-full">
+            <div class="overflow-x-auto">
                 <div class="mt-5 min-w-full inline-block align-middle">
                     <div class="overflow-hidden">
                         <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200 rounded-md">
                             <thead>
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">ไอดี</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">หมวดหมู่</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">สถานะ</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">ยอดขาย</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">ราคา</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">เพิ่มเติม</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        ไอดี
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        รายการ
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        หมวดหมู่
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        ราคา
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        สถานะ
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        ผู้สร้าง
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        เพิ่มเติม
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <!-- มาใส่เองนะเพื่อน -->
+                                <% if(menu.length> 0) { %> <% for(item of menu) { %>
+                                        <tr class="odd:bg-white even:bg-gray-100" x-data="<%= JSON.stringify(item) %>">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                #<%= item.id.toString().padStart(4, '0' ) %>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                <%= item.name %>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                <%= item.type %>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                <%= item.price %>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                <button
+                                                    :class="{'bg-red-500 text-white': !public, 'bg-green-500 text-white': public}"
+                                                    class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
+                                                    <template x-if="public">
+                                                        <span>สาธารณะ</span>
+                                                    </template>
+                                                    <template x-if="!public">
+                                                        <span>ส่วนตัว</span>
+                                                    </template>
+                                                </button>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                <button
+                                                    :class="{'bg-gray-500 text-white': !author, 'bg-blue-500 text-white': author}"
+                                                    class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
+                                                    <template x-if="!author">
+                                                        <span>ไม่มีผู้สร้าง</span>
+                                                    </template>
+                                                    <template x-if="author != null">
+                                                        <span x-text="author.name"></span>
+                                                    </template>
+                                                </button>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                <button
+                                                    class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">แก้ไข</button>
+
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td class="text-center col-span-6 h-[415px]" colspan="6">
+                                                        <div
+                                                            class="flex flex-col items-center justify-center text-center opacity-50 gap-1">
+                                                            <i data-lucide="shopping-bag"></i>
+                                                            <p>ไม่มีรายการสินค้า</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
-             </div>
-         </div>
+            </div>
+        </div>
     </div>
-
 </section>

@@ -1,14 +1,11 @@
-<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5">
-    <!-- back button -->
+<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
     <a href="/dashboard">
         <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
-        <i data-lucide="chevron-left"></i>
-        กลับ</button>
+            <i data-lucide="chevron-left"></i>
+            กลับ</button>
     </a>
 
-    <!-- table section -->
     <div class="flex flex-col w-full mt-4">
-        <!-- title table -->
         <div class="flex justify-between items-center">
             <h1 class="text-xl text-center">ประวัติการสั่งซื้อ</h1>
             <input onchange="updateQueryString(this.value)" type="text" value="<%= filter %>" placeholder="ค้นหา"
@@ -35,33 +32,51 @@
                                 <th scope="col"
                                     class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500 ">
                                     สถานะ</th>
-                                <th scope="col" class="px-6 py-3 text-end text-sm sm:text-md font-medium text-gray-500 uppercase">
+                                <th scope="col"
+                                    class="px-6 py-3 text-end text-sm sm:text-md font-medium text-gray-500 uppercase">
                                     เพิ่มเติม</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% for(item of transaction) { %>
-                                <tr class="odd:bg-white even:bg-gray-100">
+                                <tr class="odd:bg-white even:bg-gray-100" x-data="<%= JSON.stringify(item) %>">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        <%= item.id.toString().padStart(4, '0' ) %>
+                                        #<%= item.id.toString().padStart(4, '0' ) %>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.name %>
+                                        <%= item.user.name %> ได้ทำการสั่งซื้อสินค้า <%= item.items.length %> รายการ
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                         <%= item.totalPrice %>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.quantity %>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-800">
+                                        <%= item.items.length %> รายการ
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.status %>
+                                        <button :class="{
+                                                                    'bg-red-500 text-white': status === 'CANCELLED',
+                                                                    'bg-yellow-500 text-white': status === 'PENDING',
+                                                                    'bg-green-500 text-white': status === 'CONFIRMED' || status === 'DELIVERED'
+                                                                }"
+                                            class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
+                                            <template x-if="status === 'PENDING'">
+                                                <span>กำลังรอ</span>
+                                            </template>
+                                            <template x-if="status === 'CONFIRMED'">
+                                                <span>จัดส่งสำเร็จ</span>
+                                            </template>
+                                            <template x-if="status === 'DELIVERED'">
+                                                <span>กำลังส่ง</span>
+                                            </template>
+                                            <template x-if="status === 'CANCELLED'">
+                                                <span>ยกเลิก</span>
+                                            </template>
+                                        </button>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <a href="">
-                                            <button type="button"><i data-lucide="ellipsis-vertical"></i></button>
+                                        <a href="/dashboard/transaction/<%= item.id %>">
+                                            <button class="bg-gray-200 px-4 py-2 rounded-lg">เพิ่มเติม</button>
                                         </a>
-                                        <button class="bg-gray-200 px-4 py-2 rounded-lg">เพิ่มเติม</button>
                                     </td>
                                 </tr>
                                 <% } %>

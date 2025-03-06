@@ -1,16 +1,19 @@
-<div x-data="{ orders: <%= JSON.stringify(orders) %>, selectedOrder: null %> }"
+<div x-data="{ orders: <%= JSON.stringify(orders) %>, selectedOrder: null, queryString:'<%= queryString %>' }"
     class="container p-4 mx-auto max-w-9xl w-full mt-5">
     <div class="flex gap-5 justify-center min-h-screen">
         <div class=" w-full max-w-5xl overflow-scroll">
-            <div class="flex border-b border-gray-200 mb-6">
-                <div class="px-4 py-2">ทั้งหมด</div>
-                <div class="px-4 py-2">ระหว่างดำเนินการ</div>
-                <div class="px-4 py-2 border-b-2 border-red-500 text-red-500 font-medium">สำเร็จ</div>
+            <div class=" flex border-b border-gray-200 mb-6">
+                <button onclick="updateQueryString('')"
+                    :class="{'': queryString, 'border-b-2 border-red-500 text-red-500 font-medium': !queryString}"
+                    class="px-4 py-2">ทั้งหมด</button>
+                <button onclick="updateQueryString('pending')"
+                    :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'pending'}"
+                    class="px-4 py-2">ระหว่างดำเนินการ</button>
+                <button onclick="updateQueryString('success')"
+                    :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'success'}"
+                    class="px-4 py-2">สำเร็จ</button>
             </div>
-            <!-- 
-            <div class="mb-4">
-                <h3 class="text-gray-800 font-medium">25 มี.ค. 68</h3>
-            </div> -->
+
 
 
             <% orders.forEach(order=> { %>
@@ -69,9 +72,8 @@
                         </div>
                     </div>
 
-                    <!-- Mobile -->
                     <aside x-show="openModal" x-transition @click.away="openModal = false"
-                        class="fixed sm:hidden inset-0 flex items-center justify-center bg-white shadow-lg border border-gray-200 z-20 max-w-lg p-2 mx-auto">
+                        class="fixed sm:hidden inset-0 flex items-center justify-center bg-white shadow-lg border border-gray-200 z-[100] max-w-lg p-2 mx-auto">
                         <button @click.stop="openModal = false; selectedOrder = null"
                             class="absolute top-5 right-6 text-xl">x
                         </button>
@@ -120,8 +122,10 @@
                                 <div class="flex gap-2">
                                     <button class="bg-yellow-400 text-white px-3 py-1 rounded text-sm">QR</button>
                                     <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">โอนเงิน</button>
-                                    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">บัตรเครดิต</button>
-                                    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">ชำระปลายทาง</button>
+                                    <button
+                                        class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">บัตรเครดิต</button>
+                                    <button
+                                        class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">ชำระปลายทาง</button>
                                 </div>
                             </div>
 
@@ -173,7 +177,6 @@
 
         </div>
 
-        <!-- Desktop -->
         <aside class="hidden sm:block h-full w-[450px] bg-white shadow-lg border-l border-gray-200 overflow-y-auto">
             <div class="p-4">
                 <div class="mb-4 flex justify-between">
@@ -213,21 +216,22 @@
                         <span x-text="selectedOrder ? selectedOrder.totalPrice + ' ฿' : ''"></span>
                     </div>
                 </div>
-               <!-- รูปแบบการชำระเงิน -->
                 <div class="mb-4 w-full">
                     <div class="text-gray-700 mb-2">รูปแบบการชำระเงิน</div>
                     <div class="grid grid-cols-2  gap-2 w-full">
-                        <button class="bg-yellow-400 text-white px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">QR</button>
-                        <button class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">โอนเงิน</button>
-                        <button class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">บัตรเครดิต</button>
-                        <button class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">ปลายทาง</button>
+                        <button
+                            class="bg-yellow-400 text-white px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">QR</button>
+                        <button
+                            class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">โอนเงิน</button>
+                        <button
+                            class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">บัตรเครดิต</button>
+                        <button
+                            class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm w-full h-10 flex items-center justify-center">ปลายทาง</button>
                     </div>
                 </div>
-                <!-- สถานะสั่งซื้อ -->
                 <section class="mb-6">
                     <div class="text-gray-700 mb-2">สถานะ</div>
                     <div class="flex items-center justify-between relative">
-                        <!-- line state -->
                         <div class="absolute h-[2px] bg-gray-200 left-4 right-4 to transform -translate-y-1/2 z-0">
                         </div>
 

@@ -1,43 +1,108 @@
-<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5">
-    <!-- back button -->
+<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
     <a href="/dashboard">
         <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
-        <i data-lucide="chevron-left"></i>
-        กลับ </button>
+            <i data-lucide="chevron-left"></i>
+            กลับ </button>
     </a>
 
-    <!-- table section -->
     <div class="flex flex-col w-full mt-4">
-        <!-- title table -->
         <div class="flex justify-between items-center">
             <h1 class="text-xl text-center">วัตถุดิบทั้งหมด</h1>
-            <button class="bg-_yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2"> 
+            <button class="bg-_yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2">
                 <i data-lucide="plus"></i>เพิ่มเมนูใหม่</button>
         </div>
-        <!-- table -->
-         <div class="w-full">
-             <div class="overflow-x-auto">
+        <div class="w-full">
+            <div class="overflow-x-auto">
                 <div class="mt-5 min-w-full inline-block align-middle">
                     <div class="overflow-hidden">
                         <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200 rounded-md">
                             <thead>
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">ไอดี</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">รายการ</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">หมวดหมู่</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">จำนวน</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">สถานะ</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">เพิ่มเติม</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">ไอดี
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">รายการ
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        คีย์
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">จำนวน
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">สถานะ
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                                        เพิ่มเติม</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <!-- มาใส่เองนะเพื่อน -->
+                                <% for(item of ingredients) { %>
+                                    <tr class="odd:bg-white even:bg-gray-100" x-data="<%= JSON.stringify(item) %>">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                            #<%= item.id.toString().padStart(4, '0' ) %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            <div class="flex items-center gap-1">
+                                                <img src="<%= item.imageUrl %>"
+                                                    class="w-6 h-6 rounded-full bg-slate-50 object-cover p-1"
+                                                    alt="ingredientImage">
+                                                <p>
+                                                    <%= item.name %>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            <%= item.key %>
+                                        </td>
+                                        <td :class="{
+                                                    'text-red-500': amount <= 0,
+                                                    'text-yellow-500': amount <= 10 && amount > 0,
+                                                    'text-green-500': amount > 10
+                                             }" class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <%= item.amount %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            <%= item.type %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            <button :class="{
+                                                                    'bg-red-500 text-white': amount <= 0,
+                                                                    'bg-_yellow-200 text-white': amount <= 10 && amount > 0,
+                                                                    'bg-green-500 text-white': amount > 10
+                                                                }"
+                                                class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
+                                                <template x-if="amount <= 0">
+                                                    <span>หมด</span>
+                                                </template>
+                                                <template x-if="amount <= 10 && amount > 0">
+                                                    <span>ใกล้หมด</span>
+                                                </template>
+                                                <template x-if="amount > 10">
+                                                    <span>เพียงพอ</span>
+                                                </template>
+                                            </button>
+                                        </td>
+                                        <td
+                                            class="flex items-center justify-center gap-1 px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                            <button
+                                                class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">แก้ไข</button>
+                                            <button class="bg-_red-500 px-4 py-2 rounded-lg">
+                                                <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
-             </div>
-         </div>
+            </div>
+        </div>
     </div>
 
 </section>

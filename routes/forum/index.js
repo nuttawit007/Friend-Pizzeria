@@ -40,7 +40,12 @@ router.get("/forum/:id", async (req, res) => {
       },
     },
   });
-  res.render("forum/forum_detail", { user: req.user, pizza: pizzaItems });
+  const counter = await prisma.order.count({
+    where: { items: { some: { pizzaId: Number(id) } } },
+  });
+
+  console.log(counter);
+  res.render("forum/forum_detail", { user: req.user, pizza: { ...pizzaItems, counter } });
 });
 
 module.exports = router;

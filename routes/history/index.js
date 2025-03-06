@@ -1,11 +1,20 @@
 const router = require("express").Router();
+const { OrderStatus } = require("@prisma/client");
 const prisma = require("../../config/db");
 
 router.get("/history", async (req, res) => {
+  const statusType = {
+    success: [OrderStatus.CONFIRMED, OrderStatus.DELIVERED],
+    pending: [OrderStatus.PENDING],
+  };
+  const status = statusType[req.query.filter] || null;
   const userId = 1;
 
   const orders = await prisma.order.findMany({
-    where: { userId },
+    where: {
+      ...(status && { status: { in: status } }),
+      userId,
+    },
     include: {
       items: {
         include: {
@@ -14,8 +23,11 @@ router.get("/history", async (req, res) => {
       },
     },
   });
-
-  res.render("history/history", { user: req.user, orders });
+  res.render("history/history", {
+    user: req.user,
+    queryString: req.query.filter,
+    orders,
+  });
 });
 
 module.exports = router;

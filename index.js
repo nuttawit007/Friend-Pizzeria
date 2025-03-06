@@ -70,3 +70,11 @@ app.on("close", () => {
   console.log("Disconnected the server");
   prisma.$disconnect();
 });
+
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.log(err.name, err.message);
+});

@@ -1,4 +1,4 @@
-<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5">
+<section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
     <div class="flex justify-between">
         <a href="/dashboard">
             <button class="bg-_red-500 text-white px-6 py-3 rounded-lg inline-flex items-center justify-self-start"><i
@@ -17,20 +17,18 @@
                             <tr>
                                 <th scope="col"
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    OrderNo</th>
+                                    ID</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Order
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Username
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Price</th>
+                                    Email</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Quantity</th>
+                                    Order</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Status</th>
-                                <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
+                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
                                     Action</th>
                             </tr>
                         </thead>
@@ -38,28 +36,22 @@
                             <% for(item of member) { %>
                                 <tr class="odd:bg-white even:bg-gray-100">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        <%= item.id.toString().padStart(4, '0' ) %>
+                                        #<%= item.id.toString().padStart(4, '0' ) %>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                         <%= item.name %>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.totalPrice %>
+                                        <%= item.email %>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.quantity %>
+                                        <%= item.orders.length %>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.status %>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <button type="button"
-                                            class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-500 hover:text-blue-600 focus:outline-hidden focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">
-                                            <i data-lucide="search-slash"></i>
-                                        </button>
-                                        <button type="button"
-                                            class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-yellow-500 hover:text-yellow-600 focus:outline-hidden focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">
-                                            <i data-lucide="square-pen"></i>
+                                    <td
+                                        class="flex items-center justify-center gap-1 px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                        <button class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">แก้ไข</button>
+                                        <button class="bg-_red-500 px-4 py-2 rounded-lg">
+                                            <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
                                         </button>
                                     </td>
                                 </tr>

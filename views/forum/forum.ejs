@@ -1,13 +1,13 @@
-<section class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5"
+<section class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5 mt-5"
     x-data="{ queryString: '<%= query %>' }"">
 
-    <div class=" flex border-b-[1px] border-black/10 mb-3">
-    <button
-        :class="{'text-red-600 font-semibold px-4 py-2': !queryString, 'text-gray-400 font-normal px-4 py-2': queryString}"
-        onclick="updateQueryString('')">คอมมูนิตี้</button>
-    <button
-        :class="{'text-red-600 font-semibold px-4 py-2': queryString, 'text-gray-400 font-normal px-4 py-2': !queryString}"
-        onclick="updateQueryString('me')">คัสตอมพิซซ่าของฉัน</button>
+    <div class=" flex border-b border-gray-200 mb-6">
+    <button onclick="updateQueryString('')"
+        :class="{'': queryString, 'border-b-2 border-red-500 text-red-500 font-medium': !queryString}"
+        class="px-4 py-2">คอมมูนิตี้</button>
+    <button onclick="updateQueryString('me')"
+        :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString}"
+        class="px-4 py-2">คัสตอมพิซซ่าของฉัน</button>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">

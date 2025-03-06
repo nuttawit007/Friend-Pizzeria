@@ -25,6 +25,7 @@ model Pizza {
   price       Decimal
   images      PizzaImage[]
   ingredients PizzaIngredient[]
+  public      Boolean           @default(false)
   type        PizzaType         @default(NORMAL)
   size        PizzaSize         @default(SMALL)
   pizzaDough  PizzaDough        @default(THIN)
@@ -170,14 +171,17 @@ model BasketItem {
 }
 
 model Order {
-  id         Int         @id @default(autoincrement())
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int
-  address    String      @default("")
-  items      OrderItem[]
-  totalPrice Decimal
-  status     OrderStatus @default(PENDING)
-  createdAt  DateTime    @default(now())
+  id          Int          @id @default(autoincrement())
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  address     String       @default("")
+  paymentType PaymentType  @default(QR)
+  delivery    DeliveryType @default(PICKUP)
+  phone       String       @default("0000000000")
+  items       OrderItem[]
+  totalPrice  Decimal
+  status      OrderStatus  @default(PENDING)
+  createdAt   DateTime     @default(now())
 }
 
 model OrderItem {
@@ -193,6 +197,17 @@ model OrderItem {
   drink       Drink?     @relation(fields: [drinkId], references: [id], onDelete: Cascade)
   drinkId     Int?
   quantity    Int        @default(1)
+}
+
+enum PaymentType {
+  QR
+  TRANSFER
+  CARD
+}
+
+enum DeliveryType {
+  PICKUP
+  DELIVERY
 }
 
 enum OrderStatus {

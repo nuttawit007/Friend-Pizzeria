@@ -79,10 +79,14 @@
                 <div>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between gap-3">
-                            <h1 class="text-3xl font-bold">Pizza ชีสเบอร์เกอร์</h1>
+                            <h1 class="text-3xl font-bold">
+                                🍕 <%= pizza.name %>
+                            </h1>
                             <p class="inline-flex items-center justify-center gap-1 text-black/50 font-semibold">
                                 <i color="#000000" class="opacity-50" data-lucide="badge-dollar-sign"></i>
-                                ยอดสั่งซื้อ <span class="text-emerald-500 underline">1000</span> ครั้ง
+                                ยอดสั่งซื้อ <span class="text-emerald-500 underline">
+                                    <%= pizza.counter || 0 %>
+                                </span> ครั้ง
                             </p>
                         </div>
                         <p class="text-xl">เพิ่มเติมเกี่ยวกับเมนูนี้</p>
