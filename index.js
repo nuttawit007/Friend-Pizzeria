@@ -15,6 +15,8 @@ const historyRoutes = require("./routes/history");
 
 const forumRoutes = require("./routes/forum");
 
+const dashboardRoutes = require("./routes/dashboard");
+
 require("./config/auth")(passport);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -54,6 +56,7 @@ app.use("/auth", authRoutes);
 app.use(pizzaRoutes);
 app.use(historyRoutes);
 app.use(forumRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

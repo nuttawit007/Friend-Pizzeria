@@ -1,266 +1,272 @@
-<section class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5 mt-5">
+<%- contentFor('body') %>
+    <section x-data="<%= JSON.stringify(pizza) %>"
+        class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5 mt-5">
 
-    <div class="flex flex-col xl:flex-row justify-center gap-10">
-        <div class="relative flex flex-col gap-5 w-full xl:w-2/5 mt-14">
-            <a href="/forum">
-                <button
-                    class="bg-_red-500 text-white px-3 py-3 rounded-lg inline-flex items-center justify-self-start"><i
-                        data-lucide="chevron-left"></i>
-                    กลับ</button>
-            </a>
-            <div class="relative w-[400px] h-[250px] mx-auto">
-
-                <img src="/img/assets/pizza_vector/dough.svg"
-                    class="absolute inset-0 w-full h-full object-contain z-[1]" alt="Dough">
-
-                <% if (pizza.ingredients.some(e=> e.ingredient.type === "CHEESE")) { %>
-                    <img src="/img/assets/pizza_vector/cheese.svg"
-                        class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[80%] sm:-top-[9%] sm:scale-[83%] md:-top-[10%] md:scale-[80%] lg:-top-[10%] lg:scale-[80%] z-[2]"
-                        alt="Cheese">
-                    <% } %>
-
-                        <% if (pizza.ingredients.some(e=> e.ingredient.type === "SAUCE")) { %>
-                            <img src="/img/assets/pizza_vector/sauce.svg"
-                                class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[75%] sm:-top-[9%] sm:scale-[76%] md:-top-[10%] md:scale-[70%] lg:-top-[10%] lg:scale-[70%] z-[3]"
-                                alt="Sauce">
-                            <% } %>
-
-                                <% if (pizza.ingredients.some(e=> e.ingredient.type === "MEAT") &&
-                                    !pizza.ingredients.some(e => e.ingredient.type === "VEGETABLE")) { %>
-                                    <img src="/img/assets/pizza_vector/fullmeat.svg"
-                                        class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[70%] sm:-top-[9%] sm:scale-[75%] md:-top-[10%] md:scale-[80%] lg:-top-[10%] lg:scale-[70%] z-[4]"
-                                        alt="Meat">
-                                    <% } %>
-
-                                        <% if (pizza.ingredients.some(e=> e.ingredient.type === "MEAT") &&
-                                            pizza.ingredients.some(e => e.ingredient.type === "VEGETABLE")) { %>
-                                            <img src="/img/assets/pizza_vector/meat.svg"
-                                                class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[60%] sm:-top-[9%] sm:scale-[65%] md:-top-[10%] md:scale-[58%] lg:-top-[10%] lg:scale-[60%] z-[4]"
-                                                alt="Meat">
-                                            <% } %>
-
-                                                <% if (pizza.ingredients.some(e=> e.ingredient.type ===
-                                                    "VEGETABLE")) { %>
-                                                    <img src="/img/assets/pizza_vector/veg.svg"
-                                                        class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[80%] sm:-top-[9%] sm:scale-[80%] md:-top-[10%] md:scale-[65%] lg:-top-[10%] lg:scale-[70%] z-[5]"
-                                                        alt="Vegetable">
-                                                    <% } %>
-            </div>
-
-            <div class="space-y-4 font-semibold underline text-2xl">
-                <h2 class="text-center xl:text-start">ส่วนผสมหลัก</h2>
-                <div class="grid grid-cols-6 w-fit gap-5">
-                    <div class="flex items-center justify-center bg-_yellow-50 w-20 h-20 rounded-full">
-                        <img src="/img/logo/icon/pizza.png" class="w-16 h-16" alt="Cheese">
-                    </div>
-                    <div class="flex items-center justify-center bg-[#D6C07E] w-20 h-20 rounded-full">
-                        <img src="/img/logo/icon/cheese.png" class="w-16 h-16" alt="Cheese">
-                    </div>
-                    <div class="flex items-center justify-center bg-_red-200 w-20 h-20 rounded-full">
-                        <img src="/img/logo/icon/meat.png" class="w-16 h-16" alt="Cheese">
-                    </div>
-                    <div class="flex items-center justify-center bg-[#B6D678] w-20 h-20 rounded-full">
-                        <img src="/img/logo/icon/veg.png" class="w-16 h-16" alt="Cheese">
-                    </div>
-                    <div class="flex items-center justify-center bg-_red-200 w-20 h-20 rounded-full">
-                        <img src="/img/logo/icon/sauce.png" class="w-16 h-16" alt="Cheese">
-                    </div>
-                    <div class="flex items-center justify-center bg-_yellow-100 w-20 h-20 rounded-full">
-                        <img src="/img/logo/icon/spice.png" class="w-16 h-16" alt="Cheese">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="flex flex-col p-6 w-full xl:w-3/5 border-2 border-gray-200 rounded-lg">
-            <div>
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between gap-3">
-                        <h1 class="text-3xl font-bold">Pizza ชีสเบอร์เกอร์</h1>
-                        <p class="inline-flex items-center justify-center gap-1 text-black/50 font-semibold">
-                            <i color="#000000" class="opacity-50" data-lucide="badge-dollar-sign"></i>
-                            ยอดสั่งซื้อ <span class="text-emerald-500 underline">1000</span> ครั้ง
-                        </p>
-                    </div>
-                    <p class="text-xl">เพิ่มเติมเกี่ยวกับเมนูนี้</p>
-                    <input disabled type="text" value="<%= pizza.description %>"
-                        class="w-full p-3 border-2 border-gray-200 rounded-lg" placeholder="ไม่มีข้อมูลเพิ่มเติม">
-                    <div class="grid sm:grid-cols-2 gap-2">
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
-                            <div class="flex h-full">
-                                <div class="min-w-36 min-h-36 bg-amber-200 flex items-center justify-center">
-                                    <img src="/img/logo/icon/dough.png" alt="แป้ง"
-                                        class="w-24 h-24 object-contain drop-shadow-md">
-                                </div>
-
-                                <div class="flex-1 p-4">
-                                    <div
-                                        class="inline-block px-3 py-1 w-full text-center rounded-full bg-amber-200 text-amber-800 font-medium text-sm mb-3">
-                                        ขนาด และ แป้ง
-                                    </div>
-                                    <div>
-                                        <p>ขนาด: <%= pizza.size %>
-                                        </p>
-                                        <p>แป้ง: <%= pizza.dought %>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
-                            <div class="flex h-full">
-                                <div class="min-w-36 min-h-36 bg-amber-200 flex items-center justify-center">
-                                    <img src="/img/logo/icon/cheese.png" alt="ชีส"
-                                        class="w-24 h-24 object-contain drop-shadow-md">
-                                </div>
-
-                                <div class="flex-1 p-4">
-                                    <div
-                                        class="inline-block px-3 py-1 w-full text-center rounded-full bg-amber-200 text-amber-800 font-medium text-sm mb-3">
-                                        ชีส
-                                    </div>
-                                    <% pizza.ingredients .filter(e=> e.ingredient.type === "CHEESE")
-                                        .forEach((cheese) => { %>
-                                        <div class="flex items-center gap-2 mb-2 overflow-scroll">
-                                            <div class="bg-gray-100 rounded-full">
-                                                <img src="<%= cheese.ingredient.imageUrl %>"
-                                                    class="w-5 h-5 object-contain">
-                                            </div>
-                                            <div>
-                                                <%= cheese.ingredient.name %>
-                                            </div>
-                                        </div>
-                                        <% }) %>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
-                            <div class="flex h-full">
-                                <div class="min-w-36 min-h-36 bg-red-300 flex items-center justify-center">
-                                    <img src="/img/logo/icon/meat.png" alt="เนื้อสัตว์"
-                                        class="w-24 h-24 object-contain drop-shadow-md">
-                                </div>
-
-                                <div class="flex-1 p-4">
-                                    <div
-                                        class="inline-block px-3 py-1 w-full text-center rounded-full bg-red-300 text-red-800 font-medium text-sm mb-3">
-                                        เนื้อสัตว์
-                                    </div>
-                                    <% pizza.ingredients .filter(e=> e.ingredient.type === "MEAT")
-                                        .forEach((meat) => { %>
-                                        <div class="flex items-center gap-2 mb-2 overflow-scroll">
-                                            <div class="bg-gray-100 rounded-full">
-                                                <img src="<%= meat.ingredient.imageUrl %>"
-                                                    class="w-5 h-5 object-contain">
-                                            </div>
-                                            <div>
-                                                <%= meat.ingredient.name %>
-                                            </div>
-                                        </div>
-                                        <% }) %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
-                            <div class="flex h-full">
-                                <div class="min-w-36 min-h-36 bg-lime-200 flex items-center justify-center">
-                                    <img src="/img/logo/icon/veg.png" alt="ผัก"
-                                        class="w-24 h-24 object-contain drop-shadow-md">
-                                </div>
-
-                                <div class="flex-1 p-4">
-                                    <div
-                                        class="inline-block px-3 py-1 w-full text-center rounded-full bg-lime-200 text-lime-800 font-medium text-sm mb-3">
-                                        ผัก
-                                    </div>
-
-                                    <% pizza.ingredients .filter(e=> e.ingredient.type === "VEGETABLE")
-                                        .forEach((vegetable) => { %>
-                                        <div class="flex items-center gap-2 mb-2 overflow-scroll">
-                                            <div class="bg-gray-100 rounded-full">
-                                                <img src="<%= vegetable.ingredient.imageUrl %>"
-                                                    class="w-5 h-5 object-contain">
-                                            </div>
-                                            <div>
-                                                <%= vegetable.ingredient.name %>
-                                            </div>
-                                        </div>
-                                        <% }) %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
-                            <div class="flex h-full">
-                                <div class="min-w-36 min-h-36 bg-red-400 flex items-center justify-center">
-                                    <img src="/img/logo/icon/sauce.png" alt="ซอส"
-                                        class="w-24 h-24 object-contain drop-shadow-md">
-                                </div>
-
-                                <div class="flex-1 p-4">
-                                    <div
-                                        class="inline-block px-3 py-1 w-full text-center rounded-full bg-red-400 text-red-800 font-medium text-sm mb-3">
-                                        ซอส
-                                    </div>
-                                    <% pizza.ingredients .filter(e=> e.ingredient.type === "SAUCE")
-                                        .forEach((sauce) => { %>
-                                        <div class="flex items-center gap-2 mb-2 overflow-scroll">
-                                            <div class="bg-gray-100 rounded-full">
-                                                <img src="<%= sauce.ingredient.imageUrl %>"
-                                                    class="w-5 h-5 object-contain">
-                                            </div>
-                                            <div>
-                                                <%= sauce.ingredient.name %>
-                                            </div>
-                                        </div>
-                                        <% }) %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
-                            <div class="flex h-full">
-                                <div class="min-w-36 min-h-36 bg-amber-100 flex items-center justify-center">
-                                    <img src="/img/logo/icon/spice.png" alt="เครื่องปรุง"
-                                        class="w-24 h-24 object-contain drop-shadow-md">
-                                </div>
-
-                                <div class="flex-1 p-4">
-                                    <div
-                                        class="inline-block px-3 py-1 w-full text-center rounded-full bg-amber-100 text-amber-800 font-medium text-sm mb-3">
-                                        เครื่องปรุง
-                                    </div>
-
-                                    <% pizza.ingredients .filter(e=> e.ingredient.type === "SPICE")
-                                        .forEach((spice) => { %>
-                                        <div class="flex items-center gap-2 mb-2 overflow-scroll">
-                                            <div class="bg-gray-100 rounded-full">
-                                                <img src="<%= spice.ingredient.imageUrl %>"
-                                                    class="w-5 h-5 object-contain">
-                                            </div>
-                                            <div>
-                                                <%= spice.ingredient.name %>
-                                            </div>
-                                        </div>
-                                        <% }) %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="flex flex-col xl:flex-row justify-center gap-10">
+            <div class="relative flex flex-col gap-5 w-full xl:w-2/5 mt-14">
+                <a href="/forum">
                     <button
-                        class="w-full bg-_yellow-300 text-black/50 px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
-                        <i color="#000000" class="opacity-50" data-lucide="shopping-basket"></i>
-                        เพิ่มใส่ตะกร้า
-                    </button>
+                        class="bg-_red-500 text-white px-3 py-3 rounded-lg inline-flex items-center justify-self-start"><i
+                            data-lucide="chevron-left"></i>
+                        กลับ</button>
+                </a>
+                <div class="relative w-[400px] h-[250px] mx-auto">
+
+                    <img src="/img/assets/pizza_vector/dough.svg"
+                        class="absolute inset-0 w-full h-full object-contain z-[1]" alt="Dough">
+
+                    <% if (pizza.ingredients.some(e=> e.ingredient.type === "CHEESE")) { %>
+                        <img src="/img/assets/pizza_vector/cheese.svg"
+                            class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[80%] sm:-top-[9%] sm:scale-[83%] md:-top-[10%] md:scale-[80%] lg:-top-[10%] lg:scale-[80%] z-[2]"
+                            alt="Cheese">
+                        <% } %>
+
+                            <% if (pizza.ingredients.some(e=> e.ingredient.type === "SAUCE")) { %>
+                                <img src="/img/assets/pizza_vector/sauce.svg"
+                                    class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[75%] sm:-top-[9%] sm:scale-[76%] md:-top-[10%] md:scale-[70%] lg:-top-[10%] lg:scale-[70%] z-[3]"
+                                    alt="Sauce">
+                                <% } %>
+
+                                    <% if (pizza.ingredients.some(e=> e.ingredient.type === "MEAT") &&
+                                        !pizza.ingredients.some(e => e.ingredient.type === "VEGETABLE")) { %>
+                                        <img src="/img/assets/pizza_vector/fullmeat.svg"
+                                            class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[70%] sm:-top-[9%] sm:scale-[75%] md:-top-[10%] md:scale-[80%] lg:-top-[10%] lg:scale-[70%] z-[4]"
+                                            alt="Meat">
+                                        <% } %>
+
+                                            <% if (pizza.ingredients.some(e=> e.ingredient.type === "MEAT") &&
+                                                pizza.ingredients.some(e => e.ingredient.type === "VEGETABLE")) { %>
+                                                <img src="/img/assets/pizza_vector/meat.svg"
+                                                    class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[60%] sm:-top-[9%] sm:scale-[65%] md:-top-[10%] md:scale-[58%] lg:-top-[10%] lg:scale-[60%] z-[4]"
+                                                    alt="Meat">
+                                                <% } %>
+
+                                                    <% if (pizza.ingredients.some(e=> e.ingredient.type ===
+                                                        "VEGETABLE")) { %>
+                                                        <img src="/img/assets/pizza_vector/veg.svg"
+                                                            class="absolute inset-0 w-full h-full object-contain -top-[10%] scale-[80%] sm:-top-[9%] sm:scale-[80%] md:-top-[10%] md:scale-[65%] lg:-top-[10%] lg:scale-[70%] z-[5]"
+                                                            alt="Vegetable">
+                                                        <% } %>
+                </div>
+
+                <div class="space-y-4 font-semibold underline text-2xl">
+                    <h2 class="text-center xl:text-start">ส่วนผสมหลัก</h2>
+                    <div class="grid grid-cols-6 w-fit gap-5">
+                        <div class="flex items-center justify-center bg-_yellow-50 w-20 h-20 rounded-full">
+                            <img src="/img/logo/icon/pizza.png" class="w-16 h-16" alt="Cheese">
+                        </div>
+                        <div class="flex items-center justify-center bg-[#D6C07E] w-20 h-20 rounded-full">
+                            <img src="/img/logo/icon/cheese.png" class="w-16 h-16" alt="Cheese">
+                        </div>
+                        <div class="flex items-center justify-center bg-_red-200 w-20 h-20 rounded-full">
+                            <img src="/img/logo/icon/meat.png" class="w-16 h-16" alt="Cheese">
+                        </div>
+                        <div class="flex items-center justify-center bg-[#B6D678] w-20 h-20 rounded-full">
+                            <img src="/img/logo/icon/veg.png" class="w-16 h-16" alt="Cheese">
+                        </div>
+                        <div class="flex items-center justify-center bg-_red-200 w-20 h-20 rounded-full">
+                            <img src="/img/logo/icon/sauce.png" class="w-16 h-16" alt="Cheese">
+                        </div>
+                        <div class="flex items-center justify-center bg-_yellow-100 w-20 h-20 rounded-full">
+                            <img src="/img/logo/icon/spice.png" class="w-16 h-16" alt="Cheese">
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
+            <div class="flex flex-col p-6 w-full xl:w-3/5 border-2 border-gray-200 rounded-lg">
+                <div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between gap-3">
+                            <h1 class="text-3xl font-bold">Pizza ชีสเบอร์เกอร์</h1>
+                            <p class="inline-flex items-center justify-center gap-1 text-black/50 font-semibold">
+                                <i color="#000000" class="opacity-50" data-lucide="badge-dollar-sign"></i>
+                                ยอดสั่งซื้อ <span class="text-emerald-500 underline">1000</span> ครั้ง
+                            </p>
+                        </div>
+                        <p class="text-xl">เพิ่มเติมเกี่ยวกับเมนูนี้</p>
+                        <input disabled type="text" value="<%= pizza.description %>"
+                            class="w-full p-3 border-2 border-gray-200 rounded-lg" placeholder="ไม่มีข้อมูลเพิ่มเติม">
+                        <div class="grid sm:grid-cols-2 gap-2">
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
+                                <div class="flex h-full">
+                                    <div class="min-w-36 min-h-36 bg-amber-200 flex items-center justify-center">
+                                        <img src="/img/logo/icon/dough.png" alt="แป้ง"
+                                            class="w-24 h-24 object-contain drop-shadow-md">
+                                    </div>
+
+                                    <div class="flex-1 p-4">
+                                        <div
+                                            class="inline-block px-3 py-1 w-full text-center rounded-full bg-amber-200 text-amber-800 font-medium text-sm mb-3">
+                                            ขนาด และ แป้ง
+                                        </div>
+                                        <div>
+                                            <p>ขนาด: <%= pizza.size %>
+                                            </p>
+                                            <p>แป้ง: <%= pizza.dought %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
+                                <div class="flex h-full">
+                                    <div class="min-w-36 min-h-36 bg-amber-200 flex items-center justify-center">
+                                        <img src="/img/logo/icon/cheese.png" alt="ชีส"
+                                            class="w-24 h-24 object-contain drop-shadow-md">
+                                    </div>
+
+                                    <div class="flex-1 p-4">
+                                        <div
+                                            class="inline-block px-3 py-1 w-full text-center rounded-full bg-amber-200 text-amber-800 font-medium text-sm mb-3">
+                                            ชีส
+                                        </div>
+                                        <% pizza.ingredients .filter(e=> e.ingredient.type === "CHEESE")
+                                            .forEach((cheese) => { %>
+                                            <div class="flex items-center gap-2 mb-2 overflow-scroll">
+                                                <div class="bg-gray-100 rounded-full">
+                                                    <img src="<%= cheese.ingredient.imageUrl %>"
+                                                        class="w-5 h-5 object-contain">
+                                                </div>
+                                                <div>
+                                                    <%= cheese.ingredient.name %>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
+                                <div class="flex h-full">
+                                    <div class="min-w-36 min-h-36 bg-red-300 flex items-center justify-center">
+                                        <img src="/img/logo/icon/meat.png" alt="เนื้อสัตว์"
+                                            class="w-24 h-24 object-contain drop-shadow-md">
+                                    </div>
+
+                                    <div class="flex-1 p-4">
+                                        <div
+                                            class="inline-block px-3 py-1 w-full text-center rounded-full bg-red-300 text-red-800 font-medium text-sm mb-3">
+                                            เนื้อสัตว์
+                                        </div>
+                                        <% pizza.ingredients .filter(e=> e.ingredient.type === "MEAT")
+                                            .forEach((meat) => { %>
+                                            <div class="flex items-center gap-2 mb-2 overflow-scroll">
+                                                <div class="bg-gray-100 rounded-full">
+                                                    <img src="<%= meat.ingredient.imageUrl %>"
+                                                        class="w-5 h-5 object-contain">
+                                                </div>
+                                                <div>
+                                                    <%= meat.ingredient.name %>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
+                                <div class="flex h-full">
+                                    <div class="min-w-36 min-h-36 bg-lime-200 flex items-center justify-center">
+                                        <img src="/img/logo/icon/veg.png" alt="ผัก"
+                                            class="w-24 h-24 object-contain drop-shadow-md">
+                                    </div>
+
+                                    <div class="flex-1 p-4">
+                                        <div
+                                            class="inline-block px-3 py-1 w-full text-center rounded-full bg-lime-200 text-lime-800 font-medium text-sm mb-3">
+                                            ผัก
+                                        </div>
+
+                                        <% pizza.ingredients .filter(e=> e.ingredient.type === "VEGETABLE")
+                                            .forEach((vegetable) => { %>
+                                            <div class="flex items-center gap-2 mb-2 overflow-scroll">
+                                                <div class="bg-gray-100 rounded-full">
+                                                    <img src="<%= vegetable.ingredient.imageUrl %>"
+                                                        class="w-5 h-5 object-contain">
+                                                </div>
+                                                <div>
+                                                    <%= vegetable.ingredient.name %>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
+                                <div class="flex h-full">
+                                    <div class="min-w-36 min-h-36 bg-red-400 flex items-center justify-center">
+                                        <img src="/img/logo/icon/sauce.png" alt="ซอส"
+                                            class="w-24 h-24 object-contain drop-shadow-md">
+                                    </div>
+
+                                    <div class="flex-1 p-4">
+                                        <div
+                                            class="inline-block px-3 py-1 w-full text-center rounded-full bg-red-400 text-red-800 font-medium text-sm mb-3">
+                                            ซอส
+                                        </div>
+                                        <% pizza.ingredients .filter(e=> e.ingredient.type === "SAUCE")
+                                            .forEach((sauce) => { %>
+                                            <div class="flex items-center gap-2 mb-2 overflow-scroll">
+                                                <div class="bg-gray-100 rounded-full">
+                                                    <img src="<%= sauce.ingredient.imageUrl %>"
+                                                        class="w-5 h-5 object-contain">
+                                                </div>
+                                                <div>
+                                                    <%= sauce.ingredient.name %>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden h-full">
+                                <div class="flex h-full">
+                                    <div class="min-w-36 min-h-36 bg-amber-100 flex items-center justify-center">
+                                        <img src="/img/logo/icon/spice.png" alt="เครื่องปรุง"
+                                            class="w-24 h-24 object-contain drop-shadow-md">
+                                    </div>
+
+                                    <div class="flex-1 p-4">
+                                        <div
+                                            class="inline-block px-3 py-1 w-full text-center rounded-full bg-amber-100 text-amber-800 font-medium text-sm mb-3">
+                                            เครื่องปรุง
+                                        </div>
+
+                                        <% pizza.ingredients .filter(e=> e.ingredient.type === "SPICE")
+                                            .forEach((spice) => { %>
+                                            <div class="flex items-center gap-2 mb-2 overflow-scroll">
+                                                <div class="bg-gray-100 rounded-full">
+                                                    <img src="<%= spice.ingredient.imageUrl %>"
+                                                        class="w-5 h-5 object-contain">
+                                                </div>
+                                                <div>
+                                                    <%= spice.ingredient.name %>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <template x-if="true">
+                            <button @click="sendCustomOrderForum"
+                                class="w-full bg-_yellow-300 text-black/50 px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
+                                <i color="#000000" class="opacity-50" data-lucide="shopping-basket"></i>
+                                เพิ่มใส่ตะกร้า
+                            </button>
+                        </template>
+
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-    </div>
-
-</section>
+    </section>
