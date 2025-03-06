@@ -56,7 +56,7 @@
   <!-- เมนูขายดี -->
   <section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
     <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูขายดี</h2>
-    <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
       <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
           <div x-data="{ 
     added: false, 
@@ -69,14 +69,15 @@
 
             <div class="flex justify-between w-full mt-2">
               <h3 class="font-bold" x-text="pizza.name"></h3>
-              <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + ' ฿'"></p>
+              <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
             </div>
 
             <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
 
             <template x-if="!added">
               <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
-                เพิ่มไปยังรายการสินค้า
+                <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                <span class="sm:hidden">เพิ่ม</span>
               </button>
             </template>
 
@@ -142,7 +143,7 @@
           <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
         <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
             <div x-data="{ 
         added: false, 
@@ -162,7 +163,8 @@
 
               <template x-if="!added">
                 <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
-                  เพิ่มไปยังรายการสินค้า
+                  <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                  <span class="sm:hidden">เพิ่ม</span>
                 </button>
               </template>
 
@@ -224,7 +226,7 @@
           <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
         <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
             <div x-data="{ 
     added: false, 
@@ -237,14 +239,15 @@
 
               <div class="flex justify-between w-full mt-2">
                 <h3 class="font-bold" x-text="pizza.name"></h3>
-                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + ' ฿'"></p>
+                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
               </div>
 
               <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
 
               <template x-if="!added">
                 <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
-                  เพิ่มไปยังรายการสินค้า
+                  <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                  <span class="sm:hidden">เพิ่ม</span>
                 </button>
               </template>
 
@@ -306,7 +309,7 @@
           <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
         <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
             <div x-data="{ 
     added: false, 
@@ -319,14 +322,15 @@
 
               <div class="flex justify-between w-full mt-2">
                 <h3 class="font-bold" x-text="pizza.name"></h3>
-                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + ' ฿'"></p>
+                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
               </div>
 
               <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
 
               <template x-if="!added">
                 <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
-                  เพิ่มไปยังรายการสินค้า
+                  <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                  <span class="sm:hidden">เพิ่ม</span>
                 </button>
               </template>
 
