@@ -1,14 +1,20 @@
 <section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5">
-    <div class="flex justify-between">
-        <a href="/dashboard">
-            <button class="bg-_red-500 text-white px-3 py-3 rounded-lg inline-flex items-center justify-self-start"><i
-                    data-lucide="chevron-left"></i>
-                กลับ</button>
-        </a>
-        <input onchange="updateQueryString(this.value)" type="text" value="<%= filter %>" placeholder="ค้นหา"
-            class="px-3 py-3 rounded-lg border border-gray-200" />
-    </div>
-    <div class="flex flex-col w-full">
+    <!-- back button -->
+    <a href="/dashboard">
+        <button class="bg-_red-500 text-white px-3 py-3 rounded-lg inline-flex items-center justify-self-start"><i
+                data-lucide="chevron-left"></i>
+            กลับ</button>
+    </a>
+
+    <!-- table section -->
+    <div class="flex flex-col w-full mt-4">
+        <!-- title table -->
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl text-center">ธุรกรรมการเงิน</h1>
+            <input onchange="updateQueryString(this.value)" type="text" value="<%= filter %>" placeholder="ค้นหา"
+                class="px-3 py-3 rounded-lg border border-gray-200" />
+        </div>
+        <!-- table -->
         <div class="overflow-x-auto">
             <div class="mt-5 min-w-full inline-block align-middle">
                 <div class="overflow-hidden">
