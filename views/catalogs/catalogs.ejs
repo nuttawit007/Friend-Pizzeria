@@ -1,8 +1,11 @@
 <%- contentFor('body') %>
-  <section class="relative flex flex-col min-h-dvh bg-_gray-100 container px-20 mx-auto p-5 mt-5">
+
+ <section class="relative flex flex-col min-h-dvh bg-_gray-100 container px-20 mx-auto p-5 mt-5">
+
     <div x-data="{
     queryFilter: new URLSearchParams(window.location.search).get('filter') || ''
   }" class="flex justify-center w-full gap-2">
+      <!-- พิซซ่า -->
       <button x-bind:class="{
         'border-red-500 bg-_red-500': queryFilter === 'pizza',
         'bg-white': queryFilter !== 'pizza'
@@ -10,13 +13,13 @@
         class="group inline-block w-fit h-fit cursor-pointer transition-all duration-300 ease-in-out rounded-xl">
         <div
           class="p-2 rounded-xl flex items-center group-hover:border-red-500 flex-shrink-0 border-2 group-hover:border-_red-600 transition-all">
-          <div class="bg-gray-100 p-3 rounded-lg mr-6">
+          <div class="bg-gray-100 p-3 rounded-lg mr-0 md:mr-6">
             <i data-lucide="pizza" class="w-8 h-8 transition-colors" :class="{
             'text-red-600': queryFilter === 'pizza',
             'text-black/50': queryFilter !== 'pizza'
           }"></i>
           </div>
-          <span class="text-2xl font-medium transition-colors" :class="{
+          <span class="text-2xl font-medium transition-colors hidden md:block" :class="{
           'text-white': queryFilter === 'pizza',
           'text-black/50 group-hover:text-_red-500': queryFilter !== 'pizza'
         }">
@@ -25,7 +28,7 @@
           <input id="food" type="radio" name="food" class="sr-only" />
         </div>
       </button>
-
+      <!-- อาหารทานเล่น -->
       <button x-bind:class="{
         'border-red-500 bg-_red-500': queryFilter === 'burger',
         'bg-white': queryFilter !== 'burger'
@@ -33,7 +36,7 @@
         class="group inline-block w-fit h-fit cursor-pointer transition-all duration-300 ease-in-out rounded-xl">
         <div
           class="p-2 rounded-xl flex items-center group-hover:border-red-500 flex-shrink-0 border-2 group-hover:border-_red-600 transition-all">
-          <div class="bg-gray-100 p-3 rounded-lg mr-6">
+          <div class="bg-gray-100 p-3 rounded-lg mr-0 md:mr-6">
             <svg class="w-8 h-8 transition-colors" :class="{
             'text-_red-500': queryFilter === 'burger',
             'text-black/50': queryFilter !== 'burger'
@@ -43,30 +46,24 @@
                 fill="currentColor" />
             </svg>
           </div>
-          <span class="text-2xl font-medium transition-colors" :class="{
+          <span class="text-2xl font-medium transition-color hidden md:inline" :class="{
           'text-white': queryFilter === 'burger',
           'text-black/50 group-hover:text-_red-500': queryFilter !== 'burger'
         }">
-            เบอร์เกอร์
+            อาหารทานเล่น
           </span>
           <input id="food" type="radio" name="food" class="sr-only" />
         </div>
       </button>
     </div>
 
-    <section>
-      <section>
-        <div class="flex items-center justify-between">
+    <section class="container mx-auto mt-10"> 
           <div>
             <h1 class="text-[30px] text-_red-500 font-bold">Pizzas</h1>
             <p class="text-black/50">
               **ลูกค้าสามารถเพิ่มพิซซ่า ไปยังรายการสินค้าได้ทีละ 1 ถาดเท่านั้น
             </p>
           </div>
-          <div class="inline-flex items-center justify-between">
-            <p class="text-_red-500 text-[30px]">ดูทั้งหมด ▶</p>
-          </div>
-        </div>
         <div class="grid grid-cols-2 xl:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
           <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
               <div x-data="{ 
@@ -80,14 +77,15 @@
 
                 <div class="flex justify-between w-full mt-2">
                   <h3 class="font-bold" x-text="pizza.name"></h3>
-                  <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + ' บาท'"></p>
+                  <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
                 </div>
 
                 <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
 
                 <template x-if="!added">
                   <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
-                    เพิ่มไปยังรายการสินค้า
+                    <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                    <span class="sm:hidden">เพิ่ม</span>
                   </button>
                 </template>
 
@@ -141,6 +139,5 @@
                   <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
                   <% } %>
         </div>
-      </section>
     </section>
   </section>
