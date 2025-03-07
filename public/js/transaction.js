@@ -17,7 +17,6 @@ function sendOrder() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Order successfully sent:", data);
       this.modalOpen = false;
       window.location.reload();
     })
@@ -34,9 +33,7 @@ function sendCustomOrder() {
     dough: this.getSelectedDoughType ? this.getSelectedDoughType().name : "",
     cheeses: this.selectedCheeses.map((id) => this.getCheeseById(id)?.name || ""),
     meats: this.selectedMeats.map((id) => this.getMeatById(id)?.name || ""),
-    vegetables: this.selectedVegetables.map(
-      (id) => this.getVegetableById(id)?.name || ""
-    ),
+    vegetables: this.selectedVegetables.map((id) => this.getVegetableById(id)?.name || ""),
     sauces: this.selectedSauces.map((id) => this.getSauceById(id)?.name || ""),
     spices: this.selectedSpices.map((id) => this.getSpiceById(id)?.name || ""),
     specialInstructions: this.specialInstructions || "",
@@ -53,7 +50,6 @@ function sendCustomOrder() {
     .then((response) => response.json())
     .then((data) => {
       alert("Order placed successfully!");
-      console.log("Order Response:", data);
       window.location.reload();
     })
     .catch((error) => {
@@ -67,7 +63,6 @@ function sendCustomOrderForum() {
     id: this.id,
     type: "forum",
   };
-  console.log(order);
   fetch("/basket", {
     method: "POST",
     headers: {
@@ -78,7 +73,6 @@ function sendCustomOrderForum() {
     .then((response) => response.json())
     .then((data) => {
       alert("Order placed successfully!");
-      console.log("Order Response:", data);
       window.location.reload();
     })
     .catch((error) => {
@@ -88,16 +82,23 @@ function sendCustomOrderForum() {
 }
 
 function submitOrder() {
+  const payload = {
+    address: this.address,
+    tel: this.tel,
+    delivery: this.delivery,
+    paymentType: this.paymentType,
+  };
+  console.log(payload);
   fetch("/order", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
     .then((data) => {
       alert("Order placed successfully!");
-      console.log("Order Response:", data);
       window.location.reload();
     })
     .catch((error) => {

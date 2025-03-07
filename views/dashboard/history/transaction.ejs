@@ -1,89 +1,195 @@
 <section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
-    <a href="/dashboard">
-        <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
-            <i data-lucide="chevron-left"></i>
-            กลับ</button>
-    </a>
+  <a href="/dashboard">
+    <button
+      class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start"
+    >
+      <i data-lucide="chevron-left"></i>
+      กลับ
+    </button>
+  </a>
 
-    <div class="flex flex-col w-full mt-4">
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl text-center">ประวัติการสั่งซื้อ</h1>
-            <input onchange="updateQueryString(this.value)" type="text" value="<%= filter %>" placeholder="ค้นหา"
-                class="px-3 py-3 rounded-lg border border-gray-200" />
-        </div>
-        <div class="overflow-x-auto">
-            <div class="mt-5 min-w-full inline-block align-middle">
-                <div class="overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
-                        <thead>
-                            <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500 ">
-                                    หมายเลขออเดอร์</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500 ">รายการ
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500 ">
-                                    ราคา</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500 ">
-                                    จำนวนสินค้าที่สั่งซื้อ</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500 ">
-                                    สถานะ</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-end text-sm sm:text-md font-medium text-gray-500 uppercase">
-                                    เพิ่มเติม</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(item of transaction) { %>
-                                <tr class="odd:bg-white even:bg-gray-100" x-data="<%= JSON.stringify(item) %>">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        #<%= item.id.toString().padStart(4, '0' ) %>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.user.name %> ได้ทำการสั่งซื้อสินค้า <%= item.items.length %> รายการ
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.totalPrice %>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-800">
-                                        <%= item.items.length %> รายการ
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <button :class="{
-                                                                    'bg-red-500 text-white': status === 'CANCELLED',
-                                                                    'bg-yellow-500 text-white': status === 'PENDING',
-                                                                    'bg-green-500 text-white': status === 'CONFIRMED' || status === 'DELIVERED'
-                                                                }"
-                                            class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
-                                            <template x-if="status === 'PENDING'">
-                                                <span>กำลังรอ</span>
-                                            </template>
-                                            <template x-if="status === 'CONFIRMED'">
-                                                <span>จัดส่งสำเร็จ</span>
-                                            </template>
-                                            <template x-if="status === 'DELIVERED'">
-                                                <span>กำลังส่ง</span>
-                                            </template>
-                                            <template x-if="status === 'CANCELLED'">
-                                                <span>ยกเลิก</span>
-                                            </template>
-                                        </button>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <a href="/dashboard/transaction/<%= item.id %>">
-                                            <button class="bg-gray-200 px-4 py-2 rounded-lg">เพิ่มเติม</button>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  <div class="flex flex-col w-full mt-4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl text-center">ประวัติการสั่งซื้อ</h1>
+      <input
+        onchange="updateQueryString(this.value)"
+        type="text"
+        value="<%= filter %>"
+        placeholder="ค้นหา"
+        class="px-3 py-3 rounded-lg border border-gray-200"
+      />
     </div>
+    <div class="overflow-x-auto">
+      <div class="mt-5 min-w-full inline-block align-middle">
+        <div class="overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                >
+                  หมายเลขออเดอร์
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                >
+                  รายการ
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                >
+                  ราคา
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                >
+                  จำนวนสินค้าที่สั่งซื้อ
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                >
+                  สถานะ
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-end text-sm sm:text-md font-medium text-gray-500 uppercase"
+                >
+                  เพิ่มเติม
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (item of transaction) { %>
+              <tr
+                class="odd:bg-white even:bg-gray-100"
+                x-data="{ showModal: false, id: '<%= item.id %>', status: '<%= item.status %>', row: {} }"
+                x-init="row = JSON.parse('<%= JSON.stringify(item) %>')"
+              >
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                  #<%= item.id.toString().padStart(4, '0') %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <%= item.user.name %> ได้ทำการสั่งซื้อสินค้า <%= item.items.length %> รายการ
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <%= item.totalPrice %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-800">
+                  <%= item.items.length %> รายการ
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <button
+                    :class="{
+        'bg-red-500 text-white': row.status === 'CANCELLED',
+        'bg-yellow-500 text-white': row.status === 'PENDING',
+        'bg-green-500 text-white': row.status === 'CONFIRMED' || row.status === 'DELIVERED'
+      }"
+                    class="text-white px-4 py-1 rounded w-full sm:w-auto text-center"
+                  >
+                    <template x-if="row.status === 'PENDING'">
+                      <span>กำลังรอ</span>
+                    </template>
+                    <template x-if="row.status === 'CONFIRMED'">
+                      <span>เตรียมของสำเร็จ</span>
+                    </template>
+                    <template x-if="row.status === 'DELIVERED'">
+                      <span>จัดส่งสำเร็จ</span>
+                    </template>
+                    <template x-if="row.status === 'CANCELLED'">
+                      <span>ยกเลิก</span>
+                    </template>
+                  </button>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                  <button
+                    @click="showModal = true"
+                    class="bg-yellow-200 text-black/50 px-4 py-2 rounded-lg"
+                  >
+                    แก้ไข
+                  </button>
+
+                  <a href="/dashboard/transaction/<%= item.id %>">
+                    <button class="bg-gray-200 px-4 py-2 rounded-lg text-black/60">
+                      เพิ่มเติม
+                    </button>
+                  </a>
+
+                  <div
+                    x-show="showModal"
+                    @keydown.escape.window="showModal = false"
+                    class="fixed inset-0 flex items-center justify-center z-50"
+                  >
+                    <div
+                      @click.away="showModal = false"
+                      class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white"
+                    >
+                      <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-semibold">แก้ไขสถานะ</h2>
+                        <button
+                          @click="showModal = false"
+                          class="absolute right-6 top-3 p-2 rounded-lg"
+                        >
+                          X
+                        </button>
+                      </div>
+
+                      <div class="flex flex-col mt-4">
+                        <label for="category" class="text-xl text-start">สถานะ</label>
+                        <select
+                          x-model="status"
+                          class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                        >
+                          <option value="PENDING">PENDING</option>
+                          <option value="CONFIRMED">CONFIRMED</option>
+                          <option value="DELIVERED">DELIVERED</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                        </select>
+                      </div>
+
+                      <button
+                        @click="updateTransaction"
+                        class="w-full bg-yellow-200 text-black/50 hover:bg-yellow-200/80 text-lg py-2 rounded-md mt-4"
+                      >
+                        อัพเดท
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<script>
+  function updateTransaction() {
+    const payload = {
+      id: this.id,
+      status: this.status,
+    };
+    fetch("/transaction", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Updated The Transaction");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Update Transaction.");
+      });
+  }
+</script>

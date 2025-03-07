@@ -22,6 +22,7 @@ router.get("/transaction", async (req, res) => {
     },
   });
 
+  console.log(transaction);
   res.render("dashboard/history/transaction", {
     user: req.user,
     transaction,
@@ -142,29 +143,41 @@ router.get("/menu", async (req, res) => {
   const appetizer = await prisma.appetizer.findMany();
   const snack = await prisma.snack.findMany();
   const drink = await prisma.drink.findMany();
+  const filter = {
+    pizza: ["NORMAL", "CUSTOM"],
+    appetizer: ["APPETIZER"],
+    snack: ["SNACK"],
+    drink: ["DRINK"],
+  };
+
+  const filteredMenu = [
+    ...menu,
+    ...appetizer.map((e) => {
+      e.public = true;
+      e.author = null;
+      return e;
+    }),
+    ...snack.map((e) => {
+      e.public = true;
+      e.author = null;
+      return e;
+    }),
+    ...drink.map((e) => {
+      e.public = true;
+      e.author = null;
+      return e;
+    }),
+  ].filter((e) => {
+    if (req.query.filter && filter[req.query.filter]) {
+      return filter[req.query.filter].includes(e.type);
+    } else {
+      return true;
+    }
+  });
+
   res.render("dashboard/config/menu", {
     user: req.user,
-    menu: [
-      ...menu,
-      ...appetizer.map((e) => {
-        e.type = "APPETIZER";
-        e.public = true;
-        e.author = null;
-        return e;
-      }),
-      ...snack.map((e) => {
-        e.type = "SNACK";
-        e.public = true;
-        e.author = null;
-        return e;
-      }),
-      ...drink.map((e) => {
-        e.type = "DRINK";
-        e.public = true;
-        e.author = null;
-        return e;
-      }),
-    ],
+    menu: filteredMenu,
     filter: req.query.filter || "",
   });
 });
@@ -174,12 +187,6 @@ router.get("/ingredient", async (req, res) => {
   res.render("dashboard/config/ingredient", {
     user: req.user,
     ingredients,
-  });
-});
-
-router.get("/forum", async (req, res) => {
-  res.render("dashboard/config/forum", {
-    user: req.user,
   });
 });
 

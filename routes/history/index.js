@@ -7,6 +7,7 @@ router.get("/history", async (req, res) => {
     success: [OrderStatus.CONFIRMED, OrderStatus.DELIVERED],
     pending: [OrderStatus.PENDING],
   };
+
   const status = statusType[req.query.filter] || null;
   const userId = 1;
 

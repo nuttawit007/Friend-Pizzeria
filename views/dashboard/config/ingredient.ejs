@@ -1,108 +1,379 @@
 <section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
-    <a href="/dashboard">
-        <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
-            <i data-lucide="chevron-left"></i>
-            กลับ </button>
-    </a>
+  <a href="/dashboard">
+    <button
+      class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start"
+    >
+      <i data-lucide="chevron-left"></i>
+      กลับ
+    </button>
+  </a>
 
-    <div class="flex flex-col w-full mt-4">
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl text-center">วัตถุดิบทั้งหมด</h1>
-            <button class="bg-_yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2">
-                <i data-lucide="plus"></i>เพิ่มเมนูใหม่</button>
+  <div class="flex flex-col w-full mt-4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl text-center">วัตถุดิบทั้งหมด</h1>
+      <div
+        x-data="{ showModal: false, name: '', imageUrl: '', type: 'CHEESE', amount: null, key: ''}"
+      >
+        <button
+          @click="showModal = true"
+          class="bg-_yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2"
+        >
+          <i data-lucide="plus"></i>เพิ่มวัตถุดิบ
+        </button>
+        <div
+          x-show="showModal"
+          @keydown.escape.window="showModal = false"
+          class="fixed inset-0 flex items-center justify-center z-50"
+        >
+          <div
+            @click.away="showModal = false"
+            class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white"
+          >
+            <div class="flex items-center justify-between">
+              <h2 class="text-2xl font-semibold">อัพเดทวัตถุดิบ</h2>
+              <button @click="showModal = false" class="absolute right-6 top-3 p-2 rounded-lg">
+                X
+              </button>
+            </div>
+
+            <div class="mt-4">
+              <label for="menuname" class="text-xl">ชื่อวัตถุดิบ</label>
+              <input
+                required
+                x-model="name"
+                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                placeholder="เช่น มันฝรั่ง"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label for="menuname" class="text-xl">คีย์ (key)</label>
+              <input
+                required
+                x-model="key"
+                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                placeholder="ัมันฝรั่ง"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label for="menuname" class="text-xl">รูปภาพ (url)</label>
+              <input
+                required
+                x-model="imageUrl"
+                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                placeholder="https://domain.com/x.png"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label for="category" class="text-xl">ประเภท</label>
+              <select
+                x-model="type"
+                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+              >
+                <option :value="'CHEESE'">CHEESE</option>
+                <option :value="'MEAT'">MEAT</option>
+                <option :value="'VEGETABLE'">VEGETABLE</option>
+                <option :value="'SAUCE'">SAUCE</option>
+                <option :value="'SPICE'">SPICE</option>
+              </select>
+            </div>
+
+            <div class="mt-4">
+              <label for="amount" class="text-xl">จำนวน</label>
+              <input
+                required
+                id="amount"
+                x-model="amount"
+                type="number"
+                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                placeholder="เช่น 100"
+              />
+            </div>
+
+            <button
+              @click="createIngredient"
+              class="w-full bg-_yellow-200 text-black/50 hover:bg-_yellow-200/80 text-lg py-2 rounded-md mt-4"
+            >
+              สร้างวัตถุดิบใหม่
+            </button>
+          </div>
         </div>
-        <div class="w-full">
-            <div class="overflow-x-auto">
-                <div class="mt-5 min-w-full inline-block align-middle">
-                    <div class="overflow-hidden">
-                        <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200 rounded-md">
-                            <thead>
-                                <tr>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">ไอดี
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">รายการ
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
-                                        คีย์
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">จำนวน
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">สถานะ
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
-                                        เพิ่มเติม</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for(item of ingredients) { %>
-                                    <tr class="odd:bg-white even:bg-gray-100" x-data="<%= JSON.stringify(item) %>">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            #<%= item.id.toString().padStart(4, '0' ) %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                            <div class="flex items-center gap-1">
-                                                <img src="<%= item.imageUrl %>"
-                                                    class="w-6 h-6 rounded-full bg-slate-50 object-cover p-1"
-                                                    alt="ingredientImage">
-                                                <p>
-                                                    <%= item.name %>
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                            <%= item.key %>
-                                        </td>
-                                        <td :class="{
+      </div>
+    </div>
+    <div class="w-full">
+      <div class="overflow-x-auto">
+        <div class="mt-5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200 rounded-md">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                  >
+                    ไอดี
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                  >
+                    รายการ
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                  >
+                    คีย์
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                  >
+                    จำนวน
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                  >
+                    สถานะ
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
+                  >
+                    เพิ่มเติม
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(item of ingredients) { %>
+                <tr
+                  class="odd:bg-white even:bg-gray-100"
+                  x-data="{ showModal: false, id: '<%= item.id %>' ,name: '<%= item.name %>', imageUrl: '<%= item.imageUrl %>', type: '<%= item.type %>', amount: <%= item.amount %>, key: '<%= item.key %>'}"
+                >
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                    #<%= item.id.toString().padStart(4, '0' ) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                    <div class="flex items-center gap-1">
+                      <img
+                        src="<%= item.imageUrl %>"
+                        class="w-6 h-6 rounded-full bg-slate-50 object-cover p-1"
+                        alt="ingredientImage"
+                      />
+                      <p><%= item.name %></p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= item.key %></td>
+                  <td
+                    :class="{
                                                     'text-red-500': amount <= 0,
                                                     'text-yellow-500': amount <= 10 && amount > 0,
                                                     'text-green-500': amount > 10
-                                             }" class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <%= item.amount %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                            <%= item.type %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                            <button :class="{
+                                             }"
+                    class="px-6 py-4 whitespace-nowrap text-sm font-semibold"
+                  >
+                    <%= item.amount %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                    <%= item.type %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                    <button
+                      :class="{
                                                                     'bg-red-500 text-white': amount <= 0,
                                                                     'bg-_yellow-200 text-white': amount <= 10 && amount > 0,
                                                                     'bg-green-500 text-white': amount > 10
                                                                 }"
-                                                class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
-                                                <template x-if="amount <= 0">
-                                                    <span>หมด</span>
-                                                </template>
-                                                <template x-if="amount <= 10 && amount > 0">
-                                                    <span>ใกล้หมด</span>
-                                                </template>
-                                                <template x-if="amount > 10">
-                                                    <span>เพียงพอ</span>
-                                                </template>
-                                            </button>
-                                        </td>
-                                        <td
-                                            class="flex items-center justify-center gap-1 px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                            <button
-                                                class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">แก้ไข</button>
-                                            <button class="bg-_red-500 px-4 py-2 rounded-lg">
-                                                <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                      class="text-white px-4 py-1 rounded w-full sm:w-auto text-center"
+                    >
+                      <template x-if="amount <= 0">
+                        <span>หมด</span>
+                      </template>
+                      <template x-if="amount <= 10 && amount > 0">
+                        <span>ใกล้หมด</span>
+                      </template>
+                      <template x-if="amount > 10">
+                        <span>เพียงพอ</span>
+                      </template>
+                    </button>
+                  </td>
+                  <td
+                    class="flex items-center justify-center gap-1 px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
+                  >
+                    <button
+                      @click="showModal = true"
+                      class="bg-gray-200 px-4 py-2 rounded-lg font-semibold"
+                    >
+                      แก้ไข
+                    </button>
+                    <div
+                      x-show="showModal"
+                      @keydown.escape.window="showModal = false"
+                      class="fixed inset-0 flex items-center justify-center z-50"
+                    >
+                      <div
+                        @click.away="showModal = false"
+                        class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white"
+                      >
+                        <div class="flex items-center justify-between">
+                          <h2 class="text-2xl font-semibold">อัพเดทวัตถุดิบ</h2>
+                          <button
+                            @click="showModal = false"
+                            class="absolute right-6 top-3 p-2 rounded-lg"
+                          >
+                            X
+                          </button>
+                        </div>
 
-                                    <% } %>
-                            </tbody>
-                        </table>
+                        <div class="flex flex-col mt-4">
+                          <label for="menuname" class="text-xl text-start">ชื่อวัตถุดิบ</label>
+                          <input
+                            required
+                            x-model="name"
+                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                            placeholder="เช่น มันฝรั่ง"
+                          />
+                        </div>
+
+                        <div class="flex flex-col mt-4">
+                          <label for="menuname" class="text-xl text-start">คีย์ (key)</label>
+                          <input
+                            required
+                            x-model="key"
+                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                            placeholder="ัมันฝรั่ง"
+                          />
+                        </div>
+
+                        <div class="flex flex-col mt-4">
+                          <label for="menuname" class="text-start text-xl">รูปภาพ (url)</label>
+                          <input
+                            required
+                            x-model="imageUrl"
+                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                            placeholder="https://domain.com/x.png"
+                          />
+                        </div>
+
+                        <div class="flex flex-col mt-4">
+                          <label for="category" class="text-xl text-start">ประเภท</label>
+                          <select
+                            x-model="type"
+                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                          >
+                            <option :value="'CHEESE'">CHEESE</option>
+                            <option :value="'MEAT'">MEAT</option>
+                            <option :value="'VEGETABLE'">VEGETABLE</option>
+                            <option :value="'SAUCE'">SAUCE</option>
+                            <option :value="'SPICE'">SPICE</option>
+                          </select>
+                        </div>
+
+                        <div class="flex flex-col mt-4">
+                          <label for="amount" class="text-start text-xl">จำนวน</label>
+                          <input
+                            required
+                            id="amount"
+                            x-model="amount"
+                            type="number"
+                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                            placeholder="เช่น 100"
+                          />
+                        </div>
+
+                        <button
+                          @click="updateIngredient"
+                          class="w-full bg-_yellow-200 text-black/50 hover:bg-_yellow-200/80 text-lg py-2 rounded-md mt-4"
+                        >
+                          อัพเดทวัตถุดิบใหม่
+                        </button>
+                      </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <button class="bg-_red-500 px-4 py-2 rounded-lg" @click="deleteIngredient">
+                      <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
+                    </button>
+                  </td>
+                </tr>
 
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<script>
+  function createIngredient() {
+    const payload = {
+      name: this.name,
+      type: this.type,
+      amount: this.amount,
+      iamgeUrl: this.imageUrl,
+      key: this.key,
+    };
+    fetch("/ingredient", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Created The Menu");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Create Menu.");
+      });
+  }
+
+  function updateIngredient() {
+    const payload = {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      amount: this.amount,
+      iamgeUrl: this.imageUrl,
+      key: this.key,
+    };
+    fetch("/ingredient", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Updated The Menu");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Update Menu.");
+      });
+  }
+
+  function deleteIngredient() {
+    fetch(`/ingredient/${this.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Deleted The Menu");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Delete Menu.");
+      });
+  }
+</script>

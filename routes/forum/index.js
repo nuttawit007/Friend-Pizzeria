@@ -1,12 +1,12 @@
 const router = require("express").Router();
-const { PizzaType } = require("@prisma/client");
+const { ProductType } = require("@prisma/client");
 const prisma = require("../../config/db");
 
 router.get("/forum", async (req, res) => {
   const query = req.query.filter == "me" ? { authorId: 1 } : {};
   const pizzaItems = await prisma.pizza.findMany({
     where: {
-      type: PizzaType.CUSTOM,
+      type: ProductType.CUSTOM,
       ...query,
     },
     include: {
@@ -29,7 +29,7 @@ router.get("/forum/:id", async (req, res) => {
   const pizzaItems = await prisma.pizza.findFirst({
     where: {
       id: Number(id),
-      type: PizzaType.CUSTOM,
+      type: ProductType.CUSTOM,
     },
     include: {
       author: true,
@@ -44,7 +44,6 @@ router.get("/forum/:id", async (req, res) => {
     where: { items: { some: { pizzaId: Number(id) } } },
   });
 
-  console.log(counter);
   res.render("forum/forum_detail", { user: req.user, pizza: { ...pizzaItems, counter } });
 });
 
