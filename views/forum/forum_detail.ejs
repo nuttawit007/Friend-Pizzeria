@@ -80,14 +80,18 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between gap-3">
                             <h1 class="text-3xl font-bold">
-                                🍕 <%= pizza.name %>
+                                🍕 <%= pizza.name %> <span class="text-emerald-500 text-xl">
+                                        ( <%= pizza.price %> ฿ )
+                                    </span>
                             </h1>
-                            <p class="inline-flex items-center justify-center gap-1 text-black/50 font-semibold">
-                                <i color="#000000" class="opacity-50" data-lucide="badge-dollar-sign"></i>
-                                ยอดสั่งซื้อ <span class="text-emerald-500 underline">
-                                    <%= pizza.counter || 0 %>
-                                </span> ครั้ง
-                            </p>
+                            <div class="flex flex-col">
+                                <p class="flex items-center justify-center gap-1 text-black/50 font-semibold">
+                                    <i color="#000000" class="opacity-50" data-lucide="badge-dollar-sign"></i>
+                                    ยอดสั่งซื้อ <span class="text-emerald-500 underline">
+                                        <%= pizza.counter || 0 %>
+                                    </span> ครั้ง
+                                </p>
+                            </div>
                         </div>
                         <p class="text-xl">เพิ่มเติมเกี่ยวกับเมนูนี้</p>
                         <input disabled type="text" value="<%= pizza.description %>"
@@ -258,19 +262,49 @@
                                 </div>
                             </div>
                         </div>
-                        <template x-if="true">
-                            <button @click="sendCustomOrderForum"
-                                class="w-full bg-_yellow-300 text-black/50 px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
-                                <i color="#000000" class="opacity-50" data-lucide="shopping-basket"></i>
-                                เพิ่มใส่ตะกร้า
-                            </button>
-                        </template>
-
-
+                        <div class="flex gap-2">
+                            <template x-if="true">
+                                <button @click="sendCustomOrderForum"
+                                    class="w-full bg-_yellow-300 text-black/50 px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
+                                    <i color="#000000" class="opacity-50" data-lucide="shopping-basket"></i>
+                                    เพิ่มใส่ตะกร้า
+                                </button>
+                            </template>
+                            <template x-if="isMine">
+                                <button @click="makePublic"
+                                    class="w-full bg-blue-400 text-white px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
+                                    <i color="#FFFFFF" data-lucide="globe"></i>
+                                    สาธารณะ
+                                </button>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </section>
+
+    <script>
+        function makePublic() {
+            const payload = {
+                id: this.id,
+                public: this.public,
+            };
+            fetch(`/public/${payload.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ public: payload.public }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    alert("Removed All in Basket");
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    alert("Failed to Remove.");
+                });
+        }
+    </script>

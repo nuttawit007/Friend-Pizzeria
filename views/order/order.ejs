@@ -15,15 +15,15 @@
                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">รายการ</th>
                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">จำนวน</th>
                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">ราคา</th>
-                <th class="px-4 py-2 text-sm font-medium text-gray-500"></th>
+                <th class="px-4 py-2 text-sm text-left font-medium text-gray-500">รวม</th>
+                <th class="px-4 py-2 text-sm text-left font-medium text-gray-500">เพิ่มเติม</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
               <% if(result.length> 0) {%> <% result.forEach((item, i)=> { %>
-
-                  <tr>
+                  <tr x-data="{id: '<%= item.id %>', type: '<%= item.type %>'}" class="hover:bg-gray-50">
                     <td class="px-4 py-3 text-sm text-gray-500">
-                      <%= i + 1 %>
+                      #<%= (i + 1).toString().padStart(4, '0' ) %>
                     </td>
                     <td class="px-4 py-3 text-sm">
                       <%= item.name %>
@@ -34,9 +34,12 @@
                     <td class="px-4 py-3 text-sm">
                       <%= item.price %> บาท
                     </td>
+                    <td class="px-4 py-3 text-sm text-start">
+                      <%= item.price * item.quantity %> บาท
+                    </td>
                     <td class="px-4 py-3 text-sm">
-                      <button class="text-red-500 hover:text-red-700">
-                        <i class="fas fa-trash-alt"></i>
+                      <button @click="remove" class="bg-_red-500 px-4 py-2 rounded-lg text-white">
+                        <i data-lucide="trash"></i>
                       </button>
                     </td>
                   </tr>
@@ -44,7 +47,7 @@
                   <% }) %>
                     <% } else { %>
                       <tr>
-                        <td class="text-center col-span-5 h-[415px]" colspan="5">
+                        <td class="text-center col-span-5 h-[415px]" colspan="7">
                           <div class="flex flex-col items-center justify-center text-center opacity-50 gap-1">
                             <i data-lucide="shopping-bag"></i>
                             <p>ไม่มีรายการในตะกร้า</p>
@@ -60,7 +63,7 @@
       <div class="w-full overflow-auto">
         <div class="flex flex-col gap-5">
           <% if (custom && custom.length> 0) { %> <% custom.forEach((item, i)=> { %>
-              <div class="bg-white rounded-lg shadow-md">
+              <div x-data="{id: <%= item.id %>, type: '<%= item.type %>' }" class="bg-white rounded-lg shadow-md">
                 <div class="p-4 border-b border-gray-200">
                   <h2 class="text-xl font-semibold">Custom Pizza</h2>
                 </div>
@@ -248,7 +251,8 @@
                     </span>
                   </div>
 
-                  <button class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition">
+                  <button @click="remove"
+                    class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition">
                     ยกเลิก
                   </button>
                 </div>
@@ -280,9 +284,8 @@
 
           <div class="flex space-x-2">
             <button :class="{
-                'bg-gray-200': delivery !== 'PICKUP',
-                'bg-yellow-400': delivery === 'PICKUP',
-            }" @click="delivery = 'PICKUP'" class="flex-1 py-2 px-4 rounded-md text-sm">
+                ' bg-gray-200': delivery !=='PICKUP' , 'bg-yellow-400' : delivery==='PICKUP' , }"
+              @click="delivery = 'PICKUP'" class="flex-1 py-2 px-4 rounded-md text-sm">
               รับของที่ร้าน
             </button>
 
@@ -297,14 +300,14 @@
           <div class="p-3 bg-gray-100 rounded-md text-sm space-y-1">
             <div class="flex flex-col gap-1">
               <label for="address" class="text-black/60">ที่อยู่</label>
-              <textarea id="address" type="text" x-model="address"
+              <textarea minlength="5" required id="address" type="text" x-model="address"
                 class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="กรอกข้อมูลที่นี่">
               </textarea>
             </div>
             <div class="flex flex-col gap-1">
               <label for="tel" class="text-black/60">เบอร์โทร</label>
-              <input id="tel" x-model="tel" type="tel"
+              <input required min="5" max="10" id="tel" x-model="tel" type="tel"
                 class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="กรอกข้อมูลที่นี่" />
             </div>
@@ -336,8 +339,10 @@
             </div>
           </div>
 
-          <button @click="submitOrder"
-            class="w-full bg-red-600 text-white py-3 rounded-md hover:bg-red-700 transition font-medium">
+          <button @click="submitOrder" :disabled="address == '' || tel == ''" :class="{
+              'bg-red-500 hover:bg-red-700': address && tel,
+              'disabled:bg-gray-400 cursor-not-allowed': address == '' || tel == '',
+            }" class="w-full text-white py-3 rounded-md transition font-medium">
             ชำระเงิน
           </button>
 
@@ -367,6 +372,27 @@
         },
       ],
     };
+  }
+
+  function remove() {
+    const payload = {
+      id: this.id,
+      type: this.type,
+    };
+    fetch(`/basket/${payload.id}?type=${payload.type}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert(data.message);
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Remove.");
+      });
   }
 
   function cancelAllOrder() {

@@ -9,7 +9,7 @@ const app = express();
 
 const authRoutes = require("./routes/auth");
 
-const pizzaRoutes = require("./routes/pizza");
+const menuRoutes = require("./routes/menu");
 
 const historyRoutes = require("./routes/history");
 
@@ -77,7 +77,7 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/auth", authRoutes);
-app.use(pizzaRoutes);
+app.use(menuRoutes);
 app.use(historyRoutes);
 app.use(forumRoutes);
 app.use("/dashboard", dashboardRoutes);
@@ -107,7 +107,7 @@ async function seedDatabase() {
         name: "บลูชีส",
         imageUrl: "/img/assets/ingredient/cheese/bluecheese.png",
         key: "bluecheese",
-        amount: 10,
+        amount: 0,
         color: null,
         type: "CHEESE",
       },
@@ -123,7 +123,7 @@ async function seedDatabase() {
         name: "เฟต้า",
         imageUrl: "/img/assets/ingredient/cheese/feta.png",
         key: "feta",
-        amount: 10,
+        amount: 0,
         color: null,
         type: "CHEESE",
       },
@@ -147,7 +147,7 @@ async function seedDatabase() {
         name: "ไก่บัพฟาโล",
         imageUrl: "/img/assets/ingredient/meat/buffalochicken.png",
         key: "friedchicken",
-        amount: 10,
+        amount: 0,
         color: null,
         type: "MEAT",
       },
@@ -179,7 +179,7 @@ async function seedDatabase() {
         name: "เห็ด",
         imageUrl: "/img/assets/ingredient/veg/mushroom.png",
         key: "mushroom",
-        amount: 10,
+        amount: 0,
         color: null,
         type: "VEGETABLE",
       },
@@ -187,7 +187,7 @@ async function seedDatabase() {
         name: "ฮาลาพีโย่",
         imageUrl: "/img/assets/ingredient/veg/jalapeno.png",
         key: "jalapeno",
-        amount: 10,
+        amount: 0,
         color: null,
         type: "VEGETABLE",
       },
@@ -203,7 +203,7 @@ async function seedDatabase() {
         name: "พริกหวาน",
         imageUrl: "/img/assets/ingredient/veg/bellpepper.png",
         key: "bellpaper",
-        amount: 10,
+        amount: 0,
         color: null,
         type: "VEGETABLE",
       },
@@ -303,15 +303,6 @@ async function seedDatabase() {
         color: null,
         type: "SPICE",
       },
-      {
-        name: "thousand",
-        imageUrl:
-          "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/sea/thailand/website/themes/tasty-thursday/own-thai-taste/ep12/dipping-sauce-5_1260x709.jpg",
-        key: "thousand",
-        amount: 10,
-        color: null,
-        type: "SAUCE",
-      },
     ];
     const isIngredient = await prisma.ingredient.findMany();
     if (isIngredient.length <= 0) {
@@ -333,6 +324,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza1.png",
+        public: true,
       },
       {
         name: "มีทเลิฟเวอร์",
@@ -343,6 +335,7 @@ async function seedDatabase() {
         size: "LARGE",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza2.png",
+        public: true,
       },
       {
         name: "เปปเปอโรนีดีลักซ์",
@@ -353,6 +346,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza3.png",
+        public: true,
       },
       {
         name: "นาโปลี",
@@ -363,6 +357,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza4.png",
+        public: true,
       },
       {
         name: "มัชรูมดีลักซ์",
@@ -373,6 +368,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza5.png",
+        public: true,
       },
       {
         name: "เปปเปอโรนีดับเบิลชีส",
@@ -383,6 +379,7 @@ async function seedDatabase() {
         size: "LARGE",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza6.png",
+        public: true,
       },
       {
         name: "โอลีฟดีลักซ์",
@@ -393,6 +390,7 @@ async function seedDatabase() {
         size: "SMALL",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza7.png",
+        public: true,
       },
       {
         name: "สตาจิโอนี",
@@ -403,6 +401,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza8.png",
+        public: true,
       },
       {
         name: "ดับเบิลชีส",
@@ -413,6 +412,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza9.png",
+        public: true,
       },
       {
         name: "ซีฟู้ดดีลักซ์",
@@ -423,6 +423,7 @@ async function seedDatabase() {
         size: "LARGE",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza10.png",
+        public: true,
       },
       {
         name: "มัชรูมสลามิ",
@@ -433,6 +434,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza11.png",
+        public: true,
       },
       {
         name: "ไวท์ชีสมีท",
@@ -443,6 +445,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza12.png",
+        public: true,
       },
       {
         name: "ลาซานญ่า",
@@ -453,6 +456,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza13.png",
+        public: true,
       },
       {
         name: "มีทแอนด์ชีส",
@@ -463,6 +467,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza14.png",
+        public: true,
       },
       {
         name: "โทมาโท่ฟิวชั่น",
@@ -473,6 +478,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza15.png",
+        public: true,
       },
       {
         name: "เฟตูชินีพิซซ่า",
@@ -483,6 +489,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza16.png",
+        public: true,
       },
       {
         name: "โอลีฟดับเบิลชีส",
@@ -493,6 +500,7 @@ async function seedDatabase() {
         size: "MEDIUM",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza17.png",
+        public: true,
       },
       {
         name: "เอ็กซ์ตร้าเปปเปอโรนิ",
@@ -503,6 +511,7 @@ async function seedDatabase() {
         size: "LARGE",
         pizzaDough: "THICK",
         imageUrl: "/img/assets/pizza/pizza18.png",
+        public: true,
       },
       {
         name: "โอลีฟฟิวชั่น",
@@ -513,6 +522,7 @@ async function seedDatabase() {
         size: "SMALL",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza19.png",
+        public: true,
       },
       {
         name: "เบลเพพเพอร์ลันช์",
@@ -523,6 +533,7 @@ async function seedDatabase() {
         size: "SMALL",
         pizzaDough: "THIN",
         imageUrl: "/img/assets/pizza/pizza20.png",
+        public: true,
       },
     ];
 
@@ -532,24 +543,28 @@ async function seedDatabase() {
         description: "พร้อมซอสสไปซี่",
         price: 99,
         imageUrl: "/img/assets/snack/snack1.png",
+        public: true,
       },
       {
         name: "เฟรนช์ฟรายซ์",
         description: "แสนอร่อย",
         price: 80,
         imageUrl: "/img/assets/snack/snack2.png",
+        public: true,
       },
       {
         name: "นักเก็ตส์",
         description: "กรอบๆสู้ฟัน",
         price: 80,
         imageUrl: "/img/assets/snack/snack3.png",
+        public: true,
       },
       {
         name: "มอซเซอเรลล่าสติกซ์",
         description: "พร้อมซอสเปรี้ยว",
         price: 99,
         imageUrl: "/img/assets/snack/snack4.png",
+        public: true,
       },
     ];
 
@@ -559,24 +574,28 @@ async function seedDatabase() {
         description: "สดชื่น",
         price: 10,
         imageUrl: "/img/assets/drink/drink1.png",
+        public: true,
       },
       {
         name: "น้ำอัดลม",
         description: "ซาบซ่าถึงใจ",
         price: 20,
         imageUrl: "/img/assets/drink/drink2.png",
+        public: true,
       },
       {
         name: "มะนาวโซดา",
         description: "เปรี้ยวซ่าทั้งกาย",
         price: 20,
         imageUrl: "/img/assets/drink/drink3.png",
+        public: true,
       },
       {
         name: "เบียร์",
         description: "ข้าวหอมหมัก",
         price: 59,
         imageUrl: "/img/assets/drink/drink4.png",
+        public: true,
       },
     ];
 
@@ -586,24 +605,28 @@ async function seedDatabase() {
         description: "ราดไวท์อัลเฟรดโดซอส",
         price: 159,
         imageUrl: "/img/assets/appetizer/appetizer1.png",
+        public: true,
       },
       {
         name: "สปาเกตตี้มีทบอล",
         description: "มีทบอลเนื้อราดซอสแดง",
         price: 159,
         imageUrl: "/img/assets/appetizer/appetizer2.png",
+        public: true,
       },
       {
         name: "ลาซานญ่า",
         description: "ซ้อนแบบเข้มข้น",
         price: 179,
         imageUrl: "/img/assets/appetizer/appetizer3.png",
+        public: true,
       },
       {
         name: "ราวิโอลี",
         description: "สอดไส้ซอสแดง",
         price: 159,
         imageUrl: "/img/assets/appetizer/appetizer4.png",
+        public: true,
       },
     ];
 

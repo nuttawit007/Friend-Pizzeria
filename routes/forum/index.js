@@ -3,8 +3,8 @@ const { ProductType } = require("@prisma/client");
 const prisma = require("../../config/db");
 
 router.get("/forum", async (req, res) => {
-  const query = req.query.filter == "me" ? { authorId: 1 } : {};
-  const pizzaItems = await prisma.pizza.findMany({
+  const query = req.query.filter == "me" ? { authorId: req.user.id } : {};
+  let pizzaItems = await prisma.pizza.findMany({
     where: {
       type: ProductType.CUSTOM,
       ...query,
@@ -18,7 +18,18 @@ router.get("/forum", async (req, res) => {
       },
     },
   });
-  res.render("forum/forum", { user: req.user, pizzaItems, query: req.query.filter });
+  const order = await prisma.orderItem.findMany({
+    where: { pizzaId: { in: pizzaItems.map((item) => item.id) } },
+  });
+
+  pizzaItems.forEach((item) => {
+    item.counter = order.filter((order) => order.pizzaId == item.id).length;
+  });
+  res.render("forum/forum", {
+    user: req.user,
+    pizzaItems,
+    query: req.query.filter,
+  });
 });
 
 router.get("/forum/:id", async (req, res) => {
@@ -40,11 +51,12 @@ router.get("/forum/:id", async (req, res) => {
       },
     },
   });
+  const isMine = pizzaItems.authorId == req.user.id;
   const counter = await prisma.order.count({
     where: { items: { some: { pizzaId: Number(id) } } },
   });
 
-  res.render("forum/forum_detail", { user: req.user, pizza: { ...pizzaItems, counter } });
+  res.render("forum/forum_detail", { user: req.user, pizza: { ...pizzaItems, counter, isMine } });
 });
 
 module.exports = router;

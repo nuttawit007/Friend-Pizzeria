@@ -25,7 +25,7 @@ model Pizza {
   price       Decimal
   imageUrl    String?
   ingredients PizzaIngredient[]
-  public      Boolean           @default(true)
+  public      Boolean           @default(false)
   type        ProductType       @default(NORMAL)
   size        PizzaSize         @default(SMALL)
   pizzaDough  PizzaDough        @default(THIN)
@@ -90,7 +90,7 @@ model Appetizer {
   description String?
   price       Decimal
   imageUrl    String?
-  public      Boolean      @default(true)
+  public      Boolean      @default(false)
   type        ProductType  @default(APPETIZER)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -104,7 +104,7 @@ model Snack {
   description String?
   price       Decimal
   imageUrl    String?
-  public      Boolean      @default(true)
+  public      Boolean      @default(false)
   type        ProductType  @default(SNACK)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -118,7 +118,7 @@ model Drink {
   description String?
   price       Decimal
   imageUrl    String?
-  public      Boolean      @default(true)
+  public      Boolean      @default(false)
   type        ProductType  @default(DRINK)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt

@@ -35,8 +35,8 @@
                                         <p class="text-sm text-black/50">
                                             <%= new Date(pizza.createdAt).toLocaleString('en-GB', { day: '2-digit' ,
                                                 month: '2-digit' , year: 'numeric' }).replace(',', '' ) %> ยอดสั่งซื้อ
-                                                1000
-                                                ครั้ง
+                                                <%= pizza.counter %>
+                                                    ครั้ง
                                         </p>
                                     </div>
                                     <% } %>
@@ -82,19 +82,20 @@
                                                             <% } %>
                     </div>
 
-                    <div class="flex flex-col justify-between">
+                    <div class="flex flex-col justify-between w-2/3">
                         <div>
                             <div class="flex justify-between">
                                 <h3 class="text-lg font-bold">
                                     <%= pizza.name %>
                                 </h3>
-                                <span class="text-lg font-bold">
+                                <span class="text-lg font-bold text-emerald-500">
                                     <%= pizza.price %> ฿
                                 </span>
                             </div>
                             <div class="bg-gray-200 rounded-sm max-w-70 h-auto p-2">
-                                <p class="text-sm text-gray-600">ไม่เห็นอร่อยเลยไอ่เหี้ย ติ๊งต๊องจัด
-                                    ควยควยควยควยควยควยควยควยควยควยควยควย</p>
+                                <p class="text-sm text-gray-600">
+                                    <%= pizza.description %>
+                                </p>
                             </div>
                         </div>
                         <div>
