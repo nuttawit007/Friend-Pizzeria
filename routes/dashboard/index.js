@@ -2,7 +2,12 @@ const router = require("express").Router();
 const prisma = require("../../config/db");
 
 router.get("/", async (req, res) => {
+  const transaction = await prisma.order.count({ where: { status: "DELIVERED" } });
+  const member = await prisma.user.count();
+
   res.render("dashboard/dashboard", {
+    transaction,
+    member,
     user: req.user,
   });
 });
