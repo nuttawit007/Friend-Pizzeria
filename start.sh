@@ -1,20 +1,26 @@
 #!/bin/bash
 
-# Check if .env file exists
+# Set script to exit on any command failure
+set -e
+
+echo "🔍 Checking for .env file..."
 if [ ! -f .env ]; then
-    echo ".env file not found! Please create the .env file first."
+    echo "❌ ERROR: .env file not found! Please create the .env file first."
     exit 1
 fi
 
-# Install dependencies
-echo "Installing dependencies..."
+echo "📦 Installing dependencies..."
 npm install
 
-# Run Prisma commands
-echo "Running Prisma commands..."
+echo "🔍 Checking Prisma installation..."
+if ! npx prisma --version > /dev/null 2>&1; then
+    echo "⚠️ Prisma not found! Installing Prisma..."
+    npm install @prisma/client prisma --save-dev
+fi
+
+echo "⚙️ Running Prisma commands..."
 npx prisma generate
 npx prisma db push
 
-# Start the Node.js server
-echo "Starting the server..."
+echo "🚀 Starting the server..."
 node index.js
