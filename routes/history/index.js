@@ -20,6 +20,9 @@ router.get("/history", async (req, res) => {
       items: {
         include: {
           pizza: { include: { ingredients: { include: { ingredient: true } } } },
+          appetizer: true,
+          snack: true,
+          drink: true,
         },
       },
     },

@@ -1,11 +1,15 @@
 function sendOrder() {
   const orderData = {
-    name: this.pizza.name,
-    price: this.pizza.price,
-    description: this.pizza.desc,
+    id: this.pizza?.id || this.appetizer?.id || this.snack?.id || this.drink?.id,
+    name: this.pizza?.name || this.appetizer?.name || this.snack?.name || this.drink?.name,
+    price: this.pizza?.price || this.appetizer?.price || this.snack?.price || this.drink.price,
+    description: this.pizza?.desc || this.appetizer?.desc || this.snack?.desc || this.drink?.desc,
     quantity: this.quantity,
     pizza: this.pizza,
-    type: "normal",
+    appetizer: this.appetizer,
+    snack: this.snack,
+    drink: this.drink,
+    type: this.pizza ? "pizza" : this.appetizer ? "appetizer" : this.snack ? "snack" : "drink",
   };
 
   fetch("/basket", {
@@ -29,8 +33,8 @@ function sendCustomOrder() {
   const order = {
     pizzaName: this.pizzaName,
     size: this.getSelectedSize ? this.getSelectedSize().label : "",
-    crust: this.getSelectedCrustSize ? this.getSelectedCrustSize().name : "",
-    dough: this.getSelectedDoughType ? this.getSelectedDoughType().name : "",
+    crust: this.getSelectedCrustSize ? this.getSelectedCrustSize()?.name : "",
+    dough: this.getSelectedDoughType ? this.getSelectedDoughType()?.name : "",
     cheeses: this.selectedCheeses.map((id) => this.getCheeseById(id)?.name || ""),
     meats: this.selectedMeats.map((id) => this.getMeatById(id)?.name || ""),
     vegetables: this.selectedVegetables.map((id) => this.getVegetableById(id)?.name || ""),
@@ -88,7 +92,7 @@ function submitOrder() {
     delivery: this.delivery,
     paymentType: this.paymentType,
   };
-  console.log(payload);
+
   fetch("/order", {
     method: "POST",
     headers: {

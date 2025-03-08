@@ -3,16 +3,41 @@ const { IngredientType, PizzaDough, PizzaSize, ProductType } = require("@prisma/
 const prisma = require("../../config/db");
 
 router.get("/pizzas", async (req, res) => {
-  const pizzas = await prisma.pizza.findMany({
-    include: { images: true, ingredients: { include: { ingredient: true } } },
-  });
+  try {
+    const filter = req.query.filter || "";
 
-  res.render("catalogs/catalogs", { user: req.user, pizzas });
+    const [pizzas, appetizers, snacks, drinks] = await Promise.all([
+      prisma.pizza.findMany({
+        where: { public: true, type: "NORMAL" },
+        include: { ingredients: { include: { ingredient: true } } },
+      }),
+      prisma.appetizer.findMany(),
+      prisma.snack.findMany(),
+      prisma.drink.findMany(),
+    ]);
+
+    const catalogData = {
+      pizza: { pizzas, appetizers: [], snacks: [], drinks: [] },
+      appetizer: { pizzas: [], appetizers, snacks: [], drinks: [] },
+      snack: { pizzas: [], appetizers: [], snacks, drinks: [] },
+      drink: { pizzas: [], appetizers: [], snacks: [], drinks },
+      "": { pizzas, appetizers, snacks, drinks },
+    };
+
+    res.render("catalogs/catalogs", {
+      user: req.user,
+      queryFilter: filter,
+      ...(catalogData[filter] || catalogData[""]),
+    });
+  } catch (error) {
+    console.error("Error fetching catalog data:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 router.get("/pizzas/custom", async (req, res) => {
   const pizzas = await prisma.pizza.findMany({
-    include: { images: true, ingredients: { include: { ingredient: true } } },
+    include: { ingredients: { include: { ingredient: true } } },
   });
 
   const ingredients = await prisma.ingredient.findMany();
@@ -37,7 +62,7 @@ router.get("/pizzas/:id", async (req, res) => {
   const { id } = req.params;
   const pizza = await prisma.pizza.findUnique({
     where: { id: Number(id) },
-    include: { images: true, ingredients: { include: { ingredient: true } } },
+    include: { ingredients: { include: { ingredient: true } } },
   });
 
   if (!pizza) return res.status(404).json({ error: "Pizza not found" });
@@ -45,7 +70,7 @@ router.get("/pizzas/:id", async (req, res) => {
 });
 
 router.post("/pizzas", async (req, res) => {
-  const { name, description, price, ingredientIds, imageUrls } = req.body;
+  const { name, description, price, ingredientIds, imageUrl } = req.body;
 
   const pizza = await prisma.pizza.create({
     data: {
@@ -55,9 +80,7 @@ router.post("/pizzas", async (req, res) => {
       ingredients: {
         create: ingredientIds.map((id) => ({ ingredientId: id })),
       },
-      images: {
-        create: imageUrls.map((url) => ({ imageUrl: url })),
-      },
+      imageUrl: imageUrl,
     },
   });
 
@@ -66,7 +89,7 @@ router.post("/pizzas", async (req, res) => {
 
 router.put("/pizzas/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, description, price, ingredientIds, imageUrls } = req.body;
+  const { name, description, price, ingredientIds, imageUrl } = req.body;
 
   const pizza = await prisma.pizza.update({
     where: { id: Number(id) },
@@ -78,10 +101,7 @@ router.put("/pizzas/:id", async (req, res) => {
         deleteMany: {},
         create: ingredientIds.map((id) => ({ ingredientId: id })),
       },
-      images: {
-        deleteMany: {},
-        create: imageUrls.map((url) => ({ imageUrl: url })),
-      },
+      imageUrl: imageUrl,
     },
   });
 
@@ -235,143 +255,6 @@ router.delete("/drinks/:id", async (req, res) => {
   res.json({ message: "Drink deleted successfully" });
 });
 
-router.post("/ingredients/seed", async (req, res) => {
-  let payload = {
-    cheeses: [
-      {
-        id: "mozzarella",
-        name: "มอซซาเรลล่า",
-        image: "/img/assets/ingredient/cheese/mozzarella.png",
-      },
-      {
-        id: "parmesan",
-        name: "พาร์เมซาน",
-        image: "/img/assets/ingredient/cheese/parmesan.png",
-      },
-      {
-        id: "bluecheese",
-        name: "บลูชีส",
-        image: "/img/assets/ingredient/cheese/bluecheese.png",
-      },
-      {
-        id: "cheddar",
-        name: "เชดดาร์",
-        image: "/img/assets/ingredient/cheese/cheddar.png",
-      },
-      { id: "feta", name: "เฟต้า", image: "/img/assets/ingredient/cheese/feta.png" },
-    ],
-
-    meats: [
-      { id: "ham", name: "แฮม", image: "/img/assets/ingredient/meat/ham.png" },
-      { id: "shrimp", name: "กุ้ง", image: "/img/assets/ingredient/meat/shrimp.png" },
-      {
-        id: "friedchicken",
-        name: "ไก่บัพฟาโล",
-        image: "/img/assets/ingredient/meat/buffalochicken.png",
-      },
-      {
-        id: "pulledpork",
-        name: "หมูรวมควัน",
-        image: "/img/assets/ingredient/meat/pulledpork.png",
-      },
-      {
-        id: "pepperoni",
-        name: "เปปเปอโรนี",
-        image: "/img/assets/ingredient/meat/pepperoni.png",
-      },
-      { id: "bacon", name: "เบคอน", image: "/img/assets/ingredient/meat/bacon.png" },
-    ],
-
-    vegetables: [
-      { id: "mushroom", name: "เห็ด", image: "/img/assets/ingredient/veg/mushroom.png" },
-      {
-        id: "jalapeno",
-        name: "ฮาลาพีโย่",
-        image: "/img/assets/ingredient/veg/jalapeno.png",
-      },
-      { id: "redchili", name: "พริก", image: "/img/assets/ingredient/veg/redchili.png" },
-      {
-        id: "bellpaper",
-        name: "พริกหวาน",
-        image: "/img/assets/ingredient/veg/bellpepper.png",
-      },
-      { id: "onion", name: "หอมแดง", image: "/img/assets/ingredient/veg/onion.png" },
-      { id: "olive", name: "มะกอก", image: "/img/assets/ingredient/veg/blackolive.png" },
-      { id: "tomato", name: "มะเขือเทศ", image: "/img/assets/ingredient/veg/tomato.png" },
-      { id: "spinach", name: "ปวยเล้ง", image: "/img/assets/ingredient/veg/spinach.png" },
-      { id: "basil", name: "โหระพา", image: "/img/assets/ingredient/veg/basil.png" },
-    ],
-
-    sauces: [
-      {
-        id: "saucetomato",
-        name: "ซอสแดง",
-        image: "/img/assets/ingredient/sauce/saucetomato.png",
-      },
-      {
-        id: "saucewhite",
-        name: "ซอสขาว",
-        image: "/img/assets/ingredient/sauce/saucewhite.png",
-      },
-      {
-        id: "saucebuffalo",
-        name: "ซอสบัฟฟาโล",
-        image: "/img/assets/ingredient/sauce/saucebuffalo.png",
-      },
-      {
-        id: "saurcebbq",
-        name: "ซอสบาบีคิว",
-        image: "/img/assets/ingredient/sauce/saucebbq.png",
-      },
-    ],
-
-    spices: [
-      {
-        id: "oregano",
-        name: "ออริกาโน่",
-        image: "/img/assets/ingredient/spice/oregano.png",
-      },
-      {
-        id: "blackpepper",
-        name: "พริกไทยดำ",
-        image: "/img/assets/ingredient/spice/blackpepper.png",
-      },
-      { id: "salt", name: "เกลือ", image: "/img/assets/ingredient/spice/salt.png" },
-    ],
-  };
-  payload.cheeses = payload.cheeses.map((e) => {
-    return { name: e.name, imageUrl: e.image, key: e.id, type: IngredientType.CHEESE };
-  });
-
-  payload.meats = payload.meats.map((e) => {
-    return { name: e.name, imageUrl: e.image, key: e.id, type: IngredientType.MEAT };
-  });
-
-  payload.vegetables = payload.vegetables.map((e) => {
-    return { name: e.name, imageUrl: e.image, key: e.id, type: IngredientType.VEGETABLE };
-  });
-
-  payload.sauces = payload.sauces.map((e) => {
-    return { name: e.name, imageUrl: e.image, key: e.id, type: IngredientType.SAUCE };
-  });
-
-  payload.spices = payload.spices.map((e) => {
-    return { name: e.name, imageUrl: e.image, key: e.id, type: IngredientType.SPICE };
-  });
-
-  const ingredients = await prisma.ingredient.createMany({
-    data: [
-      ...payload.cheeses,
-      ...payload.meats,
-      ...payload.vegetables,
-      ...payload.sauces,
-      ...payload.spices,
-    ],
-  });
-
-  res.status(201).json(ingredients);
-});
-
 router.post("/ingredient", async (req, res) => {
   const { name, type, imageUrl, key, amount } = req.body;
 
@@ -495,12 +378,13 @@ router.post("/basket", async (req, res) => {
   if (req.body.type !== "forum") {
     const {
       pizza,
+      appetizer,
+      drink,
+      snack,
       quantity,
       type,
       pizzaName,
-      base,
       size,
-      crust,
       dough,
       price,
       cheeses,
@@ -510,10 +394,10 @@ router.post("/basket", async (req, res) => {
       spices,
       specialInstructions,
     } = req.body;
-
     if (!basket) {
       basket = await prisma.basket.create({ data: { userId } });
     }
+
     const pizzaDough = {
       บางกรอบ: PizzaDough.THIN,
       หนาหนุ่ม: PizzaDough.THICK,
@@ -526,13 +410,13 @@ router.post("/basket", async (req, res) => {
       "8 นิ้ว": PizzaSize.LARGE,
     };
 
-    if (type === "normal") {
+    if (type === "normal" || type === "pizza") {
       await prisma.basketItem.upsert({
         where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(pizza.id) } },
         update: { quantity: { increment: quantity } },
         create: { basketId: basket.id, pizzaId: Number(pizza.id), quantity },
       });
-    } else {
+    } else if (type === "custom") {
       const ingredientPayload = [...cheeses, ...meats, ...vegetables, ...sauces, ...spices];
       const ingredient = await prisma.ingredient.findMany();
       const ingredientId = ingredientPayload.map((e) => {
@@ -555,10 +439,37 @@ router.post("/basket", async (req, res) => {
         update: { quantity: { increment: 1 } },
         create: { basketId: basket.id, pizzaId: Number(pz.id), quantity: 1 },
       });
+    } else if (type.toLowerCase() === "appetizer") {
+      const app = await prisma.appetizer.findFirst({ where: { id: Number(appetizer.id) } });
+
+      await prisma.basketItem.upsert({
+        where: {
+          basketId_appetizerId: { basketId: basket.id, appetizerId: Number(app.id) },
+        },
+        update: { quantity: { increment: quantity } },
+        create: {
+          basketId: basket.id,
+          appetizerId: Number(appetizer.id),
+          quantity: Number(quantity),
+        },
+      });
+    } else if (type.toLowerCase() === "drink") {
+      await prisma.basketItem.upsert({
+        where: { basketId_drinkId: { basketId: basket.id, drinkId: Number(drink.id) } },
+        update: { quantity: { increment: quantity } },
+        create: { basketId: basket.id, drinkId: Number(drink.id), quantity: Number(quantity) },
+      });
+    } else if (type.toLowerCase() === "snack") {
+      await prisma.basketItem.upsert({
+        where: { basketId_snackId: { basketId: basket.id, snackId: Number(snack.id) } },
+        update: { quantity: { increment: quantity } },
+        create: { basketId: basket.id, snackId: Number(snack.id), quantity: Number(quantity) },
+      });
     }
+
     res.json({ message: "Pizza added to basket" });
   } else {
-    const { id, type } = req.body;
+    const { id } = req.body;
     if (id) {
       const info = await prisma.pizza.findUnique({
         where: { id: Number(id) },
@@ -600,16 +511,15 @@ router.delete("/basket", async (req, res) => {
 router.post("/order", async (req, res) => {
   const userId = 1;
   const { address, tel, delivery, paymentType } = req.body;
-  console.log(paymentType);
+
   const basket = await prisma.basket.findUnique({
     where: { userId },
-    include: { items: { include: { pizza: true } } },
+    include: { items: { include: { pizza: true, appetizer: true, drink: true, snack: true } } },
   });
 
   if (!basket || basket.items.length === 0) {
     return res.status(400).json({ error: "Basket is empty" });
   }
-
   const combinedItems = basket.items
     .flatMap((e) => [
       e.pizza && {
@@ -621,25 +531,25 @@ router.post("/order", async (req, res) => {
         size: e.pizza.size,
         dought: e.pizza.pizzaDough,
         ingredients: e.pizza.ingredients,
-        quantity: 1,
+        quantity: e.quantity,
       },
       e.drink && {
         type: "DRINK",
         name: e.drink.name,
         price: e.drink.price,
-        quantity: 1,
+        quantity: e.quantity,
       },
       e.snack && {
         type: "SNACK",
         name: e.snack.name,
         price: e.snack.price,
-        quantity: 1,
+        quantity: e.quantity,
       },
       e.appetizer && {
         type: "APPETIZER",
         name: e.appetizer.name,
         price: e.appetizer.price,
-        quantity: 1,
+        quantity: e.quantity,
       },
     ])
     .filter(Boolean);
@@ -654,7 +564,10 @@ router.post("/order", async (req, res) => {
       phone: tel,
       items: {
         create: basket.items.map((item) => ({
-          pizzaId: item.pizzaId,
+          ...(item.pizza && { pizzaId: item.pizzaId }),
+          ...(item.drink && { drinkId: item.drinkId }),
+          ...(item.snack && { snackId: item.snackId }),
+          ...(item.appetizer && { appetizerId: item.appetizerId }),
           quantity: item.quantity,
         })),
       },
@@ -696,25 +609,25 @@ router.get("/orders", async (req, res) => {
         size: e.pizza.size,
         dought: e.pizza.pizzaDough,
         ingredients: e.pizza.ingredients,
-        quantity: 1,
+        quantity: e.quantity,
       },
       e.drink && {
         type: "DRINK",
         name: e.drink.name,
         price: e.drink.price,
-        quantity: 1,
+        quantity: e.quantity,
       },
       e.snack && {
         type: "SNACK",
         name: e.snack.name,
         price: e.snack.price,
-        quantity: 1,
+        quantity: e.quantity,
       },
       e.appetizer && {
         type: "APPETIZER",
         name: e.appetizer.name,
         price: e.appetizer.price,
-        quantity: 1,
+        quantity: e.quantity,
       },
     ])
     .filter(Boolean);
@@ -830,11 +743,32 @@ router.put("/menu", async (req, res) => {
 
 router.put("/transaction", async (req, res) => {
   const { id, status } = req.body;
-  console.log(id, status);
   const transaction = await prisma.order.update({
     where: { id: Number(id) },
     data: { status },
   });
   res.json(transaction);
+});
+
+router.put("/member/:id", async (req, res) => {
+  const { id } = req.params;
+  const { email, name } = req.body;
+
+  const user = await prisma.user.update({
+    where: { id: Number(id) },
+    data: { email, name },
+  });
+
+  res.json(user);
+});
+
+router.delete("/member/:id", async (req, res) => {
+  const { id } = req.params;
+
+  await prisma.user.delete({
+    where: { id: Number(id) },
+  });
+
+  res.json({ message: "Member deleted successfully" });
 });
 module.exports = router;

@@ -1,755 +1,581 @@
 <%- contentFor('body') %>
-<section
-  class="grid grid-cols-1 xl:grid-cols-2 h-[350px] xl:h-[750px] w-full mx-auto bg-_gray-100 overflow-hidden px-10"
-  style="background-image: url('/img/hero/bg/hero-bg.svg')"
->
-  <div class="flex max-w-3xl mx-auto items-center justify-center">
-    <div class="flex flex-col justify-center items-center xl:items-start gap-10">
-      <div class="text-5xl xl:text-[76px] flex gap-2">
-        <h1 class="text-_red-500 font-bold">Friend</h1>
-        <h1 class="text-_yellow-400 font-semibold">Pizzeria</h1>
-      </div>
-      <p class="text-lg lg:text-2xl">เราจะมาสร้างสรรค์พิซซ่าที่อร่อยที่สุดให้กับคุณ</p>
-      <a href="/pizzas/custom">
-        <button
-          class="bg-_red-500 hover:bg-_red-600 text-white font-bold py-4 px-12 rounded-full text-lg lg:text-2xl transition duration-300 transform hover:scale-105"
-        >
-          สร้างสรรค์เมนูของคุณเอง ▶
-        </button>
-      </a>
-    </div>
-  </div>
-  <div class="relative hidden xl:block w-full h-full overflow-hidden">
-    <img
-      class="absolute bottom-[5%]"
-      src="/img/hero/iconic/pizza.svg"
-      alt="iconic"
-      id="pizza-iconic"
-    />
-    <img
-      class="absolute bottom-[2%]"
-      src="/img/hero/iconic/ingredient.svg"
-      alt="ingredient"
-      id="ingredients"
-    />
-  </div>
-</section>
-
-<section>
-  <div class="mx-auto relative overflow-hidden">
-    <div class="glide">
-      <div class="glide__track relative" data-glide-el="track">
-        <ul class="glide__slides">
-          <li class="glide__slide text-white flex items-center justify-center">
-            <img src="/img/banner/promotion/1.png" alt="promotion-1" />
-          </li>
-          <li class="glide__slide text-white flex items-center justify-center">
-            <img src="/img/banner/promotion/2.png" alt="promotion-2" />
-          </li>
-          <li class="glide__slide text-white flex items-center justify-center">
-            <img src="/img/banner/promotion/3.png" alt="promotion-3" />
-          </li>
-        </ul>
-
-        <div
-          class="glide__bullets absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-1 pointer-events-auto"
-          data-glide-el="controls[nav]"
-        >
-          <button class="glide__bullet" data-glide-dir="=0"></button>
-          <button class="glide__bullet" data-glide-dir="=1"></button>
-          <button class="glide__bullet" data-glide-dir="=2"></button>
+  <section
+    class="grid grid-cols-1 xl:grid-cols-2 h-[350px] xl:h-[750px] w-full mx-auto bg-_gray-100 overflow-hidden px-10"
+    style="background-image: url('/img/hero/bg/hero-bg.svg')">
+    <div class="flex max-w-3xl mx-auto items-center justify-center">
+      <div class="flex flex-col justify-center items-center xl:items-start gap-10">
+        <div class="text-5xl xl:text-[76px] flex gap-2">
+          <h1 class="text-_red-500 font-bold">Friend</h1>
+          <h1 class="text-_yellow-400 font-semibold">Pizzeria</h1>
         </div>
-      </div>
-
-      <div
-        class="glide__arrows absolute inset-0 flex items-center justify-between"
-        data-glide-el="controls"
-      >
-        <button
-          class="glide__arrow glide__arrow--left bg-white/30 h-full text-white p-3"
-          data-glide-dir="<"
-        >
-          ◀
-        </button>
-        <button
-          class="glide__arrow glide__arrow--right bg-white/30 h-full text-white p-3"
-          data-glide-dir=">"
-        >
-          ▶
-        </button>
+        <p class="text-lg lg:text-2xl">เราจะมาสร้างสรรค์พิซซ่าที่อร่อยที่สุดให้กับคุณ</p>
+        <a href="/pizzas/custom">
+          <button
+            class="bg-_red-500 hover:bg-_red-600 text-white font-bold py-4 px-12 rounded-full text-lg lg:text-2xl transition duration-300 transform hover:scale-105">
+            สร้างสรรค์เมนูของคุณเอง ▶
+          </button>
+        </a>
       </div>
     </div>
-  </div>
-</section>
-<section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
-  <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูขายดี</h2>
-  <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
-    <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
-    <div
-      x-data="{ 
-    added: false, 
-    modalOpen: false, 
-     pizza: { id: '<%= pizza.id %>', name: '<%= pizza.name %>', price: '<%= pizza.price %>', desc: '<%= pizza.desc %>' },
-    quantity: 1 
-  }"
-      class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full"
-    >
-      <img
-        src="/img/assets/pizza/pizza26.png"
-        class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
-        alt="pizza"
-      />
-
-      <div class="flex justify-between w-full mt-2">
-        <h3 class="font-bold" x-text="pizza.name"></h3>
-        <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
-      </div>
-
-      <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
-
-      <template x-if="!added">
-        <button
-          @click="added = true"
-          class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm"
-        >
-          <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
-          <span class="sm:hidden">เพิ่ม</span>
-        </button>
-      </template>
-
-      <template x-if="added">
-        <div class="mt-2">
-          <p class="text-sm text-black/60">
-            total : <span x-text="pizza.price * quantity"></span> ฿
-          </p>
-
-          <div class="flex items-center justify-between mt-2 border rounded-md">
-            <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
-              −
-            </button>
-            <span x-text="quantity"></span>
-            <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
-          </div>
-          <div class="flex justify-between mt-2 gap-2">
-            <button @click="added = false" class="text-black text-sm w-full border">ยกเลิก</button>
-            <button
-              @click="modalOpen = true"
-              class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border"
-            >
-              เพิ่ม
-            </button>
-          </div>
-        </div>
-      </template>
-
-      <template x-if="modalOpen">
-        <div
-          class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-[20]"
-          @click="modalOpen = false"
-        >
-          <div
-            class="bg-white p-6 rounded-xl w-52 h-52 transition-all transform"
-            x-transition:enter="transition-transform ease-out duration-300"
-            x-transition:enter-start="scale-95 opacity-0"
-            x-transition:enter-end="scale-100 opacity-100"
-            x-transition:leave="transition-transform ease-in duration-300"
-            x-transition:leave-start="scale-100 opacity-100"
-            x-transition:leave-end="scale-95 opacity-0"
-          >
-            <p class="text-center text-5xl">Modal Content</p>
-            <button
-              class="w-full bg-red-500 text-white p-2 mt-2 rounded"
-              @click="modalOpen = false"
-            >
-              Close
-            </button>
-            <button class="w-full bg-green-500 text-white p-2 mt-2 rounded" @click="sendOrder">
-              Confirm Order
-            </button>
-          </div>
-        </div>
-      </template>
+    <div class="relative hidden xl:block w-full h-full overflow-hidden">
+      <img class="absolute bottom-[5%]" src="/img/hero/iconic/pizza.svg" alt="iconic" id="pizza-iconic" />
+      <img class="absolute bottom-[2%]" src="/img/hero/iconic/ingredient.svg" alt="ingredient" id="ingredients" />
     </div>
-
-    <% }); %> <% } else { %>
-    <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
-    <% } %>
-  </div>
-</section>
-<section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
-  <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูทั้งหมด</h2>
+  </section>
 
   <section>
-    <div class="flex items-center justify-between">
-      <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">พิซซ่า</p>
-      <div class="inline-flex items-center justify-between">
-        <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
+    <div class="mx-auto relative overflow-hidden">
+      <div class="glide">
+        <div class="glide__track relative" data-glide-el="track">
+          <ul class="glide__slides">
+            <li class="glide__slide text-white flex items-center justify-center">
+              <img src="/img/banner/promotion/1.png" alt="promotion-1" />
+            </li>
+            <li class="glide__slide text-white flex items-center justify-center">
+              <img src="/img/banner/promotion/2.png" alt="promotion-2" />
+            </li>
+            <li class="glide__slide text-white flex items-center justify-center">
+              <img src="/img/banner/promotion/3.png" alt="promotion-3" />
+            </li>
+          </ul>
+
+          <div
+            class="glide__bullets absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-1 pointer-events-auto"
+            data-glide-el="controls[nav]">
+            <button class="glide__bullet" data-glide-dir="=0"></button>
+            <button class="glide__bullet" data-glide-dir="=1"></button>
+            <button class="glide__bullet" data-glide-dir="=2"></button>
+          </div>
+        </div>
+
+        <div class="glide__arrows absolute inset-0 flex items-center justify-between" data-glide-el="controls">
+          <button class="glide__arrow glide__arrow--left bg-white/30 h-full text-white p-3" data-glide-dir="<">
+            ◀
+          </button>
+          <button class="glide__arrow glide__arrow--right bg-white/30 h-full text-white p-3" data-glide-dir=">">
+            ▶
+          </button>
+        </div>
       </div>
     </div>
+  </section>
+  <section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
+    <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูขายดี</h2>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
-      <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
-      <div
-        x-data="{ 
+      <% if (pizzas.length> 0) { %>
+        <% pizzas.forEach(pizza=> { %>
+          <div x-data="{ 
         added: false, 
         modalOpen: false, 
-        pizza: { id: '<%= pizza.id %>', name: '<%= pizza.name %>', price: '<%= pizza.price %>', desc: '<%= pizza.desc %>' },
+        pizza: { id: '<%= pizza.id %>', name: '<%= pizza.name %>', price: '<%= pizza.price %>', description: '<%= pizza.description %>', imageUrl: '<%= pizza.imageUrl %>' },
+        quantity: 1 
+      }" class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full">
+            <img src="<%= pizza.imageUrl %>" class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
+              alt="pizza" />
+
+            <div class="flex justify-between w-full mt-2">
+              <h3 class="font-bold" x-text="pizza.name"></h3>
+              <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
+            </div>
+
+            <p class="text-sm text-start text-black/50" x-text="pizza.description"></p>
+
+            <template x-if="!added">
+              <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
+                <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                <span class="sm:hidden">เพิ่ม</span>
+              </button>
+            </template>
+
+            <template x-if="added">
+              <div class="mt-2">
+                <p class="text-sm text-black/60">
+                  total : <span x-text="pizza.price * quantity"></span> ฿
+                </p>
+
+                <div class="flex items-center justify-between mt-2 border rounded-md">
+                  <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
+                    −
+                  </button>
+                  <span x-text="quantity"></span>
+                  <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+                </div>
+                <div class="flex justify-between mt-2 gap-2">
+                  <button @click="added = false" class="text-black text-sm w-full border">ยกเลิก</button>
+                  <button @click="sendOrder" class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border">
+                    เพิ่ม
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <% }); %>
+            <% } else { %>
+              <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
+              <% } %>
+    </div>
+  </section>
+  <section class="bg-_gray-50 py-10 text-white max-w-[90%] mx-auto space-y-10">
+    <h2 class="text-[32px] md:text-[40px] text-center font-semibold text-_red-500">เมนูทั้งหมด</h2>
+
+    <section>
+      <div class="flex items-center justify-between">
+        <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">พิซซ่า</p>
+        <a href="/catalogs">
+          <div class="inline-flex items-center justify-between">
+            <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
+          </div>
+        </a>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+        <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
+            <div x-data="{ 
+        added: false, 
+        modalOpen: false, 
+        pizza: { id: '<%= pizza.id %>', name: '<%= pizza.name %>', price: '<%= pizza.price %>', description: '<%= pizza.description %>' },
         quantity: 1
-      }"
-        class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full"
-      >
-        <img
-          src="/img/assets/pizza/pizza26.png"
-          class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
-          alt="pizza"
-        />
+      }" class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full">
+              <img src="<%= pizza.imageUrl %>" class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
+                alt="pizza" />
 
-        <div class="flex justify-between w-full mt-2">
-          <h3 class="font-bold" x-text="pizza.name"></h3>
-          <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
-        </div>
+              <div class="flex justify-between w-full mt-2">
+                <h3 class="font-bold" x-text="pizza.name"></h3>
+                <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
+              </div>
 
-        <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
+              <p class="text-sm text-start text-black/50" x-text="pizza.description"></p>
 
-        <template x-if="!added">
-          <button
-            @click="added = true"
-            class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm"
-          >
-            <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
-            <span class="sm:hidden">เพิ่ม</span>
-          </button>
-        </template>
+              <template x-if="!added">
+                <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
+                  <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                  <span class="sm:hidden">เพิ่ม</span>
+                </button>
+              </template>
 
-        <template x-if="added">
-          <div class="mt-2">
-            <p class="text-sm text-black/60">
-              total : <span x-text="pizza.price * quantity"></span> ฿
-            </p>
-            <div class="flex items-center justify-between mt-2 border rounded-md">
-              <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
-                −
-              </button>
-              <span x-text="quantity"></span>
-              <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+              <template x-if="added">
+                <div class="mt-2">
+                  <p class="text-sm text-black/60">
+                    total : <span x-text="pizza.price * quantity"></span> ฿
+                  </p>
+                  <div class="flex items-center justify-between mt-2 border rounded-md">
+                    <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
+                      −
+                    </button>
+                    <span x-text="quantity"></span>
+                    <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+                  </div>
+                  <div class="flex justify-between mt-2 gap-2">
+                    <button @click="added = false" class="text-black text-sm w-full border">
+                      ยกเลิก
+                    </button>
+                    <button @click="sendOrder" class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border">
+                      เพิ่ม
+                    </button>
+                  </div>
+                </div>
+              </template>
             </div>
-            <div class="flex justify-between mt-2 gap-2">
-              <button @click="added = false" class="text-black text-sm w-full border">
-                ยกเลิก
-              </button>
-              <button
-                @click="modalOpen = true"
-                class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border"
-              >
-                เพิ่ม
-              </button>
-            </div>
-          </div>
-        </template>
 
-        <template x-if="modalOpen">
-          <div
-            class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-[20]"
-            @click="modalOpen = false"
-          >
-            <div
-              class="bg-white p-6 rounded-xl w-52 h-52 transition-all transform"
-              x-transition:enter="transition-transform ease-out duration-300"
-              x-transition:enter-start="scale-95 opacity-0"
-              x-transition:enter-end="scale-100 opacity-100"
-              x-transition:leave="transition-transform ease-in duration-300"
-              x-transition:leave-start="scale-100 opacity-100"
-              x-transition:leave-end="scale-95 opacity-0"
-            >
-              <p class="text-center text-5xl">Modal Content</p>
-              <button
-                class="w-full bg-red-500 text-white p-2 mt-2 rounded"
-                @click="modalOpen = false"
-              >
-                Close
-              </button>
-              <button class="w-full bg-green-500 text-white p-2 mt-2 rounded" @click="sendOrder">
-                Confirm Order
-              </button>
-            </div>
-          </div>
-        </template>
+            <% }); %>
+              <% } else { %>
+                <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
+                <% } %>
       </div>
+    </section>
 
-      <% }); %> <% } else { %>
-      <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
-      <% } %>
-    </div>
-  </section>
-
-  <section>
-    <div class="flex items-center justify-between">
-      <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารทานเล่น</p>
-      <div class="inline-flex items-center justify-between">
-        <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
+    <section>
+      <div class="flex items-center justify-between">
+        <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารอิตาเลียน</p>
+        <a href="/catalogs">
+          <div class="inline-flex items-center justify-between">
+            <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
+          </div>
+        </a>
       </div>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
-      <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
-      <div
-        x-data="{ 
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+        <% if (appetizers.length> 0) { %> <% appetizers.forEach(appetizer=> { %>
+            <div x-data="{ 
     added: false, 
     modalOpen: false, 
-    pizza: { id: '<%= pizza.id %>', name: '<%= pizza.name %>', price: '<%= pizza.price %>', desc: '<%= pizza.desc %>' },
+    appetizer: { id: '<%= appetizer.id %>', name: '<%= appetizer.name %>', price: '<%= appetizer.price %>', description: '<%= appetizer.description %>', type: '<%= appetizer.type %>'},
     quantity: 1 
-  }"
-        class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full"
-      >
-        <img
-          src="/img/assets/pizza/pizza26.png"
-          class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
-          alt="pizza"
-        />
+  }" class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full">
+              <img src="<%= appetizer.imageUrl %>" class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
+                alt="appetizer" />
 
-        <div class="flex justify-between w-full mt-2">
-          <h3 class="font-bold" x-text="pizza.name"></h3>
-          <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
-        </div>
+              <div class="flex justify-between w-full mt-2">
+                <h3 class="font-bold" x-text="appetizer.name"></h3>
+                <p class="text-lg text-_red-500 font-bold" x-text="appetizer.price + '฿'"></p>
+              </div>
 
-        <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
+              <p class="text-sm text-start text-black/50" x-text="appetizer.description"></p>
 
-        <template x-if="!added">
-          <button
-            @click="added = true"
-            class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm"
-          >
-            <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
-            <span class="sm:hidden">เพิ่ม</span>
-          </button>
-        </template>
+              <template x-if="!added">
+                <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
+                  <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                  <span class="sm:hidden">เพิ่ม</span>
+                </button>
+              </template>
 
-        <template x-if="added">
-          <div class="mt-2">
-            <p class="text-sm text-black/60">
-              total : <span x-text="pizza.price * quantity"></span> ฿
-            </p>
-            <div class="flex items-center justify-between mt-2 border rounded-md">
-              <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
-                −
-              </button>
-              <span x-text="quantity"></span>
-              <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+              <template x-if="added">
+                <div class="mt-2">
+                  <p class="text-sm text-black/60">
+                    total : <span x-text="appetizer.price * quantity"></span> ฿
+                  </p>
+                  <div class="flex items-center justify-between mt-2 border rounded-md">
+                    <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
+                      −
+                    </button>
+                    <span x-text="quantity"></span>
+                    <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+                  </div>
+                  <div class="flex justify-between mt-2 gap-2">
+                    <button @click="added = false" class="text-black text-sm w-full border">
+                      ยกเลิก
+                    </button>
+                    <button @click="sendOrder" class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border">
+                      เพิ่ม
+                    </button>
+                  </div>
+                </div>
+              </template>
+
             </div>
-            <div class="flex justify-between mt-2 gap-2">
-              <button @click="added = false" class="text-black text-sm w-full border">
-                ยกเลิก
-              </button>
-              <button
-                @click="modalOpen = true"
-                class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border"
-              >
-                เพิ่ม
-              </button>
-            </div>
-          </div>
-        </template>
 
-        <template x-if="modalOpen">
-          <div
-            class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-[20]"
-            @click="modalOpen = false"
-          >
-            <div
-              class="bg-white p-6 rounded-xl w-52 h-52 transition-all transform"
-              x-transition:enter="transition-transform ease-out duration-300"
-              x-transition:enter-start="scale-95 opacity-0"
-              x-transition:enter-end="scale-100 opacity-100"
-              x-transition:leave="transition-transform ease-in duration-300"
-              x-transition:leave-start="scale-100 opacity-100"
-              x-transition:leave-end="scale-95 opacity-0"
-            >
-              <p class="text-center text-5xl">Modal Content</p>
-              <button
-                class="w-full bg-red-500 text-white p-2 mt-2 rounded"
-                @click="modalOpen = false"
-              >
-                Close
-              </button>
-              <button class="w-full bg-green-500 text-white p-2 mt-2 rounded" @click="sendOrder">
-                Confirm Order
-              </button>
-            </div>
-          </div>
-        </template>
+            <% }); %>
+              <% } else { %>
+                <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
+                <% } %>
       </div>
+    </section>
 
-      <% }); %> <% } else { %>
-      <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
-      <% } %>
-    </div>
-  </section>
-
-  <section>
-    <div class="flex items-center justify-between">
-      <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารอิตาเลียน</p>
-      <div class="inline-flex items-center justify-between">
-        <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
+    <section>
+      <div class="flex items-center justify-between">
+        <p class="text-[24px] md:text-[32px] text-_red-500 font-semibold">อาหารทานเล่น</p>
+        <a href="/catalogs">
+          <div class="inline-flex items-center justify-between">
+            <p class="text-_red-500 text-[22px]">ดูทั้งหมด ▶</p>
+          </div>
+        </a>
       </div>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
-      <% if (pizzas.length> 0) { %> <% pizzas.forEach(pizza=> { %>
-      <div
-        x-data="{ 
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 mt-4 w-full mx-auto">
+        <% if (snacks.length> 0) { %> <% snacks.forEach(snack=> { %>
+            <div x-data="{ 
     added: false, 
     modalOpen: false, 
-     pizza: { id: '<%= pizza.id %>', name: '<%= pizza.name %>', price: '<%= pizza.price %>', desc: '<%= pizza.desc %>' },
+     snack: { id: '<%= snack.id %>', name: '<%= snack.name %>', price: '<%= snack.price %>', description: '<%= snack.description %>', type: '<%= snack.type %>' },
     quantity: 1 
-  }"
-        class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full"
-      >
-        <img
-          src="/img/assets/pizza/pizza26.png"
-          class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
-          alt="pizza"
-        />
+  }" class="flex flex-col justify-center bg-white text-black p-10 rounded-xl w-full">
+              <img src="<%= snack.imageUrl %>" class="object-cover drop-shadow-[0_13px_10px_rgba(0,0,0,0.25)]"
+                alt="snack" />
 
-        <div class="flex justify-between w-full mt-2">
-          <h3 class="font-bold" x-text="pizza.name"></h3>
-          <p class="text-lg text-_red-500 font-bold" x-text="pizza.price + '฿'"></p>
-        </div>
+              <div class="flex justify-between w-full mt-2">
+                <h3 class="font-bold" x-text="snack.name"></h3>
+                <p class="text-lg text-_red-500 font-bold" x-text="snack.price + '฿'"></p>
+              </div>
 
-        <p class="text-sm text-start text-black/50" x-text="pizza.desc"></p>
+              <p class="text-sm text-start text-black/50" x-text="snack.description"></p>
 
-        <template x-if="!added">
-          <button
-            @click="added = true"
-            class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm"
-          >
-            <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
-            <span class="sm:hidden">เพิ่ม</span>
-          </button>
-        </template>
+              <template x-if="!added">
+                <button @click="added = true" class="mt-2 bg-_red-500 text-white px-4 py-2 w-full rounded-sm">
+                  <span class="hidden sm:inline">เพิ่มไปยังตระกร้า</span>
+                  <span class="sm:hidden">เพิ่ม</span>
+                </button>
+              </template>
 
-        <template x-if="added">
-          <div class="mt-2">
-            <p class="text-sm text-black/60">
-              total : <span x-text="pizza.price * quantity"></span> ฿
-            </p>
+              <template x-if="added">
+                <div class="mt-2">
+                  <p class="text-sm text-black/60">
+                    total : <span x-text="snack.price * quantity"></span> ฿
+                  </p>
 
-            <div class="flex items-center justify-between mt-2 border rounded-md">
-              <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
-                −
-              </button>
-              <span x-text="quantity"></span>
-              <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+                  <div class="flex items-center justify-between mt-2 border rounded-md">
+                    <button class="px-2 py-1 rounded-md" @click="quantity = Math.max(quantity - 1, 1)">
+                      −
+                    </button>
+                    <span x-text="quantity"></span>
+                    <button class="px-2 py-1 rounded-md" @click="quantity++">+</button>
+                  </div>
+                  <div class="flex justify-between mt-2 gap-2">
+                    <button @click="added = false" class="text-black text-sm w-full border">
+                      ยกเลิก
+                    </button>
+                    <button @click="sendOrder" class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border">
+                      เพิ่ม
+                    </button>
+                  </div>
+                </div>
+              </template>
             </div>
-            <div class="flex justify-between mt-2 gap-2">
-              <button @click="added = false" class="text-black text-sm w-full border">
-                ยกเลิก
-              </button>
-              <button
-                @click="modalOpen = true"
-                class="bg-_red-500 text-white px-4 py-2 rounded-sm w-full border"
-              >
-                เพิ่ม
-              </button>
-            </div>
-          </div>
-        </template>
-
-        <template x-if="modalOpen">
-          <div
-            class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-[20]"
-            @click="modalOpen = false"
-          >
-            <div
-              class="bg-white p-6 rounded-xl w-52 h-52 transition-all transform"
-              x-transition:enter="transition-transform ease-out duration-300"
-              x-transition:enter-start="scale-95 opacity-0"
-              x-transition:enter-end="scale-100 opacity-100"
-              x-transition:leave="transition-transform ease-in duration-300"
-              x-transition:leave-start="scale-100 opacity-100"
-              x-transition:leave-end="scale-95 opacity-0"
-            >
-              <p class="text-center text-5xl">Modal Content</p>
-              <button
-                class="w-full bg-red-500 text-white p-2 mt-2 rounded"
-                @click="modalOpen = false"
-              >
-                Close
-              </button>
-              <button class="w-full bg-green-500 text-white p-2 mt-2 rounded" @click="sendOrder">
-                Confirm Order
-              </button>
-            </div>
-          </div>
-        </template>
+            <% }); %>
+              <% } else { %>
+                <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
+                <% } %>
       </div>
-      <% }); %> <% } else { %>
-      <p class="text-gray-400">ไม่มีเมนูขายดีในขณะนี้</p>
-      <% } %>
+    </section>
+  </section>
+
+  <section id="about" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="hidden lg:block lg:w-1/2 mb-10 md:mb-0 md:pr-10">
+          <img src="/img/banner/contact/contact.png" alt="About Friend's Pizzeria" class="rounded-xl shadow-xl" />
+        </div>
+        <div class="w-full xl:w-1/2">
+          <h2 class="text-4xl font-bold text-gray-800 mb-6">
+            เกี่ยวกับ <span class="text-red-600">Friend's Pizzeria</span>
+          </h2>
+          <p class="text-lg text-gray-600 mb-6">
+            Friend's Pizzeria ก่อตั้งขึ้นในปี 2020 ด้วยความรักในพิซซ่าแบบดั้งเดิม
+            เราใช้สูตรที่สืบทอดมาจากอิตาลี และวัตถุดิบคุณภาพสูงที่คัดสรรมาอย่างพิถีพิถัน
+          </p>
+          <p class="text-lg text-gray-600 mb-6">
+            เรามุ่งมั่นที่จะส่งมอบประสบการณ์การรับประทานพิซซ่าที่ดีที่สุดแก่ลูกค้าทุกท่าน
+            ด้วยแป้งที่หมักนานกว่า 24 ชั่วโมง ซอสมะเขือเทศที่ทำสดใหม่ทุกวัน และชีสนำเข้าจากอิตาลี
+          </p>
+          <div class="flex space-x-3 mb-6">
+            <div class="bg-red-100 rounded-lg p-4 text-center flex-1">
+              <div class="text-red-600 text-3xl font-bold mb-2">10+</div>
+              <div class="text-gray-700">เมนูพิซซ่า</div>
+            </div>
+            <div class="bg-yellow-100 rounded-lg p-4 text-center flex-1">
+              <div class="text-yellow-600 text-3xl font-bold mb-2">2</div>
+              <div class="text-gray-700">สาขา</div>
+            </div>
+            <div class="bg-green-100 rounded-lg p-4 text-center flex-1">
+              <div class="text-green-600 text-3xl font-bold mb-2">5000+</div>
+              <div class="text-gray-700">ลูกค้าพึงพอใจ</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
-</section>
 
-<section id="about" class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col md:flex-row items-center">
-      <div class="hidden lg:block lg:w-1/2 mb-10 md:mb-0 md:pr-10">
-        <img
-          src="/img/banner/contact/contact.png"
-          alt="About Friend's Pizzeria"
-          class="rounded-xl shadow-xl"
-        />
-      </div>
-      <div class="w-full xl:w-1/2">
-        <h2 class="text-4xl font-bold text-gray-800 mb-6">
-          เกี่ยวกับ <span class="text-red-600">Friend's Pizzeria</span>
-        </h2>
-        <p class="text-lg text-gray-600 mb-6">
-          Friend's Pizzeria ก่อตั้งขึ้นในปี 2020 ด้วยความรักในพิซซ่าแบบดั้งเดิม
-          เราใช้สูตรที่สืบทอดมาจากอิตาลี และวัตถุดิบคุณภาพสูงที่คัดสรรมาอย่างพิถีพิถัน
-        </p>
-        <p class="text-lg text-gray-600 mb-6">
-          เรามุ่งมั่นที่จะส่งมอบประสบการณ์การรับประทานพิซซ่าที่ดีที่สุดแก่ลูกค้าทุกท่าน
-          ด้วยแป้งที่หมักนานกว่า 24 ชั่วโมง ซอสมะเขือเทศที่ทำสดใหม่ทุกวัน และชีสนำเข้าจากอิตาลี
-        </p>
-        <div class="flex space-x-3 mb-6">
-          <div class="bg-red-100 rounded-lg p-4 text-center flex-1">
-            <div class="text-red-600 text-3xl font-bold mb-2">10+</div>
-            <div class="text-gray-700">เมนูพิซซ่า</div>
-          </div>
-          <div class="bg-yellow-100 rounded-lg p-4 text-center flex-1">
-            <div class="text-yellow-600 text-3xl font-bold mb-2">2</div>
-            <div class="text-gray-700">สาขา</div>
-          </div>
-          <div class="bg-green-100 rounded-lg p-4 text-center flex-1">
-            <div class="text-green-600 text-3xl font-bold mb-2">5000+</div>
-            <div class="text-gray-700">ลูกค้าพึงพอใจ</div>
-          </div>
-        </div>
-      </div>
+  <section class="pizza-bg py-20">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold text-white mb-6">โปรโมชั่นพิเศษ</h2>
+      <p class="text-xl text-white mb-8">ซื้อ 1 แถม 1 ทุกวันอังคาร และวันพุธ สำหรับพิซซ่าทุกหน้า</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="pizza-bg py-20">
-  <div class="container mx-auto px-4 text-center">
-    <h2 class="text-4xl font-bold text-white mb-6">โปรโมชั่นพิเศษ</h2>
-    <p class="text-xl text-white mb-8">ซื้อ 1 แถม 1 ทุกวันอังคาร และวันพุธ สำหรับพิซซ่าทุกหน้า</p>
-  </div>
-</section>
+  <section id="contact" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">ติดต่อเรา</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          มีคำถามหรือข้อเสนอแนะ? ติดต่อเราได้ตามช่องทางด้านล่าง
+        </p>
+      </div>
 
-<section id="contact" class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">ติดต่อเรา</h2>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-        มีคำถามหรือข้อเสนอแนะ? ติดต่อเราได้ตามช่องทางด้านล่าง
-      </p>
-    </div>
+      <div class="mx-auto flex flex-col md:flex-row md:gap-10">
+        <div class="md:w-1/2 mb-10 md:mb-0">
+          <div class="bg-gray-100 rounded-xl p-8 h-full">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูลติดต่อ</h3>
+            <div class="space-y-6">
+              <div class="flex items-center">
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="phone" class="text-white"></i>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">โทรศัพท์</p>
+                  <p class="text-lg font-medium">012-345-6789</p>
+                </div>
+              </div>
 
-    <div class="mx-auto flex flex-col md:flex-row md:gap-10">
-      <div class="md:w-1/2 mb-10 md:mb-0">
-        <div class="bg-gray-100 rounded-xl p-8 h-full">
-          <h3 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูลติดต่อ</h3>
-          <div class="space-y-6">
-            <div class="flex items-center">
-              <div class="bg-_red-500 p-3 rounded-full mr-4">
-                <i data-lucide="phone" class="text-white"></i>
+              <div class="flex items-center">
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="mail" class="text-white"></i>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">อีเมล</p>
+                  <p class="text-lg font-medium">friend.pizzeria@gmail.com</p>
+                </div>
               </div>
-              <div>
-                <p class="text-gray-500 text-sm">โทรศัพท์</p>
-                <p class="text-lg font-medium">012-345-6789</p>
-              </div>
-            </div>
 
-            <div class="flex items-center">
-              <div class="bg-_red-500 p-3 rounded-full mr-4">
-                <i data-lucide="mail" class="text-white"></i>
+              <div class="flex items-center">
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="facebook" class="text-white"></i>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">เฟซบุ๊ก</p>
+                  <p class="text-lg font-medium">Friend Pizzeria</p>
+                </div>
               </div>
-              <div>
-                <p class="text-gray-500 text-sm">อีเมล</p>
-                <p class="text-lg font-medium">friend.pizzeria@gmail.com</p>
-              </div>
-            </div>
 
-            <div class="flex items-center">
-              <div class="bg-_red-500 p-3 rounded-full mr-4">
-                <i data-lucide="facebook" class="text-white"></i>
-              </div>
-              <div>
-                <p class="text-gray-500 text-sm">เฟซบุ๊ก</p>
-                <p class="text-lg font-medium">Friend Pizzeria</p>
-              </div>
-            </div>
-
-            <div class="flex items-center">
-              <div class="bg-_red-500 p-3 rounded-full mr-4">
-                <i data-lucide="instagram" class="text-white"></i>
-              </div>
-              <div>
-                <p class="text-gray-500 text-sm">อินสตาแกรม</p>
-                <p class="text-lg font-medium">friend_pizzeria</p>
+              <div class="flex items-center">
+                <div class="bg-_red-500 p-3 rounded-full mr-4">
+                  <i data-lucide="instagram" class="text-white"></i>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">อินสตาแกรม</p>
+                  <p class="text-lg font-medium">friend_pizzeria</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="md:w-1/2">
-        <h1 class="block sm:hidden mb-4 text-xl font-semibold">แผนที่ร้านอาหาร</h1>
-        <div class="block w-full rounded-md drop-shadow-xl" id="map"></div>
+        <div class="md:w-1/2">
+          <h1 class="block sm:hidden mb-4 text-xl font-semibold">แผนที่ร้านอาหาร</h1>
+          <div class="block w-full rounded-md drop-shadow-xl" id="map"></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<script>
-  function createCustomMarker(lngLat) {
-    const el = document.createElement("div");
-    const block = document.createElement("div");
-    block.className = "block_";
-    el.className = "custom-marker";
-    block.innerHTML = "🚏";
-    el.appendChild(block);
+  <script>
+    function createCustomMarker(lngLat) {
+      const el = document.createElement("div");
+      const block = document.createElement("div");
+      block.className = "block_";
+      el.className = "custom-marker";
+      block.innerHTML = "🚏";
+      el.appendChild(block);
 
-    new maplibregl.Marker({
-      element: el,
-    })
-      .setLngLat(lngLat)
-      .addTo(map);
-  }
+      new maplibregl.Marker({
+        element: el,
+      })
+        .setLngLat(lngLat)
+        .addTo(map);
+    }
 
-  const MAPTILER_KEY = "siF1ECtbMjTT3M4ZhQqh";
-  const map = new maplibregl.Map({
-    style: `https://api.maptiler.com/maps/60d222f7-9ede-45a9-864a-c070f84ba224/style.json?key=${MAPTILER_KEY}`,
-    center: [13.731034252326625, 100.7811014244409].reverse(),
-    zoom: 18,
-    pitch: 40,
-    bearing: -130.2,
-    container: "map",
-    antialias: true,
-    touchPitch: false,
-    pitchWithRotate: false,
-    pitchWithRotate: false,
-    pitchWithRotate: false,
-  });
+    const MAPTILER_KEY = "siF1ECtbMjTT3M4ZhQqh";
+    const map = new maplibregl.Map({
+      style: `https://api.maptiler.com/maps/60d222f7-9ede-45a9-864a-c070f84ba224/style.json?key=${MAPTILER_KEY}`,
+      center: [13.731034252326625, 100.7811014244409].reverse(),
+      zoom: 18,
+      pitch: 40,
+      bearing: -130.2,
+      container: "map",
+      antialias: true,
+      touchPitch: false,
+      pitchWithRotate: false,
+      pitchWithRotate: false,
+      pitchWithRotate: false,
+    });
 
-  map.on("load", () => {
-    const layers = map.getStyle().layers;
+    map.on("load", () => {
+      const layers = map.getStyle().layers;
 
-    let labelLayerId;
-    for (let i = 0; i < layers.length; i++) {
-      if (layers[i].type === "symbol" && layers[i].layout["text-field"]) {
-        labelLayerId = layers[i].id;
-        break;
+      let labelLayerId;
+      for (let i = 0; i < layers.length; i++) {
+        if (layers[i].type === "symbol" && layers[i].layout["text-field"]) {
+          labelLayerId = layers[i].id;
+          break;
+        }
+      }
+
+      map.addSource("openmaptiles", {
+        url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${MAPTILER_KEY}`,
+        type: "vector",
+      });
+
+      map.addLayer(
+        {
+          id: "3d-buildings",
+          source: "openmaptiles",
+          "source-layer": "building",
+          type: "fill-extrusion",
+          minZoom: 10,
+          maxZoom: 17,
+          filter: ["!=", ["get", "hide_3d"], true],
+          paint: {
+            "fill-extrusion-color": [
+              "interpolate",
+              ["linear"],
+              ["get", "render_height"],
+              60,
+              "#ffffff",
+            ],
+            "fill-extrusion-height": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              15,
+              14,
+              16,
+              ["get", "render_height"],
+            ],
+            "fill-extrusion-base": ["get", "render_min_height"],
+            "fill-extrusion-opacity": 0.55,
+          },
+        },
+        labelLayerId
+      );
+      const busStop = [100.78111048274678, 13.731002959069784];
+      // const destination = [100.76436663387764, 13.724574540870687];
+      createCustomMarker(busStop);
+      // createCustomMarker(destination);
+      fetch(
+        `https://router.project-osrm.org/route/v1/driving/${busStop.join(",")};${destination.join(
+          ","
+        )}?overview=full&geometries=geojson`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const route = data.routes[0].geometry;
+
+          map.addSource("route", {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              geometry: route,
+            },
+          });
+        });
+    });
+    Array.from(document.getElementsByTagName("details")).forEach((details) => details.remove());
+  </script>
+
+  <style>
+    #map {
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      #map {
+        height: 40vh;
       }
     }
 
-    map.addSource("openmaptiles", {
-      url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${MAPTILER_KEY}`,
-      type: "vector",
-    });
-
-    map.addLayer(
-      {
-        id: "3d-buildings",
-        source: "openmaptiles",
-        "source-layer": "building",
-        type: "fill-extrusion",
-        minZoom: 10,
-        maxZoom: 17,
-        filter: ["!=", ["get", "hide_3d"], true],
-        paint: {
-          "fill-extrusion-color": [
-            "interpolate",
-            ["linear"],
-            ["get", "render_height"],
-            60,
-            "#ffffff",
-          ],
-          "fill-extrusion-height": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            15,
-            14,
-            16,
-            ["get", "render_height"],
-          ],
-          "fill-extrusion-base": ["get", "render_min_height"],
-          "fill-extrusion-opacity": 0.55,
-        },
-      },
-      labelLayerId
-    );
-    const busStop = [100.78111048274678, 13.731002959069784];
-    // const destination = [100.76436663387764, 13.724574540870687];
-    createCustomMarker(busStop);
-    // createCustomMarker(destination);
-    fetch(
-      `https://router.project-osrm.org/route/v1/driving/${busStop.join(",")};${destination.join(
-        ","
-      )}?overview=full&geometries=geojson`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const route = data.routes[0].geometry;
-
-        map.addSource("route", {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            geometry: route,
-          },
-        });
-      });
-  });
-  Array.from(document.getElementsByTagName("details")).forEach((details) => details.remove());
-</script>
-
-<style>
-  #map {
-    display: flex;
-    height: 100%;
-    width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    #map {
-      height: 40vh;
+    #map .custom-marker {
+      width: 2px;
+      height: 20px;
+      background-color: #d61919;
+      position: relative;
+      text-align: center;
+      color: rgb(255, 255, 255);
     }
-  }
 
-  #map .custom-marker {
-    width: 2px;
-    height: 20px;
-    background-color: #d61919;
-    position: relative;
-    text-align: center;
-    color: rgb(255, 255, 255);
-  }
+    .custom-marker>.block_ {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      width: 55px;
+      height: 70px;
+      background-color: rgba(0, 0, 0, 0.674);
+      border-radius: 100%;
+      position: absolute;
+      border: 2px solid #1a1a1a;
+      top: -70px;
+      left: 0;
+      transform: translateX(-50%);
+    }
 
-  .custom-marker > .block_ {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    width: 55px;
-    height: 70px;
-    background-color: rgba(0, 0, 0, 0.674);
-    border-radius: 100%;
-    position: absolute;
-    border: 2px solid #1a1a1a;
-    top: -70px;
-    left: 0;
-    transform: translateX(-50%);
-  }
-
-  .custom-marker::after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10px;
-    height: 10px;
-    background-color: #d61919;
-    border-radius: 50%;
-    box-shadow: 0 0 0 4px rgba(0, 155, 255, 0.2);
-  }
-</style>
+    .custom-marker::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background-color: #d61919;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(0, 155, 255, 0.2);
+    }
+  </style>

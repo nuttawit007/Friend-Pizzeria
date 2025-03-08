@@ -1,66 +1,189 @@
 <section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh">
-    <div class="flex justify-between">
-        <a href="/dashboard">
-            <button class="bg-_red-500 text-white px-6 py-3 rounded-lg inline-flex items-center justify-self-start"><i
-                    data-lucide="chevron-left"></i>
-                กลับ</button>
-        </a>
-        <input onchange="updateQueryString(this.value)" type="text" value="<%= filter %>" placeholder="ค้นหา"
-            class="px-3 py-3 rounded-lg border border-gray-200" />
-    </div>
-    <div class="flex flex-col w-full">
-        <div class="overflow-x-auto">
-            <div class="mt-5 min-w-full inline-block align-middle">
-                <div class="overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
-                        <thead>
-                            <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    ID</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Username
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Email</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Order</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
-                                    Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(item of member) { %>
-                                <tr class="odd:bg-white even:bg-gray-100">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        #<%= item.id.toString().padStart(4, '0' ) %>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.name %>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.email %>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                        <%= item.orders.length %>
-                                    </td>
-                                    <td
-                                        class="flex items-center justify-center gap-1 px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                        <button class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">แก้ไข</button>
-                                        <button class="bg-_red-500 px-4 py-2 rounded-lg">
-                                            <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+  <div class="flex justify-between">
+    <a href="/dashboard">
+      <button
+        class="bg-_red-500 text-white px-6 py-3 rounded-lg inline-flex items-center justify-self-start"
+      >
+        <i data-lucide="chevron-left"></i> กลับ
+      </button>
+    </a>
+    <input
+      onchange="updateQueryString(this.value)"
+      type="text"
+      value="<%= filter %>"
+      placeholder="ค้นหา"
+      class="px-3 py-3 rounded-lg border border-gray-200"
+    />
+  </div>
+  <div class="flex flex-col w-full">
+    <div class="overflow-x-auto">
+      <div class="mt-5 min-w-full inline-block align-middle">
+        <div class="overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                >
+                  ID
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                >
+                  Username
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                >
+                  Email
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                >
+                  Order
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase"
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(item of member) { %>
+              <tr
+                x-data="{ showModal: false, id: '<%= item.id %>', email: '<%= item.email %>', name: '<%= item.name %>' }"
+                class="odd:bg-white even:bg-gray-100"
+              >
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                  #<%= item.id.toString().padStart(4, '0' ) %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= item.name %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= item.email %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <%= item.orders.length %>
+                </td>
+                <td
+                  class="flex items-center justify-center gap-1 px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
+                >
+                  <button
+                    @click="showModal = true"
+                    class="bg-gray-200 px-4 py-2 rounded-lg font-semibold"
+                  >
+                    แก้ไข
+                  </button>
 
-                                <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                  <button @click="deleteUser" class="bg-_red-500 px-4 py-2 rounded-lg">
+                    <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
+                  </button>
+
+                  <div
+                    x-show="showModal"
+                    @keydown.escape.window="showModal = false"
+                    class="fixed inset-0 flex items-center justify-center z-50"
+                  >
+                    <div
+                      @click.away="showModal = false"
+                      class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white"
+                    >
+                      <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-semibold">แก้ไขผู้ใช้</h2>
+                        <button
+                          @click="showModal = false"
+                          class="absolute right-6 top-3 p-2 rounded-lg"
+                        >
+                          X
+                        </button>
+                      </div>
+
+                      <div class="flex flex-col mt-4">
+                        <label for="name" class="text-xl text-start">ชื่อ</label>
+                        <input
+                          required
+                          id="name"
+                          x-model="name"
+                          type="text"
+                          class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                          placeholder="ชื่อ"
+                        />
+                      </div>
+                      <div class="flex flex-col mt-4">
+                        <label for="email" class="text-xl text-start">อีเมลล์</label>
+                        <input
+                          required
+                          id="email"
+                          x-model="email"
+                          type="email"
+                          class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                          placeholder="อีเมลล์"
+                        />
+                      </div>
+                      <button
+                        @click="updateUser"
+                        class="w-full bg-yellow-200 text-black/50 hover:bg-yellow-200/80 text-lg py-2 rounded-md mt-4"
+                      >
+                        อัพเดท
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <% } %>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
 </section>
+
+<script>
+  function updateUser() {
+    const payload = {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+    };
+    fetch(`/member/${payload.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: payload.name, email: payload.email }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Updated The Menu");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Update Menu.");
+      });
+  }
+
+  function deleteUser() {
+    const payload = {
+      id: this.id,
+    };
+    fetch(`/member/${payload.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Deleted The Menu");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Delete Menu.");
+      });
+  }
+</script>

@@ -21,8 +21,6 @@ router.get("/transaction", async (req, res) => {
       },
     },
   });
-
-  console.log(transaction);
   res.render("dashboard/history/transaction", {
     user: req.user,
     transaction,
@@ -153,17 +151,14 @@ router.get("/menu", async (req, res) => {
   const filteredMenu = [
     ...menu,
     ...appetizer.map((e) => {
-      e.public = true;
       e.author = null;
       return e;
     }),
     ...snack.map((e) => {
-      e.public = true;
       e.author = null;
       return e;
     }),
     ...drink.map((e) => {
-      e.public = true;
       e.author = null;
       return e;
     }),
