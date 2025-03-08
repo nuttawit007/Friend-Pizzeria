@@ -9,7 +9,7 @@ router.get("/history", async (req, res) => {
   };
 
   const status = statusType[req.query.filter] || null;
-  const userId = 1;
+  const userId = req.user.id;
 
   const orders = await prisma.order.findMany({
     where: {

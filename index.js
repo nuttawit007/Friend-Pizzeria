@@ -30,6 +30,21 @@ app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+function requireAuth(req, res, next) {
+  const whitelist = ["/"];
+
+  if (whitelist.includes(req.path) || req.path.startsWith("/auth")) {
+    return next();
+  }
+
+  if (!req.user) {
+    return res.redirect("/auth/google");
+  }
+
+  next();
+}
+app.use(requireAuth);
+
 app.use(async (req, res, next) => {
   if (req.user) {
     try {

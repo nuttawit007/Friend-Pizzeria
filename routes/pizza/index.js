@@ -357,7 +357,7 @@ router.delete("/ingredient/:id", async (req, res) => {
 });
 
 router.get("/basket", async (req, res) => {
-  const userId = 1;
+  const userId = req.user.id;
 
   const basket = await prisma.basket.findUnique({
     where: { userId },
@@ -371,7 +371,7 @@ router.get("/basket", async (req, res) => {
 });
 
 router.post("/basket", async (req, res) => {
-  const userId = 1;
+  const userId = req.user.id;
   let basket = await prisma.basket.findUnique({
     where: { userId },
   });
@@ -498,7 +498,7 @@ router.delete("/basket/:pizzaId", async (req, res) => {
 });
 
 router.delete("/basket", async (req, res) => {
-  const userId = 1;
+  const userId = req.user.id;
   const basket = await prisma.basket.findUnique({
     where: { userId },
   });
@@ -509,7 +509,7 @@ router.delete("/basket", async (req, res) => {
 });
 
 router.post("/order", async (req, res) => {
-  const userId = 1;
+  const userId = req.user.id;
   const { address, tel, delivery, paymentType } = req.body;
 
   const basket = await prisma.basket.findUnique({
@@ -580,7 +580,7 @@ router.post("/order", async (req, res) => {
 });
 
 router.get("/orders", async (req, res) => {
-  const userId = 1;
+  const userId = req.user.id;
 
   const result = await prisma.basket.findFirst({
     where: { userId },
