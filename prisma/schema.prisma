@@ -171,6 +171,7 @@ model Order {
   delivery    DeliveryType @default(PICKUP)
   phone       String       @default("0000000000")
   items       OrderItem[]
+  star        Int          @default(0)
   totalPrice  Decimal
   status      OrderStatus  @default(PENDING)
   createdAt   DateTime     @default(now())

@@ -771,4 +771,16 @@ router.delete("/member/:id", async (req, res) => {
 
   res.json({ message: "Member deleted successfully" });
 });
+
+router.put("/review/:id", async (req, res) => {
+  const { id } = req.params;
+  const { star } = req.body;
+
+  const transaction = await prisma.order.update({
+    where: { id: Number(id) },
+    data: { star },
+  });
+
+  res.json(transaction);
+});
 module.exports = router;

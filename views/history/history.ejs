@@ -21,7 +21,8 @@
       </div>
 
       <% orders.forEach(order=> { %>
-        <div x-data="{ openModal: false, order: <%= JSON.stringify(order) %> }"
+        <div
+          x-data="{ openModal: false, openReview: false, order: <%= JSON.stringify(order) %>, star: 0, id: <%= order.id %> }"
           @click="openModal = true; selectedOrder = <%= JSON.stringify(order) %>"
           class="bg-white rounded-lg border border-red-500 p-4 mb-4">
           <div class="grid gap-4 lg:grid-cols-2 items-center w-full">
@@ -30,14 +31,48 @@
                 <span class="text-gray-700">
                   หมายเลขออเดอร์ : <%= order.id.toString().padStart(4, '0' ) %>
                 </span>
-                <button class="ml-4 text-gray-400 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                  </svg>
-                  รีวิว
-                </button>
+                <div>
+
+                  <button @click.stop="openReview = true" class="ml-4 text-gray-400 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    รีวิว
+                  </button>
+
+                  <div x-show="openReview" @keydown.escape.window="openReview = false"
+                    class="fixed inset-0 flex items-center justify-center z-50">
+                    <div @click.away="openReview = false"
+                      class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white">
+                      <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-semibold">แก้ไขผู้ใช้</h2>
+                        <button @click="openReview = false" class="absolute right-6 top-3 p-2 rounded-lg">X</button>
+                      </div>
+
+                      <div class="flex justify-center mt-5">
+                        <img src="/img/banner/review/review.png" class="rounded-lg" alt="pizza">
+                      </div>
+                      <div class="flex justify-center gap-3 text-3xl px-8 mt-4">
+                        <template x-for="i in Array.from({ length: 5 }, (_, i) => i + 1)" :key="i">
+                          <button @click="star = i" :class="{
+                                        'text-yellow-400 fill-yellow-200': i <= star,
+                                        'text-gray-300': i > star
+                                    }">
+                            <i fill="currentColor" data-lucide="star" class="w-6 h-6"></i>
+                          </button>
+                        </template>
+                      </div>
+
+                      <button @click="updateStarRating"
+                        class="w-full bg-yellow-200 text-black/50 hover:bg-yellow-200/80 text-lg py-2 rounded-md mt-4">
+                        อัพเดท
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
               </div>
               <div class="text-gray-700">จำนวนสินค้า : <%= order.items.length %>
               </div>
@@ -307,3 +342,27 @@
     </aside>
   </div>
 </div>
+
+<script>
+  function updateStarRating() {
+    const payload = {
+      id: this.id,
+      star: this.star,
+    };
+    fetch(`/review/${payload.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ star: payload.star }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Updated The Menu");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed to Update Menu.");
+      });
+  }
+</script>
