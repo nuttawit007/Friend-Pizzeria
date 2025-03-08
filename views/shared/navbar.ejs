@@ -24,10 +24,12 @@
       </a>
 
       <% if (user) { %>
-        <span
-          class="hidden md:block text-white text-sm lg:text-lg font-medium border border-white py-2 px-4 rounded-full">
-          <%= user.name %>
-        </span>
+        <a href="/auth/logout">
+          <span
+            class="hidden md:block text-white text-sm lg:text-lg font-medium border border-white py-2 px-4 rounded-full">
+            <%= user.name %>
+          </span>
+        </a>
         <% } else { %>
           <a href="/auth/google">
             <button
