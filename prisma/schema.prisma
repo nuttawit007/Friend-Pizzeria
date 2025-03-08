@@ -13,9 +13,15 @@ model User {
   username String   @unique
   photoUrl String?
   name     String?
+  role     Roles  @default(MEMBER)
   baskets  Basket[]
   orders   Order[]
   Pizza    Pizza[]
+}
+
+enum Roles {
+  MEMBER
+  ADMIN
 }
 
 model Pizza {

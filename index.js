@@ -86,6 +86,26 @@ const PORT = process.env.PORT || 3000;
 
 async function seedDatabase() {
   try {
+    const admin = await prisma.user.findFirst({
+      where: {
+        username: "114919480762617826201",
+        email: "friendpizzeria@gmail.com"
+      }
+    })
+    if(!admin) {
+      const user = await prisma.user.create({
+        data: {
+          email: "friendpizzeria@gmail.com",
+          username: "114919480762617826201",
+          photoUrl: "https://lh3.googleusercontent.com/a/ACg8ocIGSItGmju1c1HaWRNnElavgJ2W8mGMnTK5YfKlQHiqX_2i=s96-c",
+          name: "Friend Pizzeria",
+          role: "ADMIN"
+        }
+      })
+      await prisma.basket.create({
+        data: {userId: user.id}
+      })
+    }
     const ingredient = [
       {
         name: "มอซซาเรลล่า",

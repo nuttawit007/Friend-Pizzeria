@@ -3,7 +3,7 @@ const { ProductType } = require("@prisma/client");
 const prisma = require("../../config/db");
 
 router.get("/forum", async (req, res) => {
-  const query = req.query.filter == "me" ? { authorId: req.user.id } : {};
+  const query = req.query.filter == "me" ? { authorId: req.user.id } : { public : true };
   let pizzaItems = await prisma.pizza.findMany({
     where: {
       type: ProductType.CUSTOM,
@@ -22,6 +22,7 @@ router.get("/forum", async (req, res) => {
     where: { pizzaId: { in: pizzaItems.map((item) => item.id) } },
   });
 
+  console.log(pizzaItems);
   pizzaItems.forEach((item) => {
     item.counter = order.filter((order) => order.pizzaId == item.id).length;
   });

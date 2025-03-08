@@ -9,7 +9,9 @@
       <a href="/pizzas/custom" class="hover:text-orange-500 transition font-medium">คัสต้อมพิซซ่า</a>
       <a href="/forum" class="hover:text-orange-500 transition font-medium">ฟอรัม</a>
       <a href="/history" class="hover:text-orange-500 transition font-medium">ประวัติการสั่งซื้อ</a>
+      <% if(user && user.role == 'ADMIN') { %>
       <a href="/dashboard" class="hover:text-orange-500 transition font-medium">หลังร้าน</a>
+      <% } %>
     </nav>
 
     <div class="flex gap-4 items-center">
@@ -24,12 +26,15 @@
       </a>
 
       <% if (user) { %>
-        <a href="/auth/logout">
-          <span
-            class="hidden md:block text-white text-sm lg:text-lg font-medium border border-white py-2 px-4 rounded-full">
+        <div class="relative">
+          <button @click="open = !open" class="hidden md:block text-white text-sm lg:text-lg font-medium border border-white py-2 px-4 rounded-full">
             <%= user.name %>
-          </span>
-        </a>
+          </button>
+          <!-- logout nav -->
+          <div x-show="open" @click.away="open = false" class="hidden md:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+            <a href="/auth/logout" class="block px-4 py-2 text-_red-500 hover:bg-red-50 mx-2 rounded-md flex items-center gap-2 font-semibold"> <i data-lucide="log-out"></i> ออกจากระบบ </a>
+          </div>
+        </div>
         <% } else { %>
           <a href="/auth/google">
             <button
@@ -49,8 +54,10 @@
     <a href="/pizzas/custom" class="hover:text-orange-500 transition font-medium px-4 py-2">คัสต้อมพิซซ่า</a>
     <a href="/forum" class="hover:text-orange-500 transition font-medium px-4 py-2 ">ฟอรัม</a>
     <a href="/history" class="hover:text-orange-500 transition font-medium px-4 py-2 ">ประวัติการสั่งซื้อ</a>
-    <a href="/dashboard" class="hover:text-orange-500 transition font-medium px-4 py-2">หลังร้าน</a>
     <% if (user) { %>
+      <% if(user.role == 'ADMIN') { %>
+        <a href="/dashboard" class="hover:text-orange-500 transition font-medium px-4 py-2">หลังร้าน</a>
+      <% } %>
       <a href="/orders" class="hover:text-orange-500 transition font-medium px-4 py-2">ตะกร้าสินค้า</a>
       <div class="flex items-center justify-between px-4 py-2 bg-white text-_red-500 h-16">
         <div class="text-base font-semibold">
