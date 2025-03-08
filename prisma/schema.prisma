@@ -85,25 +85,17 @@ model PizzaIngredient {
 }
 
 model Appetizer {
-  id             Int              @id @default(autoincrement())
-  name           String
-  description    String?
-  price          Decimal
-  imageUrl       String?
-  public         Boolean          @default(true)
-  type           ProductType      @default(APPETIZER)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  BasketItem     BasketItem[]
-  OrderItem      OrderItem[]
-  AppetizerImage AppetizerImage[]
-}
-
-model AppetizerImage {
-  id          Int       @id @default(autoincrement())
-  appetizer   Appetizer @relation(fields: [appetizerId], references: [id])
-  appetizerId Int
-  imageUrl    String
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  imageUrl    String?
+  public      Boolean      @default(true)
+  type        ProductType  @default(APPETIZER)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  BasketItem  BasketItem[]
+  OrderItem   OrderItem[]
 }
 
 model Snack {
