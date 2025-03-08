@@ -84,9 +84,9 @@
 
                     <div class="flex flex-col justify-between w-2/3">
                         <div>
-                            <div class="flex justify-between">
+                            <div class="flex flex-wrap justify-between">
                                 <h3 class="text-lg font-bold">
-                                    <%= pizza.name %>
+                                    <%= pizza.name.length> 10 ? pizza.name.slice(0, 10) + '...' : pizza.name %>
                                 </h3>
                                 <span class="text-lg font-bold text-emerald-500">
                                     <%= pizza.price %> ฿

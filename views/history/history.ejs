@@ -22,7 +22,7 @@
 
       <% orders.forEach(order=> { %>
         <div
-          x-data="{ openModal: false, openReview: false, order: <%= JSON.stringify(order) %>, star: 0, id: <%= order.id %> }"
+          x-data="{ openModal: false, openReview: false, order: <%= JSON.stringify(order) %>, star: <%= order.star %>, id: <%= order.id %>, review: [] }"
           @click="openModal = true; selectedOrder = <%= JSON.stringify(order) %>"
           class="bg-white rounded-lg border border-red-500 p-4 mb-4">
           <div class="grid gap-4 lg:grid-cols-2 items-center w-full">
@@ -33,14 +33,33 @@
                 </span>
                 <div>
 
-                  <button @click.stop="openReview = true" class="ml-4 text-gray-400 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                    รีวิว
+                  <button :disabled="star > 0" @click.stop="openReview = true"
+                    class="ml-4 text-gray-400 flex items-center">
+
+                    <template x-if="star > 0">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-yellow-400" fill="none"
+                          viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" />
+                        </svg>
+                        <span x-text="star"></span>
+                      </div>
+                    </template>
+
+                    <template x-if="star === 0">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                        รีวิว
+                      </div>
+                    </template>
+
                   </button>
+
 
                   <div x-show="openReview" @keydown.escape.window="openReview = false"
                     class="fixed inset-0 flex items-center justify-center z-50">
@@ -62,6 +81,17 @@
                                     }">
                             <i fill="currentColor" data-lucide="star" class="w-6 h-6"></i>
                           </button>
+                        </template>
+                      </div>
+                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-6">
+                        <template
+                          x-for="(item, index) in ['อาหารอร่อย', 'เมนูหลากหลาย', 'ความสะอาด', 'วัตถุดิบสดใหม่', 'จัดส่งเร็ว', 'ราคาเหมาะสม']"
+                          :key="index">
+                          <div
+                            @click.stop="review.includes(item) ? review = review.filter(i => i !== item) : review.push(item)"
+                            :class="review.includes(item) ? 'bg-green-300' : 'bg-gray-200'"
+                            class="rounded-lg px-4 py-2 cursor-pointer select-none" x-text="item">
+                          </div>
                         </template>
                       </div>
 
@@ -348,13 +378,14 @@
     const payload = {
       id: this.id,
       star: this.star,
+      review: this.review
     };
     fetch(`/review/${payload.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ star: payload.star }),
+      body: JSON.stringify({ star: payload.star, review: payload.review }),
     })
       .then((response) => response.json())
       .then((data) => {

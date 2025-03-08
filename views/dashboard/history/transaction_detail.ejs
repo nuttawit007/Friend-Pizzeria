@@ -1,8 +1,8 @@
 <div class="container mx-auto px-4 py-5 max-w-9xl mt-5 min-h-dvh" x-data="{ status: '<%= info.status %>' }">
-  <div class="flex flex-col lg:flex-row mb-2 gap-5">
+  <div class="flex flex-col xl:flex-row items-start justify-center h-full w-full mb-2 gap-5">
     <div class="space-y-5">
-      <div class="flex items-center mb-2">
-        <a href="/dashboard">
+      <div class="flex flex-grow items-center mb-2 w-full">
+        <a href="/dashboard/transaction">
           <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
             <i data-lucide="chevron-left"></i>
             กลับ
@@ -60,6 +60,13 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-6">
+        <% info.review.forEach(function(item, i) { %>
+          <div class="bg-green-300 rounded-lg px-4 py-2">
+            <%= item %>
+          </div>
+          <% }); %>
       </div>
       <div class="grid grid-cols-2 gap-5">
         <div class="col-span-2">

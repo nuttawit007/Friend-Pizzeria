@@ -647,6 +647,7 @@ async function seedDatabase() {
             type: p.type,
             size: p.size,
             pizzaDough: p.pizzaDough,
+            public: true,
           },
         });
         await prisma.pizzaIngredient.createMany({

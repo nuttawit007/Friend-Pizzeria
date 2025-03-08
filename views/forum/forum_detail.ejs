@@ -1,6 +1,6 @@
 <%- contentFor('body') %>
     <section x-data="<%= JSON.stringify(pizza) %>"
-        class="relative flex flex-col min-h-dvh bg-gray-100 container px-10 mx-auto p-5 mt-5">
+        class="relative flex flex-col items-center min-h-dvh bg-gray-100 container px-10 mx-auto p-5 mt-5">
 
         <div class="flex flex-col xl:flex-row justify-center gap-10">
             <div class="relative flex flex-col gap-5 w-full xl:w-2/5 mt-14">
@@ -80,7 +80,8 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between gap-3">
                             <h1 class="text-3xl font-bold">
-                                🍕 <%= pizza.name %> <span class="text-emerald-500 text-xl">
+                                🍕 <%= pizza.name.length> 10 ? pizza.name.slice(0, 10) + '...' : pizza.name %> <span
+                                        class="text-emerald-500 text-xl">
                                         ( <%= pizza.price %> ฿ )
                                     </span>
                             </h1>
@@ -271,12 +272,16 @@
                                 </button>
                             </template>
                             <template x-if="isMine">
-                                <button @click="makePublic"
-                                    class="w-full bg-blue-400 text-white px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
+                                <button @click="makePublic" :class="{
+                                    'bg-blue-400 text-white': public,
+                                    'bg-red-400 text-white': !public
+                                }"
+                                    class="w-full text-white px-3 py-3 rounded-lg text-xl font-semibold inline-flex items-center justify-center gap-2">
                                     <i color="#FFFFFF" data-lucide="globe"></i>
-                                    สาธารณะ
+                                    <span x-text="public ? 'สาธารณะ' : 'ส่วนตัว'"></span>
                                 </button>
                             </template>
+
                         </div>
                     </div>
                 </div>
@@ -300,11 +305,11 @@
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    alert("Removed All in Basket");
+                    alert("Updated Public Status");
                     window.location.reload();
                 })
                 .catch((error) => {
-                    alert("Failed to Remove.");
+                    alert("Failed to Update.");
                 });
         }
     </script>

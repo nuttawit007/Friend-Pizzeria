@@ -818,11 +818,11 @@ router.delete("/member/:id", async (req, res) => {
 
 router.put("/review/:id", async (req, res) => {
   const { id } = req.params;
-  const { star } = req.body;
+  const { star, review } = req.body;
 
   const transaction = await prisma.order.update({
     where: { id: Number(id) },
-    data: { star },
+    data: { star, review: JSON.stringify(review) },
   });
 
   res.json(transaction);

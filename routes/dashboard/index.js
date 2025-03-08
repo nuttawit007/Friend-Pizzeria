@@ -26,9 +26,15 @@ router.get("/transaction", async (req, res) => {
       },
     },
   });
+
   res.render("dashboard/history/transaction", {
     user: req.user,
-    transaction,
+    transaction: transaction.map((order) => {
+      return {
+        ...order,
+        review: order.review ? JSON.parse(order.review) : null,
+      };
+    }),
     filter: req.query.filter || "",
   });
 });
@@ -110,9 +116,13 @@ router.get("/transaction/:id", async (req, res) => {
       totalPrice: item.quantity * itemPrice,
     };
   });
+
   res.render("dashboard/history/transaction_detail", {
     user: req.user,
-    info: transaction,
+    info: {
+      ...transaction,
+      review: transaction.review ? JSON.parse(transaction.review) : [],
+    },
     transaction: formattedItems,
     total: transaction.totalPrice,
     filter: req.query.filter || "",
