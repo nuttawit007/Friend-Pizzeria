@@ -314,7 +314,7 @@ async function seedDatabase() {
       },
     ];
     const isIngredient = await prisma.ingredient.findMany();
-    if (!isIngredient) {
+    if (isIngredient.length <= 0) {
       await prisma.ingredient.createMany({
         data: ingredient,
       });

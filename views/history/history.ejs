@@ -160,21 +160,21 @@
                 <div class="text-gray-700 mb-2">รูปแบบการชำระเงิน</div>
                 <div class="flex gap-2">
                   <button :class="{
-                                        'bg-yellow-400 text-white': selectedOrder ? selectedOrder.paymentType === 'QR',
-                                        'bg-gray-200 text-gray-700': selectedOrder ? selectedOrder.paymentType !== 'QR'
-                                    }" class="bg-yellow-400 text-white px-3 py-1 rounded text-sm">
+                                  'bg-yellow-400 text-white': selectedOrder && selectedOrder.paymentType === 'QR',
+                                  'bg-gray-200 text-gray-700': !selectedOrder || selectedOrder.paymentType !== 'QR'
+                              }" class="px-3 py-1 rounded text-sm">
                     QR
                   </button>
                   <button :class="{
-                                        'bg-gray-200 text-gray-700': selectedOrder ? selectedOrder.paymentType === 'TRANSFER',
-                                        'bg-gray-200 text-gray-700': selectedOrder ? selectedOrder.paymentType !== 'TRANSFER'
-                                    }" class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">
+                                  'bg-yellow-400 text-white': selectedOrder && selectedOrder.paymentType === 'TRANSFER',
+                                  'bg-gray-200 text-gray-700': !selectedOrder || selectedOrder.paymentType !== 'TRANSFER'
+                              }" class="px-3 py-1 rounded text-sm">
                     โอนเงิน
                   </button>
                   <button :class="{
-                                        'bg-gray-200 text-gray-700': selectedOrder ? selectedOrder.paymentType === 'CARD',
-                                        'bg-gray-200 text-gray-700': selectedOrder ? selectedOrder.paymentType !== 'CARD'
-                                    }" class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">
+                                  'bg-yellow-400 text-white': selectedOrder && selectedOrder.paymentType === 'CARD',
+                                  'bg-gray-200 text-gray-700': !selectedOrder || selectedOrder.paymentType !== 'CARD' 
+                              }" class="px-3 py-1 rounded text-sm">
                     บัตรเครดิต
                   </button>
                 </div>
