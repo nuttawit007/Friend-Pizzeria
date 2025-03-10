@@ -1,362 +1,300 @@
 <%- contentFor('body') %>
 
-<section
-  class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh"
-  x-data="{queryString: '<%= filter %>'}"
->
-  <a href="/dashboard">
-    <button
-      class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start"
-    >
-      <i data-lucide="chevron-left"></i>
-      กลับ
-    </button>
-  </a>
+  <section class="flex flex-col bg-gray-100 container mx-auto p-5 max-w-7xl mt-5 min-h-dvh"
+    x-data="{queryString: '<%= filter %>'}">
+    <a href="/dashboard">
+      <button class="bg-_red-500 text-white px-5 py-3 rounded-lg inline-flex items-center justify-self-start">
+        <i data-lucide="chevron-left"></i>
+        กลับ
+      </button>
+    </a>
 
-  <div class="flex flex-col w-full mt-4">
-    <div class="flex justify-between items-center">
-      <h1 class="text-xl text-center">เมนูทั้งหมด</h1>
-      <div x-data="{ showModal: false, name: '', type: 'NORMAL', price: null}">
-        <button
-          @click="showModal = true"
-          class="bg-yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2"
-        >
-          <i data-lucide="plus"></i>เพิ่มเมนูใหม่
-        </button>
+    <div class="flex flex-col w-full mt-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl text-center">เมนูทั้งหมด</h1>
+        <div x-data="{ showModal: false, name: '', type: 'NORMAL', price: null}">
+          <button @click="showModal = true"
+            class="bg-yellow-100 hover:bg-yellow-400 px-6 py-3 rounded-lg inline-flex items-center gap-2">
+            <i data-lucide="plus"></i>เพิ่มเมนูใหม่
+          </button>
 
-        <div
-          x-show="showModal"
-          @keydown.escape.window="showModal = false"
-          class="fixed inset-0 flex items-center justify-center z-50"
-        >
-          <div
-            @click.away="showModal = false"
-            class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white"
-          >
-            <div class="flex items-center justify-between">
-              <h2 class="text-2xl font-semibold">แก้ไขเมนู</h2>
-              <button @click="showModal = false" class="absolute right-6 top-3 p-2 rounded-lg">
-                X
+          <div x-show="showModal" @keydown.escape.window="showModal = false"
+            class="fixed inset-0 flex items-center justify-center z-50">
+            <div @click.away="showModal = false"
+              class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white">
+              <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-semibold">แก้ไขเมนู</h2>
+                <button @click="showModal = false" class="absolute right-6 top-3 p-2 rounded-lg">
+                  X
+                </button>
+              </div>
+
+              <div class="mt-4">
+                <label for="menuname" class="text-xl">ชื่อเมนู</label>
+                <input required x-model="name" class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                  placeholder="เช่น พิซซ่าเปปเปอร์โรนี" />
+              </div>
+
+              <div class="mt-4">
+                <label for="category" class="text-xl">หมวดหมู่</label>
+                <select x-model="type" class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2">
+                  <option :value="'NORMAL'">PIZZA</option>
+                  <option :value="'CUSTOM'">CUSTOM</option>
+                  <option :value="'DRINK'">DRINK</option>
+                  <option :value="'SNACK'">SNACK</option>
+                  <option :value="'APPETIZER'">APPETIZER</option>
+                </select>
+              </div>
+
+              <div class="mt-4">
+                <label for="price" class="text-xl">ราคา</label>
+                <input required x-model="price" type="number"
+                  class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2" placeholder="เช่น 299" />
+              </div>
+
+              <button @click="createMenu"
+                class="w-full bg-_yellow-200 text-black/50 hover:bg-_yellow-200/80 text-lg py-2 rounded-md mt-4">
+                สร้างเมนูใหม่
               </button>
             </div>
-
-            <div class="mt-4">
-              <label for="menuname" class="text-xl">ชื่อเมนู</label>
-              <input
-                required
-                x-model="name"
-                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
-                placeholder="เช่น พิซซ่าเปปเปอร์โรนี"
-              />
-            </div>
-
-            <div class="mt-4">
-              <label for="category" class="text-xl">หมวดหมู่</label>
-              <select
-                x-model="type"
-                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
-              >
-                <option :value="'NORMAL'">PIZZA</option>
-                <option :value="'CUSTOM'">CUSTOM</option>
-                <option :value="'DRINK'">DRINK</option>
-                <option :value="'SNACK'">SNACK</option>
-                <option :value="'APPETIZER'">APPETIZER</option>
-              </select>
-            </div>
-
-            <div class="mt-4">
-              <label for="price" class="text-xl">ราคา</label>
-              <input
-                required
-                x-model="price"
-                type="number"
-                class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
-                placeholder="เช่น 299"
-              />
-            </div>
-
-            <button
-              @click="createMenu"
-              class="w-full bg-_yellow-200 text-black/50 hover:bg-_yellow-200/80 text-lg py-2 rounded-md mt-4"
-            >
-              สร้างเมนูใหม่
-            </button>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="flex border-b border-gray-200 mb-2 mt-2">
-      <button
-        onclick="updateQueryString('')"
-        :class="{'': queryString, 'border-b-2 border-red-500 text-red-500 font-medium': !queryString}"
-        class="px-4 py-2"
-      >
-        ทั้งหมด
-      </button>
-      <button
-        onclick="updateQueryString('pizza')"
-        :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'pizza'}"
-        class="px-4 py-2"
-      >
-        พิซซ่า
-      </button>
-      <button
-        onclick="updateQueryString('drink')"
-        :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'drink'}"
-        class="px-4 py-2"
-      >
-        เครื่องดื่ม
-      </button>
-      <button
-        onclick="updateQueryString('appetizer')"
-        :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'appetizer'}"
-        class="px-4 py-2"
-      >
-        อาหารอิตาเลี่ยน
-      </button>
-      <button
-        onclick="updateQueryString('snack')"
-        :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'snack'}"
-        class="px-4 py-2"
-      >
-        ของหวาน
-      </button>
-    </div>
+      <div class="flex border-b border-gray-200 mb-2 mt-2">
+        <button onclick="updateQueryString('')"
+          :class="{'': queryString, 'border-b-2 border-red-500 text-red-500 font-medium': !queryString}"
+          class="px-4 py-2">
+          ทั้งหมด
+        </button>
+        <button onclick="updateQueryString('pizza')"
+          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'pizza'}"
+          class="px-4 py-2">
+          พิซซ่า
+        </button>
+        <button onclick="updateQueryString('drink')"
+          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'drink'}"
+          class="px-4 py-2">
+          เครื่องดื่ม
+        </button>
+        <button onclick="updateQueryString('appetizer')"
+          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'appetizer'}"
+          class="px-4 py-2">
+          อาหารอิตาเลี่ยน
+        </button>
+        <button onclick="updateQueryString('snack')"
+          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'snack'}"
+          class="px-4 py-2">
+          ของหวาน
+        </button>
+      </div>
 
-    <div class="w-full">
-      <div class="overflow-x-auto">
-        <div class="mt-5 min-w-full inline-block align-middle">
-          <div class="overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200 rounded-md">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    ไอดี
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    รายการ
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    หมวดหมู่
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    ราคา
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    สถานะ
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    ผู้สร้าง
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500"
-                  >
-                    เพิ่มเติม
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <% if(menu.length> 0) { %> <% for(item of menu) { %>
-                <tr
-                  x-data="{ showModal: false, id: '<%= item.id %>', name: '<%= item.name %>', public: <%= item.public %> , type: '<%= item.type %>', price: <%= item.price %>, public: <%= item.public ? 'true' : 'false' %>, author: <%= item.author ? JSON.stringify(item.author) : 'null' %> }"
-                  class="odd:bg-white even:bg-gray-100"
-                >
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                    #<%= item.id.toString().padStart(4, '0' ) %>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                    <%= item.name %>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                    <%= item.type %>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                    <%= item.price %>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                    <button
-                      :class="{ 'bg-red-500 text-white': !public, 'bg-green-500 text-white': public }"
-                      class="text-white px-4 py-1 rounded w-full sm:w-auto text-center"
-                    >
-                      <span x-text="public ? 'สาธารณะ' : 'ส่วนตัว'"></span>
-                    </button>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                    <button
-                      :class="{ 'bg-gray-500 text-white': !author, 'bg-blue-500 text-white': author }"
-                      class="text-white px-4 py-1 rounded w-full sm:w-auto text-center"
-                    >
-                      <span x-text="author ? author.name : 'ไม่มีผู้สร้าง'"></span>
-                    </button>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                    <button
-                      @click="showModal = true"
-                      class="bg-gray-200 px-4 py-2 rounded-lg font-semibold"
-                    >
-                      แก้ไข
-                    </button>
-                    <div
-                      x-show="showModal"
-                      @keydown.escape.window="showModal = false"
-                      class="fixed inset-0 flex items-center justify-center z-50"
-                    >
-                      <div
-                        @click.away="showModal = false"
-                        class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white"
-                      >
-                        <div class="flex items-center justify-between">
-                          <h2 class="text-2xl font-semibold">แก้ไขเมนู</h2>
-                          <button
-                            @click="showModal = false"
-                            class="absolute right-6 top-3 p-2 rounded-lg"
-                          >
-                            X
-                          </button>
-                        </div>
-
-                        <div class="flex flex-col mt-4">
-                          <label for="menuname" class="text-xl">ชื่อเมนู</label>
-                          <input
-                            required
-                            x-model="name"
-                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
-                            placeholder="เช่น พิซซ่าเปปเปอร์โรนี"
-                          />
-                        </div>
-
-                        <div class="flex flex-col mt-4">
-                          <label for="category" class="text-xl">หมวดหมู่</label>
-                          <select
-                            x-model="type"
-                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
-                          >
-                            <option :value="'NORMAL'">PIZZA</option>
-                            <option :value="'CUSTOM'">CUSTOM</option>
-                            <option :value="'DRINK'">DRINK</option>
-                            <option :value="'SNACK'">SNACK</option>
-                            <option :value="'APPETIZER'">APPETIZER</option>
-                          </select>
-                        </div>
-
-                        <div class="flex flex-col mt-4">
-                          <label for="price" class="text-xl">ราคา</label>
-                          <input
-                            required
-                            x-model="price"
-                            type="number"
-                            class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
-                            placeholder="เช่น 299"
-                          />
-                        </div>
-                        <div class="flex flex-col w-full mt-4">
-                          <label for="price" class="text-xl">การแสดง: </label>
-                          <button
-                            @click="public = !public"
-                            :class="{ 'bg-red-500 text-white': !public, 'bg-green-500 text-white': public }"
-                            class="flex-1 border-2 text-white px-4 py-1 rounded w-full sm:w-auto text-center transition-all duration-200"
-                          >
+      <div class="w-full">
+        <div class="overflow-x-auto">
+          <div class="mt-5 min-w-full inline-block align-middle">
+            <div class="overflow-hidden">
+              <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200 rounded-md">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      ไอดี
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      รายการ
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      หมวดหมู่
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      ราคา
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      สถานะ
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      ผู้สร้าง
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-sm sm:text-md font-medium text-gray-500">
+                      เพิ่มเติม
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(menu.length> 0) { %> <% for(item of menu) { %>
+                      <tr
+                        x-data="{ showModal: false, id: '<%= item.id %>', name: '<%= item.name %>', public: <%= item.public %> , type: '<%= item.type %>', price: <%= item.price %>, public: <%= item.public ? 'true' : 'false' %>, author: <%= item.author ? JSON.stringify(item.author) : 'null' %> }"
+                        class="odd:bg-white even:bg-gray-100">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                          #<%= item.id.toString().padStart(4, '0' ) %>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          <%= item.name %>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          <%= item.type %>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          <%= item.price %>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          <button :class="{ 'bg-red-500 text-white': !public, 'bg-green-500 text-white': public }"
+                            class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
                             <span x-text="public ? 'สาธารณะ' : 'ส่วนตัว'"></span>
                           </button>
-                        </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          <button :class="{ 'bg-gray-500 text-white': !author, 'bg-blue-500 text-white': author }"
+                            class="text-white px-4 py-1 rounded w-full sm:w-auto text-center">
+                            <span x-text="author ? author.name : 'ไม่มีผู้สร้าง'"></span>
+                          </button>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          <div class="flex items-center justify-center gap-1">
+                            <button @click="showModal = true" class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">
+                              แก้ไข
+                            </button>
+                            <button @click="deleteMenu" class="bg-_red-500 px-4 py-2 rounded-lg">
+                              <i data-lucide="trash-2" color="#FFFFFF" class="w-5 h-5 opacity-90"></i>
+                            </button>
+                          </div>
+                          <div x-show="showModal" @keydown.escape.window="showModal = false"
+                            class="fixed inset-0 flex items-center justify-center z-50">
+                            <div @click.away="showModal = false"
+                              class="max-w-xl w-full p-6 border border-gray-200 rounded-lg shadow-lg relative bg-white">
+                              <div class="flex items-center justify-between">
+                                <h2 class="text-2xl font-semibold">แก้ไขเมนู</h2>
+                                <button @click="showModal = false" class="absolute right-6 top-3 p-2 rounded-lg">
+                                  X
+                                </button>
+                              </div>
 
-                        <button
-                          @click="updateMenu"
-                          class="w-full bg-_yellow-200 text-black/50 hover:bg-_yellow-200/80 text-lg py-2 rounded-md mt-4"
-                        >
-                          แก้ไขเมนู
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <% } %> <% } else { %>
-                <tr>
-                  <td class="text-center col-span-8 h-[415px]" colspan="8">
-                    <div
-                      class="flex flex-col items-center justify-center text-center opacity-50 gap-1"
-                    >
-                      <i data-lucide="shopping-bag"></i>
-                      <p>ไม่มีรายการสินค้า</p>
-                    </div>
-                  </td>
-                </tr>
-                <% } %>
-              </tbody>
-            </table>
+                              <div class="flex flex-col mt-4">
+                                <label for="menuname" class="text-xl">ชื่อเมนู</label>
+                                <input required x-model="name"
+                                  class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                                  placeholder="เช่น พิซซ่าเปปเปอร์โรนี" />
+                              </div>
+
+                              <div class="flex flex-col mt-4">
+                                <label for="category" class="text-xl">หมวดหมู่</label>
+                                <select x-model="type" class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2">
+                                  <option :value="'NORMAL'">PIZZA</option>
+                                  <option :value="'CUSTOM'">CUSTOM</option>
+                                  <option :value="'DRINK'">DRINK</option>
+                                  <option :value="'SNACK'">SNACK</option>
+                                  <option :value="'APPETIZER'">APPETIZER</option>
+                                </select>
+                              </div>
+
+                              <div class="flex flex-col mt-4">
+                                <label for="price" class="text-xl">ราคา</label>
+                                <input required x-model="price" type="number"
+                                  class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2"
+                                  placeholder="เช่น 299" />
+                              </div>
+                              <div class="flex flex-col w-full mt-4">
+                                <label for="price" class="text-xl">การแสดง: </label>
+                                <button @click="public = !public"
+                                  :class="{ 'bg-red-500 text-white': !public, 'bg-green-500 text-white': public }"
+                                  class="flex-1 border-2 text-white px-4 py-1 rounded w-full sm:w-auto text-center transition-all duration-200">
+                                  <span x-text="public ? 'สาธารณะ' : 'ส่วนตัว'"></span>
+                                </button>
+                              </div>
+
+                              <button @click="updateMenu"
+                                class="w-full bg-_yellow-200 text-black/50 hover:bg-_yellow-200/80 text-lg py-2 rounded-md mt-4">
+                                แก้ไขเมนู
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <% } %>
+                        <% } else { %>
+                          <tr>
+                            <td class="text-center col-span-8 h-[415px]" colspan="8">
+                              <div class="flex flex-col items-center justify-center text-center opacity-50 gap-1">
+                                <i data-lucide="shopping-bag"></i>
+                                <p>ไม่มีรายการสินค้า</p>
+                              </div>
+                            </td>
+                          </tr>
+                          <% } %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<script>
-  function createMenu() {
-    const payload = {
-      name: this.name,
-      type: this.type,
-      price: this.price,
-    };
-    fetch("/menu", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Created The Menu");
-        window.location.reload();
+  <script>
+    function createMenu() {
+      const payload = {
+        name: this.name,
+        type: this.type,
+        price: this.price,
+      };
+      fetch("/menu", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       })
-      .catch((error) => {
-        alert("Failed to Create Menu.");
-      });
-  }
+        .then((response) => response.json())
+        .then((data) => {
+          alert("Created The Menu");
+          window.location.reload();
+        })
+        .catch((error) => {
+          alert("Failed to Create Menu.");
+        });
+    }
 
-  function updateMenu() {
-    const payload = {
-      id: this.id,
-      name: this.name,
-      type: this.type,
-      price: this.price,
-      public: this.public,
-    };
-    fetch("/menu", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Updated The Menu");
-        window.location.reload();
+    function updateMenu() {
+      const payload = {
+        id: this.id,
+        name: this.name,
+        type: this.type,
+        price: this.price,
+        public: this.public,
+      };
+      fetch("/menu", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       })
-      .catch((error) => {
-        alert("Failed to Update Menu.");
-      });
-  }
-</script>
+        .then((response) => response.json())
+        .then((data) => {
+          alert("Updated The Menu");
+          window.location.reload();
+        })
+        .catch((error) => {
+          alert("Failed to Update Menu.");
+        });
+    }
+
+    function deleteMenu() {
+      const payload = {
+        id: this.id,
+      };
+      fetch(`/menu/${payload.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert("Deleted The Menu");
+          window.location.reload();
+        })
+        .catch((error) => {
+          alert("Failed to Delete Menu.");
+        });
+    }
+  </script>

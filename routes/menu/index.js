@@ -740,51 +740,99 @@ router.post("/menu", async (req, res) => {
 
 router.put("/menu", async (req, res) => {
   const { id, name, price, type, public } = req.body;
-  if (type == ProductType.NORMAL || type == ProductType.CUSTOM) {
-    const menu = await prisma.pizza.update({
+  const [isPizza, isAppetizer, isSnack, isDrink] = [
+    await prisma.pizza.findFirst({ where: { id: Number(id) } }),
+    await prisma.appetizer.findFirst({ where: { id: Number(id) } }),
+    await prisma.snack.findFirst({ where: { id: Number(id) } }),
+    await prisma.drink.findFirst({ where: { id: Number(id) } }),
+  ];
+
+  if (isPizza) {
+    await prisma.pizza.update({
       where: { id: Number(id) },
       data: {
         name,
         price,
         public,
+        type,
       },
     });
-    res.status(200).json(menu);
-  } else if (type == ProductType.APPETIZER) {
-    const menu = await prisma.appetizer.update({
-      where: { id: Number(id) },
-      data: {
-        name,
-        price,
-        public,
-      },
-    });
-    res.status(200).json(menu);
-  } else if (type == ProductType.SNACK) {
-    const menu = await prisma.snack.update({
-      where: { id: Number(id) },
-      data: {
-        name,
-        price,
-        public,
-      },
-    });
-    res.status(200).json(menu);
-  } else if (type == ProductType.DRINK) {
-    const menu = await prisma.drink.update({
-      where: { id: Number(id) },
-      data: {
-        name,
-        price,
-        public,
-      },
-    });
-    res.status(200).json(menu);
-  } else {
-    res.status(400).json({ msg: "Invalid type" });
   }
+
+  if (isAppetizer) {
+    await prisma.appetizer.update({
+      where: { id: Number(id) },
+      data: {
+        name,
+        price,
+        public,
+        type,
+      },
+    });
+  }
+
+  if (isSnack) {
+    await prisma.snack.update({
+      where: { id: Number(id) },
+      data: {
+        name,
+        price,
+        public,
+        type,
+      },
+    });
+  }
+
+  if (isDrink) {
+    await prisma.drink.update({
+      where: { id: Number(id) },
+      data: {
+        name,
+        price,
+        public,
+        type,
+      },
+    });
+  }
+
+  res.json({ message: "Menu updated successfully" });
 });
 
+router.delete("/menu/:id", async (req, res) => {
+  const { id } = req.params;
+  const [isPizza, isAppetizer, isSnack, isDrink] = [
+    await prisma.pizza.findFirst({ where: { id: Number(id) } }),
+    await prisma.appetizer.findFirst({ where: { id: Number(id) } }),
+    await prisma.snack.findFirst({ where: { id: Number(id) } }),
+    await prisma.drink.findFirst({ where: { id: Number(id) } }),
+  ];
+
+  if (isPizza) {
+    await prisma.pizza.delete({
+      where: { id: Number(id) },
+    });
+  }
+
+  if (isAppetizer) {
+    await prisma.appetizer.delete({
+      where: { id: Number(id) },
+    });
+  }
+
+  if (isSnack) {
+    await prisma.snack.delete({
+      where: { id: Number(id) },
+    });
+  }
+
+  if (isDrink) {
+    await prisma.drink.delete({
+      where: { id: Number(id) },
+    });
+  }
+
+  res.json({ message: "Menu deleted successfully" });
+});
 router.put("/transaction", async (req, res) => {
   const { id, status } = req.body;
   const transaction = await prisma.order.update({

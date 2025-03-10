@@ -5,8 +5,6 @@ router.get("/", async (req, res) => {
   const transaction = await prisma.order.findMany({ where: { status: "DELIVERED" } });
   const member = await prisma.user.count();
 
-  const avg = transaction.reduce((acc, current) => acc + current.star, 0) / transaction.length;
-  console.log("avg", avg);
   res.render("dashboard/dashboard", {
     transaction: transaction.length,
     member,
