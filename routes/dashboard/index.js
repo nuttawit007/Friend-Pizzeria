@@ -26,15 +26,9 @@ router.get("/transaction", async (req, res) => {
       },
     },
   });
-
   res.render("dashboard/history/transaction", {
     user: req.user,
-    transaction: transaction.map((order) => {
-      return {
-        ...order,
-        review: order.review ? JSON.parse(order.review) : null,
-      };
-    }),
+    transaction: transaction,
     filter: req.query.filter || "",
   });
 });
@@ -121,7 +115,7 @@ router.get("/transaction/:id", async (req, res) => {
     user: req.user,
     info: {
       ...transaction,
-      review: transaction.review ? JSON.parse(transaction.review) : [],
+      review: transaction.reviews ? JSON.parse(transaction.reviews) : [],
     },
     transaction: formattedItems,
     total: transaction.totalPrice,

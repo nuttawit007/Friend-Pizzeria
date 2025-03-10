@@ -870,7 +870,7 @@ router.put("/review/:id", async (req, res) => {
 
   const transaction = await prisma.order.update({
     where: { id: Number(id) },
-    data: { star, review: JSON.stringify(review) },
+    data: { star, reviews: JSON.stringify(review) },
   });
 
   res.json(transaction);
