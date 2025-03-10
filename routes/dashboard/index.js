@@ -157,10 +157,11 @@ router.get("/menu", async (req, res) => {
   const snack = await prisma.snack.findMany();
   const drink = await prisma.drink.findMany();
   const filter = {
-    pizza: ["NORMAL", "CUSTOM"],
+    pizza: ["NORMAL"],
     appetizer: ["APPETIZER"],
     snack: ["SNACK"],
     drink: ["DRINK"],
+    custom: ["CUSTOM"],
   };
 
   const filteredMenu = [

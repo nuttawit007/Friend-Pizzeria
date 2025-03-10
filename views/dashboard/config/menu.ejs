@@ -72,10 +72,10 @@
           class="px-4 py-2">
           พิซซ่า
         </button>
-        <button onclick="updateQueryString('drink')"
-          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'drink'}"
+        <button onclick="updateQueryString('custom')"
+          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'custom'}"
           class="px-4 py-2">
-          เครื่องดื่ม
+          คัสต้อมพิซซ่า
         </button>
         <button onclick="updateQueryString('appetizer')"
           :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'appetizer'}"
@@ -85,8 +85,14 @@
         <button onclick="updateQueryString('snack')"
           :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'snack'}"
           class="px-4 py-2">
-          ของหวาน
+          อาหารทานเล่น
         </button>
+        <button onclick="updateQueryString('drink')"
+          :class="{'': !queryString, 'border-b-2 border-red-500 text-red-500 font-medium': queryString == 'drink'}"
+          class="px-4 py-2">
+          เครื่องดื่ม
+        </button>
+
       </div>
 
       <div class="w-full">
