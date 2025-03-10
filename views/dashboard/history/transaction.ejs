@@ -64,9 +64,6 @@
                       <template x-if="row.status === 'PENDING'">
                         <span>กำลังรอ</span>
                       </template>
-                      <template x-if="row.status === 'CONFIRMED'">
-                        <span>เตรียมของสำเร็จ</span>
-                      </template>
                       <template x-if="row.status === 'DELIVERED'">
                         <span>จัดส่งสำเร็จ</span>
                       </template>
@@ -101,7 +98,6 @@
                           <label for="category" class="text-xl text-start">สถานะ</label>
                           <select x-model="status" class="w-full h-10 border border-gray-400 rounded-md mt-2 px-2">
                             <option value="PENDING">กำลังรอ</option>
-                            <option value="CONFIRMED">เตรียมของสำเร็จ</option>
                             <option value="DELIVERED">จัดส่งสำเร็จ</option>
                             <option value="CANCELLED">ยกเลิก</option>
                           </select>
