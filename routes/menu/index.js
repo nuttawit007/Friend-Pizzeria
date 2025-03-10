@@ -479,7 +479,7 @@ router.post("/basket", async (req, res) => {
       await prisma.basketItem.upsert({
         where: { basketId_pizzaId: { basketId: basket.id, pizzaId: Number(info.id) } },
         update: { quantity: { increment: 1 } },
-        create: { basketId: 1, pizzaId: Number(info.id), quantity: 1 },
+        create: { basketId: basket.id, pizzaId: Number(info.id), quantity: 1 },
       });
       res.json({ message: "Pizza added to basket" });
     }
